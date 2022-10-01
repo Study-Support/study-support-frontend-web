@@ -1,0 +1,28 @@
+* {
+    box-sizing: border-box;
+    font-family: sans-serif Verdana !important;
+}
+
+img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50px;
+}
+
+.menu-top {
+    width: 100%;
+    background-color: rgb(253, 253, 253);
+}
+
+.total-money {
+    color: rgb(252, 88, 88);
+}
+
+.back-header {
+    min-height: 75px;
+}
+
+.fullscreen {
+    min-height: calc(100vh - 75px);
+    background-color: #F6F5FA;
+}
