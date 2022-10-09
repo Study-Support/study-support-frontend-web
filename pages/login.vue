@@ -1,65 +1,130 @@
 <template>
-  <div class="full">
-    <BContainer fluid class="container-fluid">
-      <BContainer>
-        <BRow lg="7" class="text-center">
+  <div>
+    <BContainer fluid class="top-dashboard">
+      <BContainer class="a">
+        <BRow>
           <BCol>
-            <h1 class="align-self-left">Đăng nhập</h1>
+            <BRow class="d-flex justify-content-between">
+              <BCol class="col-auto">
+                <BRow>
+                  ĐẠI HỌC ĐÀ NẴNG
+                </BRow>
+                <BRow v-on:scroll="handleScroll">
+                  TRƯỜNG ĐẠI HỌC BÁCH KHOA
+                </BRow>
+              </BCol>
+              <ul class="col col-auto">
+                <li>
+                  <NuxtLink class="" to="/exchanges/expense"> Register </NuxtLink>
+                </li>
+                <li>
+                  <NuxtLink class="" to="/exchanges/expense"> Login </NuxtLink>
+                </li>
+              </ul>
+            </BRow>
+            <BRow>
+              <BCol>
+                TEN UNG DUNG
+              </BCol>
+              <BCol>
+                MENU
+              </BCol>
+            </BRow>
+            <BRow>
+              thanh ngang
+            </BRow>
           </BCol>
         </BRow>
-        <BRow class="d-flex justify-content-center">
-          <BCol lg="7">
-            <form @submit.prevent="submit">
-              <div role="group">
-                <BFormInput
-                  id="input-live"
-                  v-model="requestBody.username"
-                  :state="validationErrorMessages.username === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Tên đăng nhập"
-                  trim
-                  required
-                  class="mt-2"
-                />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.username" />
-                </BFormInvalidFeedback>
-              </div>
-              <div role="group">
-                <BFormInput
-                  id="input-live"
-                  v-model="requestBody.password"
-                  :state="validationErrorMessages.password === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Mật khẩu"
-                  trim
-                  type="password"
-                  required
-                  class="mt-2"
-                />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.password" />
-                </BFormInvalidFeedback>
-              </div>
-              <div v-if="unauthorizedErrorMessage !== ''" class="text-center mess">
-                {{ unauthorizedErrorMessage }}
-              </div>
-              <SubmitButton
-                :isDisabled="isDisabledButton"
-                :content="'Đăng nhập'"
-                :color="'black'"
-              />
-            </form>
+        <BRow>
+          <BCol>
+            Phần chữ ảnh
           </BCol>
         </BRow>
-        <BRow class="mt-2 mb-5">
-          <BCol class="text-center">
-            <span>Bạn chưa có tài khoản? </span>
-            <NuxtLink to="/register">Đăng ký</NuxtLink>
-          </BCol>
-        </BRow>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
+        <p>asdfasdfasd</p>
       </BContainer>
-    </BContainer>
+  </BContainer>
   </div>
 </template>
 
@@ -68,61 +133,17 @@
 definePageMeta({
   layout: false,
 });
-const {setToken} = useToken();
-const {getConfig} = useConfig();
-const requestBody = reactive({username: '', password: ''});
-const unauthorizedErrorMessage = ref('');
-const isDisabledButton = ref(false);
-const validationErrorMessages = ref({
-});
-const {
-  data,
-  statusCode,
-  onFetchResponse,
-  onFetchError,
-  post,
-} = useFetchApi({
-  requireAuth: false,
-  disableHandleErrorUnauthorized: true,
-})(
-  '/users/login',
-  {immediate: false},
-);
-onFetchResponse(() => {
-  setToken(data.value.token);
-  return navigateTo({name: 'dashboard'});
-});
-onFetchError(() => {
-  if (statusCode.value === getConfig('constants.statusCodes.unauthorized')) {
-    unauthorizedErrorMessage.value = data.value.message;
-    console.log('unauth');
-  } else if (statusCode.value === getConfig('constants.statusCodes.validation')) {
-    validationErrorMessages.value = data.value;
-    console.log('vali');
-  }
-  isDisabledButton.value = false;
-});
-// submit login
-const submit = () => {
-  unauthorizedErrorMessage.value = '';
-  validationErrorMessages.value = {};
-  isDisabledButton.value = true;
-  post(requestBody).json().execute();
-};
+window.scroll(() => {
+  console.log('adf');
+})
 </script>
 <style scoped>
-.full{
-  height: 100vh;
-  background-color: #fc9b9b;
+* {
+  /* color: white; */
 }
-.full>div {
-  position: absolute;
-  bottom: 0;
+.top-dashboard {
+  background-image: url("assets/glass.jpg");
+  min-height:  703px;
 }
-a {
-  color: white;
-}
-.mess{
-  color:red;
-}
+
 </style>

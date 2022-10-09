@@ -306,6 +306,11 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource/love-ya-like-a-sister@^4.5.11":
+  version "4.5.11"
+  resolved "https://registry.yarnpkg.com/@fontsource/love-ya-like-a-sister/-/love-ya-like-a-sister-4.5.11.tgz#7db94614b6d997b80743ccbf0593350dac5ef649"
+  integrity sha512-RXMzUVCoA9C3WPNRGRfYoj5jcCy2yC+Vuv+SSgjEYKtWCrCPKQXwWAR/FffFMk5eKm8fX8IUBKaR2OEDmfeo/A==
+
 "@humanwhocodes/config-array@^0.10.4":
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.10.4.tgz#01e7366e57d2ad104feea63e72248f22015c520c"
@@ -5993,7 +5998,7 @@ vue-sweetalert2@^5.0.5:
   dependencies:
     sweetalert2 "11.x"
 
-vue-toastification@2.0.0-rc.5:
+vue-toastification@^2.0.0-rc.5:
   version "2.0.0-rc.5"
   resolved "https://registry.yarnpkg.com/vue-toastification/-/vue-toastification-2.0.0-rc.5.tgz#92798604d806ae473cfb76ed776fae294280f8f8"
   integrity sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==
