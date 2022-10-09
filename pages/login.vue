@@ -128,14 +128,14 @@
   </div>
 </template>
 
-<script setup>
+<script>
 
 definePageMeta({
   layout: false,
 });
-window.scroll(() => {
-  console.log('adf');
-})
+window.document.body.onscroll = function() {
+  console.log(window.scrollY);
+}
 </script>
 <style scoped>
 * {

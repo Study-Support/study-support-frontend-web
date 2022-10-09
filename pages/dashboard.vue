@@ -9,28 +9,74 @@
                 <span class="contact"> Contact us on <a href="#">0 800 123 4567</a> or <a href="https://dut.udn.vn/">dut.udn.vn</a></span>
               </BCol>
               <ul class="col col-auto d-flex login">
-                <li class="d-flex">
+                <li class="d-flex register">
                   <NuxtLink class="text-decoration-none d-block" to="/exchanges/expense"> Register </NuxtLink>
+                  <!-- <div class="register-form">
+                    <a href="#" class="popup-close">
+                      <BIconX class="x-close"/>
+                    </a>
+                    <form action="">
+                      <div role="group">
+                        <BFormInput
+                          aria-describedby="input-live-help input-live-feedback"
+                          placeholder="Họ và tên"
+                          trim
+                          required
+                          class="mt-2"
+                        />
+                        <BFormInvalidFeedback>
+                          <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
+                        </BFormInvalidFeedback>
+                      </div>
+                    </form>
+                  </div> -->
                 </li>
-                <li class="d-flex">
+                <li class="d-flex login">
                   <NuxtLink class="text-decoration-none d-block" to="/exchanges/expense"> Login </NuxtLink>
                 </li>
               </ul>
+              <!-- <BCol class="">
+                
+              </BCol> -->
             </BRow>
-            <BRow class="mt-3 mb-3 d-flex justify-content-between">
-              <BCol class="col-auto">
-                <NuxtLink to="/dashboard">
-                  <!-- <img src="assets/logo_dark.png" alt=""> -->
-                  <h1>Study With Us</h1>
-                </NuxtLink>
+            <BRow>
+              <BCol :class="{sticky: sticky}">
+                <BRow class=" mt-3 mb-3 d-flex justify-content-between">
+                  <BCol class="col-auto">
+                    <NuxtLink to="/dashboard">
+                      <!-- <img src="assets/logo_dark.png" alt=""> -->
+                      <h1>Study With Us</h1>
+                    </NuxtLink>
+                  </BCol>
+                  <ul class="col col-auto d-flex menu">
+                    <li class="text-decoration-none d-block">
+                      <NuxtLink to="/dashboard">
+                        HOMEPAGE
+                      </NuxtLink>
+                    </li>
+                    <li class="text-decoration-none d-block">
+                      <NuxtLink to="/dashboard">
+                        GROUPS
+                      </NuxtLink>
+                    </li>
+                    <li class="text-decoration-none d-block">
+                      <NuxtLink to="/dashboard">
+                        FIND MENTOR
+                      </NuxtLink>
+                    </li>
+                    <li class="text-decoration-none d-block">
+                      <NuxtLink to="/dashboard">
+                        MENTORS
+                      </NuxtLink>
+                    </li>
+                    <li class="text-decoration-none d-block">
+                      <NuxtLink to="/dashboard">
+                        NOTIFICATIONS
+                      </NuxtLink>
+                    </li>
+                  </ul>
+                </BRow>
               </BCol>
-              <ul class="col col-auto d-flex menu">
-                <li class="text-decoration-none d-block" :style="{'background-color':'#1dbb90'}">HOMEPAGE</li>
-                <li class="text-decoration-none d-block">GROUPS</li>
-                <li class="text-decoration-none d-block">FIND MENTOR</li>
-                <li class="text-decoration-none d-block">MENTORS</li>
-                <li class="text-decoration-none d-block">NOTIFICATIONS</li>
-              </ul>
             </BRow>
             <BRow>
               <BCol>
@@ -41,14 +87,13 @@
         </BRow>
         <BRow class="mt-5">
           <BCol>
-            <img src="assets/laptop.png" alt="" class="laptop">
           </BCol>
           <BCol class="ms-5">
             <BRow class="mb-5">
-              <h2 class="col col-9"> Together we can change the world </h2>
+              <h2 class="col col-9 slogan"> Together we can change the world </h2>
             </BRow>
             <BRow class="mb-4">
-              <p class="col col-10"> Study while others are sleeping, work while others are loafing, prepare while others are playing, and dream while others are wishing. </p>
+              <p class="col col-10 idiom"> Being ignorant is not so much a shame, as being unwilling to learn</p>
             </BRow>
             <BRow>
               <BCol>
@@ -63,21 +108,20 @@
 </template>
 <script setup>
 import "@fontsource/love-ya-like-a-sister";
+import {BIconX} from 'bootstrap-icons-vue';
 definePageMeta({
   layout: false,
 });
-const handleScroll = () => {
-      // Any code to be executed when the window is scrolled
-      this.isUserScrolling = (window.scrollY > 0);
-      console.log('calling handleScroll');
+const sticky = ref(false);
+window.document.body.onscroll = function() {
+  console.log(window.scrollY);
+  if(window.scrollY > 170) {
+    sticky.value = true;
+  }
+  if(window.scrollY < 100) {
+    sticky.value = false;
+  }
 }
-onMounted(() => {
-  this.handleDebouncedScroll = debounce(this.handleScroll, 100);
-  window.addEventListener('scroll', this.handleDebouncedScroll);
-})
-onBeforeDestroy(() => {
-  window.removeEventListener('scroll', this.handleDebouncedScroll);
-})
 </script>
 <style scoped>
 * {
@@ -109,14 +153,14 @@ h1 {
     position: absolute;
     top: 0;
     left: 0;
-    background-image: url("assets/background.jpg");
+    /* background-image: url("assets/background.png"); */
     width: 100%;
     height: 100%;
     opacity : 0.2;
     z-index: -1;
 }
-ul.login li a {
-  background-color: #1dbb90;
+ul.login li>a {
+  background-color: #148063a1;
   color:white;
   padding: 5px 15px;
   margin-right: 5px;
@@ -144,22 +188,18 @@ ul.menu li {
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 0%);
   background-color: transparent;
 }
-ul.menu li:first-child {
-  box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
-}
 ul.menu li:last-child {
   margin-right: 0px;
   padding-right: 0px;
 }
-ul.menu li:hover {
-  box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
-  background-color: #1dbb90;
+ul.menu li a:hover {
+  color: #096d52;
   /* -webkit-transition: background-color 1000ms linear;
   -ms-transition: background-color 1000ms linear; */
-  transition: background-color 300ms linear;
+  transition: color 300ms linear;
 }
 .horizontal {
-  height: 0.4em;
+  height: 0.2em;
   width: 100%;
   display: block;
   background-color: white;
@@ -168,16 +208,81 @@ ul.menu li:hover {
 }
 img.laptop {
   width: 100%;
-
+}
+.slogan {
+  /* color: #65e0aa; */
+}
+.idiom {
+  text-align: left;
+  line-height: 25px;
+  letter-spacing: 0px;
+  font-size: 19px;
 }
 .let-start {
   display: inline-block;
   background-color: white;
-  color: rgb(20,154,189);
-  width: 200px;
+  color: rgb(7, 109, 53);
+  /* width: 200px; */
   text-align: center;
-  padding: 10px;
+  padding: 20px;
   border-radius: 5px;
   box-shadow: -4px 4px 0px 0px rgb(0 0 0 / 20%);
+  font-weight: bold;
+  font-family: Arial;
+  white-space: nowrap; 
+  line-height: 18px;
+  letter-spacing: 0px;
+  font-weight: 700;
+  font-size: 18px;
 }
+.sticky {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  transition: transform 2s;
+  box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
+  background-color: #018763;
+  display: flex;
+  justify-content: center;
+}
+.sticky>div {
+  margin-bottom: 0 !important;
+  width: 90%;
+}
+.register {
+  position: relative;
+}
+.register-form {
+  position: absolute;
+  top: 3em;
+  right: -3.85em;;
+  padding: 3em 2.5em 2em;
+  background-color: red;
+  width: 37.5em;
+}
+.popup-close {
+  display: block;
+  font-size: 1.25em;
+  line-height: 1em;
+  width: 1em;
+  height: 1em;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin: 0.5em 0.5em 0 0;
+  text-align: center;
+  border-radius: 3px;
+  background-color: #f4f7f9;
+}
+.x-close {
+  color: #ccc;
+  display: block;
+}
+/* .popup-close:before {
+    font-family: 'fontello';
+    content: '\e8ac';
+    line-height: 1em;
+    padding: 0 !important;
+    margin: 0 !important;
+} */
 </style>
