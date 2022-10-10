@@ -1,7 +1,14 @@
 import {get} from 'lodash';
 
 const CONFIG = {
-  constants: {}
+  constants: {
+    statusCodes: {
+      unauthorized: 401,
+      validation: 422,
+      forbidden: 403,
+      notFound: 404,
+    },
+  }
 };
 const useConfig = () => {
   const getConfig = (

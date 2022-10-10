@@ -24,6 +24,7 @@ export default defineEventHandler(async (event) => {
   const body = await useBody(event.req);
   if (body.username === 'a') {
     // eslint-disable-next-line no-param-reassign
+    console.log("a");
     event.res.statusCode = 401;
     return unauthorizedErrorResponse();
   }

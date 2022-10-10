@@ -6,3 +6,15 @@
 a {
     text-decoration: none;
 }
+
+input {
+    border: 0px solid #ced4da !important;
+    border-radius: 2px !important;
+    height: 40px;
+}
+
+input::placeholder {
+    font-weight: bold;
+    opacity: .5;
+    color: red;
+}

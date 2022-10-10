@@ -2,134 +2,190 @@
   <div class="full">
     <BContainer fluid class="container-fluid">
       <BContainer>
-        <BRow lg="7" class="text-center">
+        <BRow class="pt-3 text-center">
           <BCol>
-            <h1 class="align-self-left mb-3">Đăng ký</h1>
+            <h1 class="">REGISTER</h1>
           </BCol>
         </BRow>
-        <BRow class="d-flex justify-content-center">
-          <BCol lg="7">
-            <form @submit.prevent="submit">
-              <div role="group">
-                <BFormInput
-                  v-model="registerData.fullname"
-                  :state="validationErrorMessages.fullname === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Họ và tên"
-                  trim
-                  required
-                  class="mt-2"
-                />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
-                </BFormInvalidFeedback>
-              </div>
-              <div role="group">
-                <BFormInput
-                  v-model="registerData.username"
-                  :state="validationErrorMessages.username === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Tên đăng nhập"
-                  trim
-                  required
-                  class="mt-2"
-                />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.username" />
-                </BFormInvalidFeedback>
-              </div>
-              <div role="group">
-                <BFormInput
-                  v-model="registerData.password"
-                  :state="validationErrorMessages.password === undefined ? null : false"
-                  type="password"
-                  placeholder="Mật khẩu"
-                  required
-                  class="mt-2"
-                />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.password" />
-                </BFormInvalidFeedback>
-              </div>
-              <div role="group">
-                <BFormInput
-                  v-model="registerData.confirm_password"
-                  :state="isPasswordMatched"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Nhập lại mật khẩu"
-                  type="password"
-                  trim
-                  required
-                  class="mt-2"
-                />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.passwordConfirm" />
-                </BFormInvalidFeedback>
-              </div>
-              <div role="group">
-                <BFormInput
-                  v-model="registerData.email"
-                  :state="validationErrorMessages.email === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Địa chỉ email"
-                  type="email"
-                  trim
-                  required
-                  class="mt-2"
-                />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.email" />
-                </BFormInvalidFeedback>
-              </div>
-              <span class="mt-2 d-block">Bạn đã có nhóm?</span>
-              <BRow class="d-flex justify-content-around">
-                <BCol cols="auto" class="d-inline-block">
-                  <input
-                    id="no" v-model="registerData.have_group"
-                    class="d-inline-block m-2"
-                    type="radio"
-                    value="0"
-                  >
-                  <label class="" for="no">Chưa có</label>
+        <BRow class="p-4 pt-2">
+            <form @submit.prevent="submit" class="col">
+              <BRow>
+                <BCol role="group" class="pe-0">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.fullname"
+                    :state="validationErrorMessages.fullname === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Enter full name"
+                    trim
+                    required
+                    class=""
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
+                  </BFormInvalidFeedback>
                 </BCol>
-                <BCol cols="auto" class="d-inline-block ml-3">
-                  <input
-                    id="yes" v-model="registerData.have_group"
-                    class="d-inline-block m-2"
-                    type="radio"
-                    value="1"
-                  >
-                  <label class="" for="yes">Đã có</label>
+                <BCol role="group">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.username"
+                    :state="validationErrorMessages.username === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Enter username"
+                    trim
+                    required
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.username" />
+                  </BFormInvalidFeedback>
                 </BCol>
               </BRow>
-              <div role="group">
-                <BFormInput
-                  v-if="parseInt(registerData.have_group)"
-                  v-model="registerData.group_id"
-                  :state="validationErrorMessages.group_id === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Mã nhóm"
-                  type="password"
-                  trim
-                  :required="registerData.have_group"
-                  class="mt-2"
-                />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.group_id" />
-                </BFormInvalidFeedback>
-              </div>
+              <BRow>
+                <BCol role="group" class="pe-0">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.username"
+                    :state="validationErrorMessages.username === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Password"
+                    trim
+                    type="password"
+                    required
+                    class="mt-2"
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.username" />
+                  </BFormInvalidFeedback>
+                </BCol>
+                <BCol role="group">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.password"
+                    :state="validationErrorMessages.password === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Confirm password"
+                    trim
+                    type="password"
+                    required
+                    class="mt-2"
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.password" />
+                  </BFormInvalidFeedback>
+                </BCol>
+              </BRow>
+              <BRow>
+                <BCol role="group" class="pe-0">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.email"
+                    :state="validationErrorMessages.email === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Email"
+                    trim
+                    type="Email"
+                    required
+                    class="mt-2"
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.email" />
+                  </BFormInvalidFeedback>
+                </BCol>
+                <BCol role="group">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.phonenumber"
+                    :state="validationErrorMessages.phonenumber === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Phone number"
+                    trim
+                    type="tel"
+                    required
+                    class="mt-2"
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.phonenumber" />
+                  </BFormInvalidFeedback>
+                </BCol>
+              </BRow>
+              <BRow>
+                <BCol role="group" class="pe-0">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.email"
+                    :state="validationErrorMessages.email === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Birthday"
+                    trim
+                    type="Email"
+                    required
+                    class="mt-2"
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.email" />
+                  </BFormInvalidFeedback>
+                </BCol>
+                <BCol role="group">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.phonenumber"
+                    :state="validationErrorMessages.phonenumber === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="gender"
+                    trim
+                    type="tel"
+                    required
+                    class="mt-2"
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.phonenumber" />
+                  </BFormInvalidFeedback>
+                </BCol>
+              </BRow>
+              <BRow>
+                <BCol role="group" class="pe-0">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.address"
+                    :state="validationErrorMessages.address === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Address"
+                    trim
+                    required
+                    class="mt-2"
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.address" />
+                  </BFormInvalidFeedback>
+                </BCol>
+                <BCol role="group">
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.address"
+                    :state="validationErrorMessages.address === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Faculty"
+                    trim
+                    required
+                    class="mt-2"
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.address" />
+                  </BFormInvalidFeedback>
+                </BCol>
+              </BRow>
               <SubmitButton
+                class="mt-3"
                 :isDisabled="isDisabledButton"
-                :content="'Đăng ký'"
-                :color="'black'"
+                :content="'Đăng nhập'"
+                :color="'rgb(2, 62, 24)'"
               />
             </form>
-          </BCol>
         </BRow>
-        <BRow class="mt-2 mb-5">
+        <BRow class="pt-3 pb-4">
           <BCol class="text-center">
-            <span>Bạn đã có tài khoản? </span>
-            <NuxtLink to="/login">Đăng nhập</NuxtLink>
+            <span>Bạn chưa có tài khoản? </span>
+            <NuxtLink to="/register">Đăng ký</NuxtLink>
           </BCol>
         </BRow>
       </BContainer>
@@ -138,14 +194,13 @@
 </template>
 
 <script setup>
+import "@fontsource/love-ya-like-a-sister";
 
 definePageMeta({
   layout: false,
 });
-
 const {setToken} = useToken();
 const {getConfig} = useConfig();
-const {$toast} = useNuxtApp();
 const isDisabledButton = ref(false);
 const registerData = reactive({
   username: '',
@@ -156,8 +211,7 @@ const registerData = reactive({
   have_group: '0',
   group_id: '',
 });
-const validationErrorMessages = ref({
-});
+const validationErrorMessages = ref({});
 const {
   data,
   statusCode,
@@ -168,47 +222,50 @@ const {
   requireAuth: false,
   disableHandleErrorUnauthorized: true,
 })(
-  '/users',
+  'login',
   {immediate: false},
 );
-
-const isPasswordMatched = computed(
-  () => (registerData.confirm_password === '' ? null : registerData.confirm_password === registerData.password),
-);
-
 onFetchResponse(() => {
-  setToken(data.value.api_token);
-  navigateTo({name: 'dashboard'});
+  setToken(data.value.token);
+  return navigateTo({name: 'dashboard'});
 });
 onFetchError(() => {
-  if (statusCode.value === getConfig('constants.statusCodes.validation')) {
+  if (statusCode.value === getConfig('constants.statusCodes.unauthorized')) {
+    unauthorizedErrorMessage.value = data.value.message;
+  } else if (statusCode.value === getConfig('constants.statusCodes.validation')) {
     validationErrorMessages.value = data.value;
-    // Incase server return passwordConfirm no matched error message
-    isPasswordMatched.value = validationErrorMessages.passwordConfirm !== '' ? null : false;
   }
-  return false;
+  isDisabledButton.value = false;
 });
+// submit login
 const submit = () => {
+  unauthorizedErrorMessage.value = '';
   validationErrorMessages.value = {};
-  $toast('Hello world', 'info', 2000);
-  if (isPasswordMatched.value) {
-    isDisabledButton.value = true;
-    // post(registerData).json().execute();
-  }
+  isDisabledButton.value = true;
+  console.log("asdfas");
+  post(registerData).json().execute();
 };
-
 </script>
-
 <style scoped>
-.full{
-  height: 100vh;
-  background-color: #fc9b9b;
+h1 {
+  font-family: "Love Ya Like A Sister";
+  color: rgb(2, 62, 24);
 }
-.full>div {
-  position: absolute;
-  bottom: 0;
+.container {
+  width: 50%;
+  margin-top: 100px;
+  background-color: #eef1f7;
+  border-radius: 5px;
 }
-a {
-  color: white;
+.mess{
+  color:red;
+  font-size: small;
+}
+label {
+  font-family: 'Helvetica';
+  font-weight:700;
+  font-size: small;
+  color: rgba(61, 61, 61, 0.705);
+  padding-left: 2px;
 }
 </style>

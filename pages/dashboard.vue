@@ -10,45 +10,57 @@
               </BCol>
               <ul class="col col-auto d-flex login">
                 <li class="d-flex register">
-                  <NuxtLink class="text-decoration-none d-block" to="/exchanges/expense"> Register </NuxtLink>
-                  <!-- <div class="register-form">
-                    <a href="#" class="popup-close">
-                      <BIconX class="x-close"/>
-                    </a>
-                    <form action="">
-                      <div role="group">
-                        <BFormInput
-                          aria-describedby="input-live-help input-live-feedback"
-                          placeholder="Họ và tên"
-                          trim
-                          required
-                          class="mt-2"
-                        />
-                        <BFormInvalidFeedback>
-                          <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
-                        </BFormInvalidFeedback>
-                      </div>
-                    </form>
-                  </div> -->
+                  <NuxtLink class="text-decoration-none d-block" to="/register"> Register </NuxtLink>
                 </li>
                 <li class="d-flex login">
-                  <NuxtLink class="text-decoration-none d-block" to="/exchanges/expense"> Login </NuxtLink>
+                  <NuxtLink class="text-decoration-none d-block" to="/login"> Login </NuxtLink>
                 </li>
               </ul>
-              <!-- <BCol class="">
-                
-              </BCol> -->
             </BRow>
-            <BRow>
+            <BRow class=" mt-3 mb-3 d-flex justify-content-between">
+              <BCol class="col-auto">
+                <NuxtLink to="/dashboard">
+                  <h1>Study With Us</h1>
+                </NuxtLink>
+              </BCol>
+              <ul class="col col-auto d-flex menu mb-1 mt-1">
+                <li class="text-decoration-none d-block">
+                  <NuxtLink to="/dashboard">
+                    HOMEPAGE
+                  </NuxtLink>
+                </li>
+                <li class="text-decoration-none d-block">
+                  <NuxtLink to="/dashboard">
+                    GROUPS
+                  </NuxtLink>
+                </li>
+                <li class="text-decoration-none d-block">
+                  <NuxtLink to="/dashboard">
+                    FIND MENTOR
+                  </NuxtLink>
+                </li>
+                <li class="text-decoration-none d-block">
+                  <NuxtLink to="/dashboard">
+                    MENTORS
+                  </NuxtLink>
+                </li>
+                <li class="text-decoration-none d-block">
+                  <NuxtLink to="/dashboard">
+                    NOTIFICATIONS
+                  </NuxtLink>
+                </li>
+              </ul>
+            </BRow>
+            <BRow v-if="sticky">
               <BCol :class="{sticky: sticky}">
-                <BRow class=" mt-3 mb-3 d-flex justify-content-between">
+                <BRow class=" mt-2 mb-2 d-flex justify-content-between">
                   <BCol class="col-auto">
                     <NuxtLink to="/dashboard">
                       <!-- <img src="assets/logo_dark.png" alt=""> -->
-                      <h1>Study With Us</h1>
+                      <h2>Study With Us</h2>
                     </NuxtLink>
                   </BCol>
-                  <ul class="col col-auto d-flex menu">
+                  <ul class="col col-auto d-flex menu mb-1">
                     <li class="text-decoration-none d-block">
                       <NuxtLink to="/dashboard">
                         HOMEPAGE
@@ -86,16 +98,16 @@
           </BCol>
         </BRow>
         <BRow class="mt-5">
-          <BCol>
+          <BCol class="">
           </BCol>
-          <BCol class="ms-5">
+          <BCol class="ms-5 header-content">
             <BRow class="mb-5">
-              <h2 class="col col-9 slogan"> Together we can change the world </h2>
+              <h2 class="col slogan"> Together we can change the world </h2>
             </BRow>
             <BRow class="mb-4">
-              <p class="col col-10 idiom"> Being ignorant is not so much a shame, as being unwilling to learn</p>
+              <p class="col idiom text-end"> If we do not plant knowledge when young, it will give us no shade when we are old</p>
             </BRow>
-            <BRow>
+            <BRow class="">
               <BCol>
                 <span class="let-start"> Let's get started </span>
               </BCol>
@@ -104,6 +116,57 @@
         </BRow>
       </BContainer>
   </BContainer>
+  <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
+        <p>adfasdf</p>
   </div>
 </template>
 <script setup>
@@ -115,10 +178,10 @@ definePageMeta({
 const sticky = ref(false);
 window.document.body.onscroll = function() {
   console.log(window.scrollY);
-  if(window.scrollY > 170) {
+  if(window.scrollY > 150) {
     sticky.value = true;
   }
-  if(window.scrollY < 100) {
+  else {
     sticky.value = false;
   }
 }
@@ -127,21 +190,27 @@ window.document.body.onscroll = function() {
 * {
   color: white;
 }
-h1, h2 {
+h1, h2, h3 {
   font-family: "Love Ya Like A Sister";
 }
 h2 {
   display: block;
   min-width: 20px;
 }
+.header-content {
+  text-align: right;
+  margin-top: 45px;
+}
+
 h1 {
   margin: 0px;
+  /* color: #d8fff2; */
 }
 .top-dashboard {
-  background-image: url("assets/background.png");
+  background-image: url("assets/background8.png");
   background-repeat: none;
   background-size: 100%;
-  min-height:  703px;
+  min-height:  603px;
 }
 
 .top-dashboard {
@@ -153,7 +222,6 @@ h1 {
     position: absolute;
     top: 0;
     left: 0;
-    /* background-image: url("assets/background.png"); */
     width: 100%;
     height: 100%;
     opacity : 0.2;
@@ -202,15 +270,12 @@ ul.menu li a:hover {
   height: 0.2em;
   width: 100%;
   display: block;
-  background-color: white;
+  background-color:#e7fff5;
   border-radius: 5px;
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
 }
 img.laptop {
   width: 100%;
-}
-.slogan {
-  /* color: #65e0aa; */
 }
 .idiom {
   text-align: left;
@@ -224,7 +289,7 @@ img.laptop {
   color: rgb(7, 109, 53);
   /* width: 200px; */
   text-align: center;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   box-shadow: -4px 4px 0px 0px rgb(0 0 0 / 20%);
   font-weight: bold;
@@ -239,9 +304,9 @@ img.laptop {
   position: fixed !important;
   top: 0;
   left: 0;
-  transition: transform 2s;
+  transition: all 2s;
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
-  background-color: #018763;
+  background-color: #148063;
   display: flex;
   justify-content: center;
 }
@@ -249,40 +314,4 @@ img.laptop {
   margin-bottom: 0 !important;
   width: 90%;
 }
-.register {
-  position: relative;
-}
-.register-form {
-  position: absolute;
-  top: 3em;
-  right: -3.85em;;
-  padding: 3em 2.5em 2em;
-  background-color: red;
-  width: 37.5em;
-}
-.popup-close {
-  display: block;
-  font-size: 1.25em;
-  line-height: 1em;
-  width: 1em;
-  height: 1em;
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin: 0.5em 0.5em 0 0;
-  text-align: center;
-  border-radius: 3px;
-  background-color: #f4f7f9;
-}
-.x-close {
-  color: #ccc;
-  display: block;
-}
-/* .popup-close:before {
-    font-family: 'fontello';
-    content: '\e8ac';
-    line-height: 1em;
-    padding: 0 !important;
-    margin: 0 !important;
-} */
 </style>
