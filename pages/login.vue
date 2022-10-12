@@ -48,7 +48,7 @@
               <SubmitButton
                 class="mt-3"
                 :isDisabled="isDisabledButton"
-                :content="'Đăng nhập'"
+                :content="'Login'"
                 :color="'rgb(2, 62, 24)'"
               />
             </form>
@@ -56,8 +56,8 @@
         </BRow>
         <BRow class="pt-3 pb-4">
           <BCol class="text-center">
-            <span>Bạn chưa có tài khoản? </span>
-            <NuxtLink to="/register">Đăng ký</NuxtLink>
+            <span>Not a member? </span>
+            <NuxtLink to="/register">Signup</NuxtLink>
           </BCol>
         </BRow>
       </BContainer>
@@ -126,5 +126,9 @@ h1 {
 .mess{
   color:red;
   font-size: small;
+}
+a {
+  color: rgb(2, 62, 24);
+  text-decoration: underline;
 }
 </style>

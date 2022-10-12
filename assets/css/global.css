@@ -10,11 +10,12 @@ a {
 input {
     border: 0px solid #ced4da !important;
     border-radius: 2px !important;
-    height: 40px;
+    height: 35px;
 }
 
 input::placeholder {
-    font-weight: bold;
+    font-weight: 500;
     opacity: .5;
-    color: red;
+    color: #a2a2a2 !important;
+    font-size: smaller;
 }

@@ -7,25 +7,11 @@
             <h1 class="">REGISTER</h1>
           </BCol>
         </BRow>
-        <BRow class="p-4 pt-2">
+        <BRow class="p-4 pt-2 pb-2">
             <form @submit.prevent="submit" class="col">
               <BRow>
-                <BCol role="group" class="pe-0">
-                  <BFormInput
-                    id="input-live"
-                    v-model="registerData.fullname"
-                    :state="validationErrorMessages.fullname === undefined ? null : false"
-                    aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Enter full name"
-                    trim
-                    required
-                    class=""
-                  />
-                  <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
-                  </BFormInvalidFeedback>
-                </BCol>
                 <BCol role="group">
+                  <label> LOGIN INFORMATION</label>
                   <BFormInput
                     id="input-live"
                     v-model="registerData.username"
@@ -44,8 +30,8 @@
                 <BCol role="group" class="pe-0">
                   <BFormInput
                     id="input-live"
-                    v-model="registerData.username"
-                    :state="validationErrorMessages.username === undefined ? null : false"
+                    v-model="registerData.password"
+                    :state="validationErrorMessages.password === undefined ? null : false"
                     aria-describedby="input-live-help input-live-feedback"
                     placeholder="Password"
                     trim
@@ -54,14 +40,14 @@
                     class="mt-2"
                   />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.username" />
+                    <ValidationErrorMessage :messages="validationErrorMessages.password" />
                   </BFormInvalidFeedback>
                 </BCol>
                 <BCol role="group">
                   <BFormInput
                     id="input-live"
-                    v-model="registerData.password"
-                    :state="validationErrorMessages.password === undefined ? null : false"
+                    v-model="registerData.confirm_password"
+                    :state="isPasswordMatched"
                     aria-describedby="input-live-help input-live-feedback"
                     placeholder="Confirm password"
                     trim
@@ -70,7 +56,24 @@
                     class="mt-2"
                   />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.password" />
+                    <ValidationErrorMessage :messages="validationErrorMessages.passwordConfirm" />
+                  </BFormInvalidFeedback>
+                </BCol>
+              </BRow>
+              <BRow>
+                <BCol role="group">
+                  <label class="pt-4"> PERSONAL INFORMATION</label>
+                  <BFormInput
+                    id="input-live"
+                    v-model="registerData.fullname"
+                    :state="validationErrorMessages.fullname === undefined ? null : false"
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Enter full name"
+                    trim
+                    required
+                  />
+                  <BFormInvalidFeedback>
+                    <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
                   </BFormInvalidFeedback>
                 </BCol>
               </BRow>
@@ -83,7 +86,7 @@
                     aria-describedby="input-live-help input-live-feedback"
                     placeholder="Email"
                     trim
-                    type="Email"
+                    type="email"
                     required
                     class="mt-2"
                   />
@@ -100,40 +103,7 @@
                     placeholder="Phone number"
                     trim
                     type="tel"
-                    required
-                    class="mt-2"
-                  />
-                  <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.phonenumber" />
-                  </BFormInvalidFeedback>
-                </BCol>
-              </BRow>
-              <BRow>
-                <BCol role="group" class="pe-0">
-                  <BFormInput
-                    id="input-live"
-                    v-model="registerData.email"
-                    :state="validationErrorMessages.email === undefined ? null : false"
-                    aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Birthday"
-                    trim
-                    type="Email"
-                    required
-                    class="mt-2"
-                  />
-                  <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.email" />
-                  </BFormInvalidFeedback>
-                </BCol>
-                <BCol role="group">
-                  <BFormInput
-                    id="input-live"
-                    v-model="registerData.phonenumber"
-                    :state="validationErrorMessages.phonenumber === undefined ? null : false"
-                    aria-describedby="input-live-help input-live-feedback"
-                    placeholder="gender"
-                    trim
-                    type="tel"
+                    pattern="[0]{1}[0-9]{9}"
                     required
                     class="mt-2"
                   />
@@ -158,34 +128,56 @@
                     <ValidationErrorMessage :messages="validationErrorMessages.address" />
                   </BFormInvalidFeedback>
                 </BCol>
-                <BCol role="group">
-                  <BFormInput
-                    id="input-live"
-                    v-model="registerData.address"
-                    :state="validationErrorMessages.address === undefined ? null : false"
-                    aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Faculty"
-                    trim
+                <BCol>
+                  <select
+                    v-model="registerData.gender"
+                    class="form-select mt-2"
+                  >
+                    <option value="" disabled selected>Select gender</option>
+                    <option value="0">
+                      Male
+                    </option>
+                    <option value="1">
+                      Female
+                    </option>
+                  </select>
+                </BCol>
+              </BRow>
+              <BRow>
+                <BCol class="pe-0">
+                  <Datepicker
+                    v-model="registerData.birthday"
+                    date-picker
                     required
-                    class="mt-2"
+                    textInput
+                    placeholder="Choose birthday" class="m-1 ms-2 date-picker"
                   />
-                  <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.address" />
-                  </BFormInvalidFeedback>
+                </BCol>
+                <BCol role="group">
+                  <select
+                    v-model="registerData.faculty"
+                    class="form-select mt-2"
+                    required
+                  >
+                    <option value="" disabled selected>Choose your faculty</option>
+                    <option v-for="faculty in dataFaculty" :key="faculty.id" :value="faculty.id">
+                      {{ faculty.name }}
+                    </option>
+                  </select>
                 </BCol>
               </BRow>
               <SubmitButton
                 class="mt-3"
                 :isDisabled="isDisabledButton"
-                :content="'Đăng nhập'"
+                :content="'Register'"
                 :color="'rgb(2, 62, 24)'"
               />
             </form>
         </BRow>
-        <BRow class="pt-3 pb-4">
+        <BRow class="pt-2 pb-3">
           <BCol class="text-center">
-            <span>Bạn chưa có tài khoản? </span>
-            <NuxtLink to="/register">Đăng ký</NuxtLink>
+            <span>Have already an account? </span>
+            <NuxtLink to="/login">Login here</NuxtLink>
           </BCol>
         </BRow>
       </BContainer>
@@ -195,6 +187,8 @@
 
 <script setup>
 import "@fontsource/love-ya-like-a-sister";
+import Datepicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
 
 definePageMeta({
   layout: false,
@@ -208,10 +202,21 @@ const registerData = reactive({
   password: '',
   confirm_password: '',
   email: '',
-  have_group: '0',
-  group_id: '',
+  gender: '',
+  birthday: '',
+  faculty: '',
 });
 const validationErrorMessages = ref({});
+const {
+  data: dataFaculty,
+  get: getFaculty,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  '/faculties',
+  {immediate: false},
+);
 const {
   data,
   statusCode,
@@ -222,29 +227,38 @@ const {
   requireAuth: false,
   disableHandleErrorUnauthorized: true,
 })(
-  'login',
+  '/users',
   {immediate: false},
 );
+
+const isPasswordMatched = computed(
+  () => (registerData.confirm_password === '' ? null : registerData.confirm_password === registerData.password),
+);
+getFaculty().json().execute();
 onFetchResponse(() => {
-  setToken(data.value.token);
-  return navigateTo({name: 'dashboard'});
+  setToken(data.value.api_token);
+  isDisabledButton.value = false;
+  navigateTo({name: 'dashboard'});
 });
 onFetchError(() => {
-  if (statusCode.value === getConfig('constants.statusCodes.unauthorized')) {
-    unauthorizedErrorMessage.value = data.value.message;
-  } else if (statusCode.value === getConfig('constants.statusCodes.validation')) {
-    validationErrorMessages.value = data.value;
-  }
   isDisabledButton.value = false;
+  if (statusCode.value === getConfig('constants.statusCodes.validation')) {
+    validationErrorMessages.value = data.value;
+    // Incase server return passwordConfirm no matched error message
+    isPasswordMatched.value = validationErrorMessages.passwordConfirm !== '' ? null : false;
+  }
+  return false;
 });
-// submit login
 const submit = () => {
-  unauthorizedErrorMessage.value = '';
   validationErrorMessages.value = {};
-  isDisabledButton.value = true;
-  console.log("asdfas");
-  post(registerData).json().execute();
+  if (isPasswordMatched.value) {
+    isDisabledButton.value = true;
+    registerData.birthday = registerData.birthday.toString().slice(4, 15);
+    console.log(registerData)
+    post(registerData).json().execute();
+  }
 };
+
 </script>
 <style scoped>
 h1 {
@@ -253,7 +267,7 @@ h1 {
 }
 .container {
   width: 50%;
-  margin-top: 100px;
+  margin-top: 50px;
   background-color: #eef1f7;
   border-radius: 5px;
 }
@@ -262,10 +276,37 @@ h1 {
   font-size: small;
 }
 label {
-  font-family: 'Helvetica';
-  font-weight:700;
-  font-size: small;
-  color: rgba(61, 61, 61, 0.705);
+  font-weight:400 !important;  
+  font-size: 13px;
+  color: rgba(2, 62, 24, 0.886);
   padding-left: 2px;
+  padding-bottom: 3px;
 }
+.date-picker {
+  width: 100%;
+  margin-left: 0 !important;
+  margin-right: 12px;
+  padding-top: 5px;
+}
+.date-picker::placeholder {
+    font-weight: 500;
+    opacity: .5;
+    color: rgb(165, 165, 165) !important;
+    font-size: smaller;
+}
+select {
+  border: 0px solid #ced4da !important;
+  border-radius: 3px ;
+  color: #a2a2a2 !important;
+  font-size: smaller;
+  height: 37px;
+}
+select option:first-child {
+  color: black;
+}
+a {
+  color: rgb(2, 62, 24);
+  text-decoration: underline;
+}
+
 </style>
