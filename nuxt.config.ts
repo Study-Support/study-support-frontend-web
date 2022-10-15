@@ -25,6 +25,7 @@ export default defineNuxtConfig({
   components: [
     '~/components',
     '~/components/buttons',
+    '~/components/groups',
     '~/components/headers',
   ],
   runtimeConfig: {

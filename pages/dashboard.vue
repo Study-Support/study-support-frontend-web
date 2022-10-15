@@ -21,7 +21,7 @@
                   <div class="avatar">
                     <img src="assets/user.png" alt="">
                   </div>
-                  <a href="#" class="user" style="color:rgb(148 253 185);">{{user.fullname}}</a>
+                  <a href="#" class="user">{{user.fullname}}</a>
                 </div>
                 <div class="sidebar" :class="{sidebarShow: !sidebarShow}">
                   <button @click="sidebarShow=false">
@@ -146,16 +146,16 @@
         </BRow>
       </BContainer>
     </BContainer>
-    <BContainer class="mt-5">
-      <BRow class="how-to-work">
+    <BContainer class="mt-5 mb-5">
+      <BRow class="how-to-work pt-3 pb-4">
           <BCol>
             <BRow class="text-center mb-5">
-              <h2>Three ways to join with us</h2>
+              <h2>How to join?</h2>
             </BRow>
             <BRow class="d-flex justify-content-between three-ways">
               <BCol class="text-center col-md-4">
                 <div class="img m-auto">
-                  <img src="assets/25-layers.png" alt=""/>
+                  <img src="assets/ways/25-layers.png" alt=""/>
                 </div>
                 <NuxtLink to="groups/create">
                   <h3>Sign up group</h3>
@@ -165,7 +165,7 @@
               </BCol>
               <BCol class="text-center col-md-4">
                 <div class="img m-auto">
-                  <img src="assets/21-layers.png" alt=""/>
+                  <img src="assets/ways/21-layers.png" alt=""/>
                 </div>
                 <NuxtLink to="/groups">
                   <h3>Join to group</h3>
@@ -176,7 +176,7 @@
               </BCol>
               <BCol class="text-center col-md-4">
                 <div class="img m-auto">
-                  <img src="assets/28-layers.png" alt=""/>
+                  <img src="assets/ways/28-layers.png" alt=""/>
                 </div>
                 <NuxtLink to="/mentors/create">
                   <h3>Sign up to be a mentor</h3>
@@ -186,6 +186,23 @@
                 </h6>
               </BCol>
             </BRow>
+          </BCol>
+        </BRow>
+    </BContainer>
+    <BContainer fluid class="all-groups">
+        <h3 class="pt-5 pb-4">Top groups</h3>
+        <BRow>
+          <BCol>
+            <GroupCard />
+          </BCol>
+          <BCol>
+            <GroupCard />
+          </BCol>
+          <BCol>
+            <GroupCard />
+          </BCol>
+          <BCol>
+            <GroupCard />
           </BCol>
         </BRow>
     </BContainer>
@@ -250,7 +267,7 @@ window.document.body.onscroll = function() {
 </script>
 <style scoped>
 
-h1, h2, .top-dashboard h3 {
+.top-dashboard h1, .top-dashboard h2, .top-dashboard h3 {
   font-family: "Love Ya Like A Sister";
 }
 .top-dashboard h2{
@@ -303,13 +320,10 @@ ul.login li>a {
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
   font-size: small;
 }
-.user {
+a.user {
   margin-right: 8px;
   font-size: small;
-}
-.user a {
-  /* color: rgb(0 147 52);; */
-  color: rgb(0, 159, 34);
+  color: rgb(0, 74, 36);
 }
 span.contact {
   font-size: small;
@@ -386,6 +400,7 @@ img.laptop {
   background-color: #148063;
   display: flex;
   justify-content: center;
+  
 }
 .sticky>div {
   margin-bottom: 0 !important;
@@ -449,6 +464,7 @@ img.laptop {
   line-height: 46px;
   font-weight: 700;
   font-size: 40px;
+  font-family: sans-serif;
   color: #273044;
 }
 .how-to-work h3 {
@@ -472,4 +488,15 @@ img.laptop {
 .three-ways img {
   width: 100%;
 }
+.all-groups {
+  background-color: #eff4fa;
+}
+.all-groups h3 {
+  line-height: 36px;
+  font-weight: 700;
+  font-size: 40px;
+  font-family: sans-serif;
+  color: #273044;
+}
+
 </style>
