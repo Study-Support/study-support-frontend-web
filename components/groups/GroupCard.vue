@@ -1,7 +1,7 @@
 <template>
     <NuxtLink :to="{ path: `/groups/${group.id}` }" class="full">
         <div class="image">
-            <img src="assets/groups/g1.png" alt="">
+            <img :src="`assets/groups/${group.img}`" alt="">
         </div>
         <div class="content m-3">
             <p class="">Khoa {{group.faculty}}</p>

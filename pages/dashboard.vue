@@ -128,9 +128,9 @@
           </BCol>
         </BRow>
         <BRow class="mt-5">
-          <BCol class="">
+          <BCol>
           </BCol>
-          <BCol class="ms-5 header-content">
+          <BCol class=" header-content col-12 col-md-6">
             <BRow class="mb-5">
               <h2 class="col slogan"> Together we can change the world </h2>
             </BRow>
@@ -153,14 +153,8 @@
               <h2>How to join?</h2>
             </BRow>
             <BRow class="d-flex justify-content-between three-ways">
-              <BCol class="text-center col-md-4" >
-                <Intro />
-              </BCol>
-              <BCol class="text-center col-md-4" >
-                <Intro />
-              </BCol>
-              <BCol class="text-center col-md-4" >
-                <Intro />
+              <BCol class="text-center col-12 col-md-4" v-for="intro in intros" :key="intro.id">
+                <Intro :intro="intro" />
               </BCol>
             </BRow>
           </BCol>
@@ -196,6 +190,23 @@ definePageMeta({
 });
 const sticky = ref(false);
 const sidebarShow = ref(false);
+const intros = ref([
+  {
+    title: 'Sign up group',
+    content: 'Bạn đang cảm thấy khó khăn với một môn học và cần sự giúp đỡ của các anh, chị để được cải thiện, hãy đăng ký nhu cầu tạo nhóm học để nhà trường xem xét nhé',
+    img: 'intro1.png',
+  },
+  {
+    title: 'Join to group',
+    content: 'Những nhóm bên dưới là những nhóm đã được nhà trường xem xét, bạn cũng cảm thấy chưa tốt môn đó thì join vào cùng học với mọi người nhé',
+    img: 'intro2.png',
+  },
+  {
+    title: 'Sign up to be a mentor',
+    content: 'Những nhóm đã được nhà trường xem xét bên dưới đang thiếu mentor đấy, nếu bạn học tốt và đạt điểm cao môn đó thì đăng ký làm mentor nhóm nhé',
+    img: 'intro3.png',
+  }
+])
 const userId = ref({
   user_id: '',
 });
@@ -419,7 +430,7 @@ img.laptop {
   background-color: rgba(58, 65, 62, 0.977);
   height: 100vh;
   width: 50vh;
-  transition: all 250ms linear;
+  transition: all 200ms linear;
 }
 .sidebar span {
   color: white;

@@ -1,15 +1,23 @@
 <template>
     <div>
         <div class="img m-auto">
-            <img src="assets/ways/25-layers.png" alt=""/>
+            <img :src="`assets/intros/${intro.img}`" alt=""/>
         </div>
         <NuxtLink to="groups/create">
-            <h3>Sign up group</h3>
+            <h3>{{intro.title}}</h3>
         </NuxtLink>
-        <h6>Bạn đang cảm thấy khó khăn với một môn học và cần sự giúp đỡ của các anh, chị để được cải thiện, hãy đăng ký nhu cầu tạo nhóm học để nhà trường xem xét nhé
+        <h6>
+            {{intro.content}}
         </h6>
     </div>
 </template>
+<script setup>
+const props = defineProps({
+    intro: {
+    type: Object,
+}
+});
+</script>
 <style scoped>
 h3 {
   font-weight: 700;
