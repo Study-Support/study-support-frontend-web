@@ -1,7 +1,7 @@
 <template>
   <div>
     <BContainer fluid class="top-dashboard">
-      <BContainer class="a">
+      <BContainer>
         <BRow>
           <BCol>
             <BRow class="d-flex justify-content-between mt-1">
@@ -36,7 +36,7 @@
                   <h5 class="m-3 text-end">Your groups</h5>
                   <div class="groups ms-3">
                     <button
-                      v-for="group in dataGetGroups" :key="group.id"
+                      v-for="group in dataGetMyGroups" :key="group.id"
                       class="mt-3 d-block"
                       @click="navigateTo(`/groups/${group.id}`)" 
                       
@@ -139,72 +139,47 @@
             </BRow>
             <BRow class="">
               <BCol>
-                <span class="let-start"> Let's get started </span>
+                <button @click="scrollWin" class="let-start"> Let's get started </button>
               </BCol>
             </BRow>
           </BCol>
         </BRow>
       </BContainer>
     </BContainer>
-    <BContainer class="mt-5 mb-5">
+    <BContainer class="mt-5 mb-4">
       <BRow class="how-to-work pt-3 pb-4">
           <BCol>
             <BRow class="text-center mb-5">
               <h2>How to join?</h2>
             </BRow>
             <BRow class="d-flex justify-content-between three-ways">
-              <BCol class="text-center col-md-4">
-                <div class="img m-auto">
-                  <img src="assets/ways/25-layers.png" alt=""/>
-                </div>
-                <NuxtLink to="groups/create">
-                  <h3>Sign up group</h3>
-                </NuxtLink>
-                <h6>Bạn đang cảm thấy khó khăn với một môn học và cần sự giúp đỡ của các anh, chị để được cải thiện, hãy đăng ký nhu cầu tạo nhóm học để nhà trường xem xét nhé
-                </h6>
+              <BCol class="text-center col-md-4" >
+                <Intro />
               </BCol>
-              <BCol class="text-center col-md-4">
-                <div class="img m-auto">
-                  <img src="assets/ways/21-layers.png" alt=""/>
-                </div>
-                <NuxtLink to="/groups">
-                  <h3>Join to group</h3>
-                </NuxtLink>
-                <h6>
-                  Những nhóm bên dưới là những nhóm đã được nhà trường xem xét, bạn cũng cảm thấy chưa tốt môn đó thì join vào cùng học với mọi người nhé
-                </h6>
+              <BCol class="text-center col-md-4" >
+                <Intro />
               </BCol>
-              <BCol class="text-center col-md-4">
-                <div class="img m-auto">
-                  <img src="assets/ways/28-layers.png" alt=""/>
-                </div>
-                <NuxtLink to="/mentors/create">
-                  <h3>Sign up to be a mentor</h3>
-                </NuxtLink>
-                <h6>
-                  Những nhóm đã được nhà trường xem xét bên dưới đang thiếu mentor đấy, nếu bạn học tốt và đạt điểm cao môn đó thì đăng ký làm mentor nhóm nhé
-                </h6>
+              <BCol class="text-center col-md-4" >
+                <Intro />
               </BCol>
             </BRow>
           </BCol>
         </BRow>
     </BContainer>
-    <BContainer fluid class="all-groups">
-        <h3 class="pt-5 pb-4">Top groups</h3>
-        <BRow>
-          <BCol>
-            <GroupCard />
-          </BCol>
-          <BCol>
-            <GroupCard />
-          </BCol>
-          <BCol>
-            <GroupCard />
-          </BCol>
-          <BCol>
-            <GroupCard />
+    <BContainer fluid class="all-groups pt-5 pb-4">
+        <h3 class="ms-3">Top groups</h3>
+        <BRow class="ms-1 me-1 mb-4">
+          <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
+            <GroupCard
+              :group="group"
+            />
           </BCol>
         </BRow>
+        <div class="text-end me-1 to-groups">
+          <NuxtLink to="groups">
+            Xem tất cả <BIconArrowRight />
+          </NuxtLink>
+        </div>
     </BContainer>
     <p>sdfasd</p>
     <p>sdfasd</p>
@@ -215,15 +190,21 @@
 </template>
 <script setup>
 import "@fontsource/love-ya-like-a-sister";
-import {BIconX, BIconPeopleFill} from 'bootstrap-icons-vue';
+import {BIconX, BIconPeopleFill, BIconArrowRight} from 'bootstrap-icons-vue';
 definePageMeta({
   layout: false,
 });
 const sticky = ref(false);
 const sidebarShow = ref(false);
+const userId = ref({
+  user_id: '',
+});
 const user = ref({
+  id: '',
   fullname: '',
-})
+});
+const topGroup = ref([
+]);
 const {
   data: dataGetMe,
   get: getMe,
@@ -234,9 +215,19 @@ const {
 })(
   '/users/me',
   {immediate: false},
-);
+  );
+const {url: url1} = useUrl({
+  path: '/groups',
+  queryParams: userId.value,
+});
+const {url: url2} = useUrl({
+  path: '/groups',
+  queryParams: {
+    isAccept: 'true'
+  },
+});
 const {
-  data: dataGetGroups,
+  data: dataGetMyGroups,
   get: getGroups,
   onFetchResponse: getGroupsResponse,
   onFetchError: getGroupsError,
@@ -244,18 +235,33 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/groups',
+  url1,
   {immediate: false},
 );
+const {
+  data: dataGetTopGroup,
+  get: getTopGroup,
+  onFetchResponse: getTopGroupResponse
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  url2,
+  {immediate: false},
+);
+getTopGroup().json().execute();
+getTopGroupResponse(()=> {
+  topGroup.value = dataGetTopGroup.value.slice(0, 4);
+})
 getMe().json().execute();
 getMeResponse(() => {
   user.value = dataGetMe.value;
+  userId.value.user_id = dataGetMe.value.id;
+  getGroups().json().execute();
 });
-getGroups().json().execute();
 
 // Set sticky menu
 window.document.body.onscroll = function() {
-  console.log(window.scrollY);
   if(window.scrollY > 150) {
     sticky.value = true;
   }
@@ -263,6 +269,9 @@ window.document.body.onscroll = function() {
     sidebarShow.value = false;
     sticky.value = false;
   }
+};
+const scrollWin = () => {
+  window.scrollTo(0, 570);
 }
 </script>
 <style scoped>
@@ -287,7 +296,7 @@ h5 {
   color: rgb(36, 125, 67);
 }
 .top-dashboard {
-  background-image: url("assets/background.png");
+  background-image: url("assets/background9.png");
   background-repeat: none;
   background-size: 100%;
   min-height:  615px;
@@ -352,15 +361,13 @@ ul.menu li:last-child {
 }
 ul.menu li a:hover {
   color: #096d52;
-  /* -webkit-transition: background-color 1000ms linear;
-  -ms-transition: background-color 1000ms linear; */
   transition: color 300ms linear;
 }
 .horizontal {
   height: 0.2em;
   width: 100%;
   display: block;
-  background-color:#e7fff5;
+  background-color:#ffffff;
   border-radius: 5px;
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
 }
@@ -376,9 +383,7 @@ img.laptop {
 .let-start {
   display: inline-block;
   background-color: #cbf8eb;;
-  /* color: rgb(7, 109, 53); */
   color: rgb(34, 107, 71);
-  /* width: 200px; */
   text-align: center;
   padding: 15px;
   border-radius: 5px;
@@ -390,6 +395,7 @@ img.laptop {
   letter-spacing: 0px;
   font-weight: 700;
   font-size: 18px;
+  border: none;
 }
 .sticky {
   position: fixed !important;
@@ -400,7 +406,7 @@ img.laptop {
   background-color: #148063;
   display: flex;
   justify-content: center;
-  
+  z-index: 1000;
 }
 .sticky>div {
   margin-bottom: 0 !important;
@@ -467,36 +473,20 @@ img.laptop {
   font-family: sans-serif;
   color: #273044;
 }
-.how-to-work h3 {
-  font-weight: 700;
-  font-size: 24px;
-  margin-bottom: 5px;
-  color:#273044;
-}
-.how-to-work h6 {
-  font-size: 15px;
-  color: rgba(39,48,68,0.7);
-  line-height: 27px;
-  padding: 20px;
-}
-.there-ways>div {
-}
-.three-ways .img {
-  width: 150px;
-  margin-bottom: 15px !important;
-}
-.three-ways img {
-  width: 100%;
-}
 .all-groups {
   background-color: #eff4fa;
 }
 .all-groups h3 {
   line-height: 36px;
   font-weight: 700;
-  font-size: 40px;
+  font-size: 35px;
   font-family: sans-serif;
   color: #273044;
 }
-
+.to-groups a, .to-groups svg {
+  color: black;
+  font-size: 20px;
+  font-weight: 700;
+  /* background-color: #096d52; */
+}
 </style>
