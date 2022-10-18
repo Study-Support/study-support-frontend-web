@@ -130,12 +130,12 @@
         <BRow class="mt-5">
           <BCol>
           </BCol>
-          <BCol class=" header-content col-12 col-md-6">
+          <BCol class=" header-content col-12 col-lg-6">
             <BRow class="mb-5">
               <h2 class="col slogan"> Together we can change the world </h2>
             </BRow>
-            <BRow class="mb-4">
-              <p class="col idiom text-end"> If we do not plant knowledge when young, it will give us no shade when we are old</p>
+            <BRow class="mb-4 d-flex justify-content-end">
+              <p class="col idiom text-end col-12 col-auto"> If we do not plant knowledge when young, it will give us no shade when we are old</p>
             </BRow>
             <BRow class="">
               <BCol>
@@ -175,11 +175,46 @@
           </NuxtLink>
         </div>
     </BContainer>
-    <p>sdfasd</p>
-    <p>sdfasd</p>
-    <p>sdfasd</p>
-    <p>sdfasd</p>
-    <p>sdfasd</p>
+    <BContainer class="mentors">
+      <h3 class="text-center">Our mentors</h3>
+      <div class="bg">
+      </div>
+      <div class="mentor-item">
+        <div class="up d-flex">
+          <div class="up-left">
+            <Mentor :image="'assets/mentors/m1.jpg'"/>
+          </div>
+          <div class="up-right">
+            <div class="up-right-item">
+              <Mentor :image="'assets/mentors/m1.jpg'"/>
+            </div>
+            <div class="up-right-item">
+              <Mentor :image="'assets/mentors/m1.jpg'"/>
+            </div>
+          </div>
+        </div>
+      </div>
+    </BContainer>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
+    <p>a</p>
   </div>
 </template>
 <script setup>
@@ -307,10 +342,11 @@ h5 {
   color: rgb(36, 125, 67);
 }
 .top-dashboard {
-  background-image: url("assets/background9.png");
+  background-image: url("assets/g.jpg");
   background-repeat: none;
   background-size: 100%;
   min-height:  615px;
+  /* min-height:  480px; */
   color: white;
   position: relative;
 }
@@ -343,14 +379,15 @@ ul.login li>a {
 a.user {
   margin-right: 8px;
   font-size: small;
-  color: rgb(0, 74, 36);
+  font-weight: 600;
+  color: rgb(21, 201, 108);
 }
 span.contact {
   font-size: small;
   color: rgb(225, 225, 225);
 }
 span.contact a {
-  color: rgb(3, 104, 25);
+  color: rgb(0, 0, 0);
 }
 img {
   width: 250px;
@@ -371,7 +408,7 @@ ul.menu li:last-child {
   padding-right: 0px;
 }
 ul.menu li a:hover {
-  color: #096d52;
+  color: #00d235;
   transition: color 300ms linear;
 }
 .horizontal {
@@ -387,13 +424,13 @@ img.laptop {
 }
 .idiom {
   text-align: left;
-  line-height: 25px;
+  line-height: 28px;
   letter-spacing: 0px;
   font-size: 19px;
 }
 .let-start {
   display: inline-block;
-  background-color: #cbf8eb;;
+  background-color: #8fffdf;;
   color: rgb(34, 107, 71);
   text-align: center;
   padding: 15px;
@@ -462,9 +499,10 @@ img.laptop {
   border-radius: 60px;
 }
 .sidebar .user-infor {
-  background-color: black;
+  /* background-color: black; */
   margin: 10px;
   padding: 10px;
+  border: 1px solid rgb(146, 146, 146);
   border-radius: 5px;
 }
 .avatar {
@@ -482,22 +520,62 @@ img.laptop {
   font-weight: 700;
   font-size: 40px;
   font-family: sans-serif;
-  color: #273044;
+  color: #274435;
 }
 .all-groups {
-  background-color: #eff4fa;
+  background-color: #effaf4;
 }
 .all-groups h3 {
   line-height: 36px;
   font-weight: 700;
   font-size: 35px;
   font-family: sans-serif;
-  color: #273044;
+  color: #1e2d26;
 }
 .to-groups a, .to-groups svg {
   color: black;
   font-size: 20px;
   font-weight: 700;
   /* background-color: #096d52; */
+}
+.mentors {
+  margin-top: 30px;
+  padding: 30px 30px;
+  position: relative;
+}
+.mentors .bg {
+  position: absolute;
+  top: 100px;
+  left: -65px;
+  width: 70%;
+  height: 65%;
+  background-color: #bcddcbea;
+  /* background-color: #effaf4; */
+  z-index: -10000;
+}
+.mentors h3 {
+  line-height: 36px;
+  font-weight: 700;
+  font-size: 40px;
+  font-family: sans-serif;
+  color: #273044;
+}
+.mentor-item {
+  padding: 50px 120px;
+  z-index: 10;
+}
+.mentor-item div {
+  padding: 2px;
+}
+.mentor-item .up{
+  height: 500px;
+  /* background-color: red; */
+}
+.mentor-item .up-right, .mentors .up-left {
+  height: 100%;
+  width: 50%;
+}
+.mentor-item .up-right-item {
+  height: 50%;
 }
 </style>
