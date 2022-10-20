@@ -161,7 +161,7 @@
         </BRow>
     </BContainer>
     <BContainer fluid class="all-groups pt-5 pb-4">
-        <h3 class="ms-3">Top groups</h3>
+        <h3 class="ms-3">Groups find members</h3>
         <BRow class="ms-1 me-1 mb-4">
           <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
             <GroupCard
@@ -169,7 +169,7 @@
             />
           </BCol>
         </BRow>
-        <div class="text-end me-1 to-groups">
+        <div class="text-end me-1 more">
           <NuxtLink to="groups">
             Xem tất cả <BIconArrowRight />
           </NuxtLink>
@@ -182,39 +182,39 @@
       <div class="mentor-item">
         <div class="up d-flex">
           <div class="up-left">
-            <Mentor :image="'assets/mentors/m1.jpg'"/>
+            <Mentor :mentor="topMentor[0]"/>
           </div>
           <div class="up-right">
             <div class="up-right-item">
-              <Mentor :image="'assets/mentors/m1.jpg'"/>
+              <Mentor :mentor="topMentor[1]"/>
             </div>
             <div class="up-right-item">
-              <Mentor :image="'assets/mentors/m1.jpg'"/>
+              <Mentor :mentor="topMentor[2]"/>
             </div>
           </div>
         </div>
       </div>
+      <div class="text-end me-1 more">
+        <NuxtLink to="mentors">
+          Xem tất cả <BIconArrowRight />
+        </NuxtLink>
+      </div> 
     </BContainer>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
-    <p>a</p>
+    <BContainer fluid class="all-groups pt-5 pb-4 mt-5">
+        <h3 class="ms-3">Groups find mentors</h3>
+        <BRow class="ms-1 me-1 mb-4">
+          <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
+            <GroupCard
+              :group="group"
+            />
+          </BCol>
+        </BRow>
+        <div class="text-end me-1 more">
+          <NuxtLink to="groups-find-mentor">
+            Xem tất cả <BIconArrowRight />
+          </NuxtLink>
+        </div>
+    </BContainer>
   </div>
 </template>
 <script setup>
@@ -223,6 +223,7 @@ import {BIconX, BIconPeopleFill, BIconArrowRight} from 'bootstrap-icons-vue';
 definePageMeta({
   layout: false,
 });
+const {getConfig} = useConfig();
 const sticky = ref(false);
 const sidebarShow = ref(false);
 const intros = ref([
@@ -251,10 +252,26 @@ const user = ref({
 });
 const topGroup = ref([
 ]);
+const topMentor = ref([
+  {
+    fullname: '',
+    subject: '',
+  },
+  {
+    fullname: '',
+    subject: '',
+  },
+  {
+    fullname: '',
+    subject: '',
+  },
+]);
+// Lấy thông tin user
 const {
   data: dataGetMe,
   get: getMe,
   onFetchResponse: getMeResponse,
+  onFetchError: getMeError,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
@@ -262,16 +279,31 @@ const {
   '/users/me',
   {immediate: false},
   );
+// Lấy tất cả mentor
+const {
+  data: dataGetMentors,
+  get: getMentors,
+  onFetchResponse: getMentorsResponse,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  '/mentors',
+  {immediate: false},
+  );
+// Tạo url lấy user theo id
 const {url: url1} = useUrl({
   path: '/groups',
   queryParams: userId.value,
 });
+// tạo url lấy user theo đã được duyệt để tìm tìm member chưa
 const {url: url2} = useUrl({
   path: '/groups',
   queryParams: {
     isAccept: 'true'
   },
 });
+// Lấy groups của user đang đăng nhập
 const {
   data: dataGetMyGroups,
   get: getGroups,
@@ -284,6 +316,7 @@ const {
   url1,
   {immediate: false},
 );
+// Lấy groups đã được accept
 const {
   data: dataGetTopGroup,
   get: getTopGroup,
@@ -299,12 +332,23 @@ getTopGroup().json().execute();
 getTopGroupResponse(()=> {
   topGroup.value = dataGetTopGroup.value.slice(0, 4);
 })
+
+getMentors().json().execute();
+getMentorsResponse(() => {
+  topMentor.value = dataGetMentors.value.slice(0, 3);
+  console.log(topMentor.value);
+})
+
 getMe().json().execute();
 getMeResponse(() => {
   user.value = dataGetMe.value;
   userId.value.user_id = dataGetMe.value.id;
   getGroups().json().execute();
 });
+getMeError(() => {
+  
+});
+
 
 // Set sticky menu
 window.document.body.onscroll = function() {
@@ -532,7 +576,7 @@ img.laptop {
   font-family: sans-serif;
   color: #1e2d26;
 }
-.to-groups a, .to-groups svg {
+.more a, .more svg {
   color: black;
   font-size: 20px;
   font-weight: 700;
@@ -540,15 +584,15 @@ img.laptop {
 }
 .mentors {
   margin-top: 30px;
-  padding: 30px 30px;
+  padding: 30px 30px 0px 30px;
   position: relative;
 }
 .mentors .bg {
   position: absolute;
   top: 100px;
   left: -65px;
-  width: 70%;
-  height: 65%;
+  width: 60%;
+  height: 75%;
   background-color: #bcddcbea;
   /* background-color: #effaf4; */
   z-index: -10000;
@@ -561,21 +605,32 @@ img.laptop {
   color: #273044;
 }
 .mentor-item {
-  padding: 50px 120px;
+  padding: 50px 20% 0 12%;
   z-index: 10;
 }
-.mentor-item div {
-  padding: 2px;
+.mentor-item>div {
+  /* padding: 2px; */
 }
 .mentor-item .up{
-  height: 500px;
+  height: 450px;
+  
   /* background-color: red; */
 }
+
 .mentor-item .up-right, .mentors .up-left {
   height: 100%;
   width: 50%;
+  padding: 2px;
+}
+.mentor-item .up-right>div:first-child {
+  padding-bottom: 2px;
 }
 .mentor-item .up-right-item {
   height: 50%;
+}
+.mentors .more {
+  position: absolute;
+  bottom: 0;
+  right: -40px;
 }
 </style>
