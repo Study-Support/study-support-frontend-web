@@ -223,7 +223,7 @@ import {BIconX, BIconPeopleFill, BIconArrowRight} from 'bootstrap-icons-vue';
 definePageMeta({
   layout: false,
 });
-const {getConfig} = useConfig();
+const {token, deleteToken} = useToken();
 const sticky = ref(false);
 const sidebarShow = ref(false);
 const intros = ref([
@@ -346,7 +346,7 @@ getMeResponse(() => {
   getGroups().json().execute();
 });
 getMeError(() => {
-  
+  deleteToken();
 });
 
 
@@ -424,7 +424,7 @@ a.user {
   margin-right: 8px;
   font-size: small;
   font-weight: 600;
-  color: rgb(21, 201, 108);
+  color: rgb(117, 194, 154);
 }
 span.contact {
   font-size: small;
