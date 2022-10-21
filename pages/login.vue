@@ -72,6 +72,7 @@ import "@fontsource/love-ya-like-a-sister";
 definePageMeta({
   layout: false,
 });
+const {$toast} = useNuxtApp();
 const {setToken} = useToken();
 const {getConfig} = useConfig();
 const requestBody = ref({email: '', password: ''});
@@ -94,6 +95,7 @@ const {
 );
 onFetchResponse(() => {
   setToken(data.value.token);
+  $toast('Đăng nhập thành công','success', 2000);
   return navigateTo({name: 'dashboard'});
 });
 onFetchError(() => {

@@ -178,6 +178,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 definePageMeta({
   layout: false,
 });
+const {$toast} = useNuxtApp();
 const {setToken} = useToken();
 const {getConfig} = useConfig();
 const isDisabledButton = ref(false);
@@ -223,8 +224,8 @@ getFaculty().json().execute();
 onFetchResponse(() => {
   setToken(data.value.api_token);
   isDisabledButton.value = false;
-  
-  navigateTo({name: 'dashboard'});
+  $toast('Đăng ký thành công','success', 2000);
+  navigateTo({name: 'login'});
 });
 onFetchError(() => {
   isDisabledButton.value = false;
