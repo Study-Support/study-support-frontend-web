@@ -27,7 +27,7 @@
                   <button @click="sidebarShow=false">
                     <BIconX class="close"/>
                   </button>
-                  <NuxtLink to="/user" class="mt-2 mb-4 user-infor d-block">
+                  <NuxtLink to="/my-account" class="mt-2 mb-4 user-infor d-block">
                     <div class="user-image">
                       <img src="assets/user.png" alt="">
                     </div>
