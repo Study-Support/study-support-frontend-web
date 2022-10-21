@@ -241,7 +241,6 @@ const submit = () => {
   if (isPasswordMatched.value) {
     isDisabledButton.value = true;
     registerData.birthday = registerData.birthday.toString().slice(4, 15);
-    console.log(registerData)
     post(registerData).json().execute();
   }
 };

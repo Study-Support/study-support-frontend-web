@@ -15,8 +15,7 @@
           <BCol>
             <form @submit.prevent="submit">
               <div role="group">
-                <BFormInput
-                  id="input-live"
+                <BFormInput 
                   v-model="requestBody.email"
                   :state="validationErrorMessages.email === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
@@ -111,7 +110,6 @@ const submit = () => {
   unauthorizedErrorMessage.value = '';
   validationErrorMessages.value = {};
   isDisabledButton.value = true;
-  console.log("asdfas");
   post(requestBody).json().execute();
 };
 </script>

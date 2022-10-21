@@ -278,7 +278,7 @@ const {
 })(
   '/users/me',
   {immediate: false},
-  );
+);
 // Lấy tất cả mentor
 const {
   data: dataGetMentors,
@@ -336,7 +336,6 @@ getTopGroupResponse(()=> {
 getMentors().json().execute();
 getMentorsResponse(() => {
   topMentor.value = dataGetMentors.value.slice(0, 3);
-  console.log(topMentor.value);
 })
 
 getMe().json().execute();

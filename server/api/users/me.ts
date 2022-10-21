@@ -2,23 +2,29 @@ import crypto from 'crypto';
 
 const createGetResponse = () => ({
   id: 'thunhu',
-  username: 'kitty',
   fullname: 'Hoàng Thị Thu Như',
   password: 'abcxyz',
   email: 'email@example.com',
-  group_id: '12332111',
+  phonenumber: '0866776059',
+  address: 'Quảng Trị',
+  gender: '1',
+  birthday: '01/28/2001',
+  faculty: '1',
   created_at: '2022-08-05T16:04:43.967Z',
   updated_at: '2022-08-05T16:04:43.967Z',
 });
 const createPutResponse = () => ({
-  id: crypto.randomUUID(),
-  username: 'kitty',
-  fullname: 'Như Hoàng',
+  id: 'thunhu',
+  fullname: 'Trần Thị Hồng Ngọc',
   password: 'abcxyz',
   email: 'email@example.com',
+  phonenumber: '0866776059',
+  address: 'Quảng Trị',
+  gender: '1',
+  birthday: '01/28/2001',
+  faculty: '1',
   created_at: '2022-08-05T16:04:43.967Z',
   updated_at: '2022-08-05T16:04:43.967Z',
-  group_id: '123321',
 });
 const validationErrorResponses = () => ({
   fullname: [
