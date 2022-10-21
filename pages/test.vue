@@ -1,12 +1,13 @@
 <template>
     <div class="mentor">
-        <img src="assets/mentors/m1.jpg" alt="">
-        <!-- <div class="infor">
-            <h3>Hoàng Thị Thu Như</h3>
-        </div> -->
+        <button @click="toast">asd</button>
     </div>
 </template>
 <script setup>
+const toast = () => {
+    const {$toast} = useNuxtApp();
+    $toast('HELOOOOOOOOOOO','success', 2000);
+}
 </script>
 <style scoped>
 .mentor {
@@ -32,4 +33,7 @@ img {
     <NuxtLink :to="{path:`mentors/${mentor.id}`}">
 
 */
+button {
+    color: red;
+}
 </style>

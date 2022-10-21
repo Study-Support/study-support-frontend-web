@@ -14,15 +14,16 @@
                   <label> LOGIN INFORMATION</label>
                   <BFormInput
                     id="input-live"
-                    v-model="registerData.username"
-                    :state="validationErrorMessages.username === undefined ? null : false"
+                    v-model="registerData.email"
+                    :state="validationErrorMessages.email === undefined ? null : false"
                     aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Enter username"
+                    placeholder="Enter email"
+                    type="email"
                     trim
                     required
                   />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.username" />
+                    <ValidationErrorMessage :messages="validationErrorMessages.email" />
                   </BFormInvalidFeedback>
                 </BCol>
               </BRow>
@@ -78,22 +79,6 @@
                 </BCol>
               </BRow>
               <BRow>
-                <BCol role="group" class="pe-0">
-                  <BFormInput
-                    id="input-live"
-                    v-model="registerData.email"
-                    :state="validationErrorMessages.email === undefined ? null : false"
-                    aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Email"
-                    trim
-                    type="email"
-                    required
-                    class="mt-2"
-                  />
-                  <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.email" />
-                  </BFormInvalidFeedback>
-                </BCol>
                 <BCol role="group">
                   <BFormInput
                     id="input-live"
@@ -193,6 +178,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 definePageMeta({
   layout: false,
 });
+const {$toast} = useNuxtApp();
 const {setToken} = useToken();
 const {getConfig} = useConfig();
 const isDisabledButton = ref(false);
@@ -238,7 +224,8 @@ getFaculty().json().execute();
 onFetchResponse(() => {
   setToken(data.value.api_token);
   isDisabledButton.value = false;
-  navigateTo({name: 'dashboard'});
+  $toast('Đăng ký thành công','success', 2000);
+  navigateTo({name: 'login'});
 });
 onFetchError(() => {
   isDisabledButton.value = false;

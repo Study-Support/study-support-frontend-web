@@ -386,6 +386,7 @@ h5 {
   color: rgb(36, 125, 67);
 }
 .top-dashboard {
+  background-color: rgb(96, 141, 113);
   background-image: url("assets/g.jpg");
   background-repeat: none;
   background-size: 100%;
