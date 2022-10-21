@@ -3,16 +3,16 @@ const SuccessResponse = () => ({
 });
 // const validationErrorResponses = () => ([
 //   {
-//     field: 'username',
+//     field: 'email',
 //     message: 'Tên đăng nhập không được để trống',
 //   },
 //   {
-//     field: 'username',
+//     field: 'email',
 //     message: 'Tên đăng nhập phải dài hơn 5 ký tự',
 //   },
 // ]);
 const validationErrorResponses = () => ({
-  username: [
+  email: [
     'Tên đăng nhập không được để trống',
     'Tên đăng nhập phải dài hơn 5 ký tự',
   ],
@@ -22,13 +22,13 @@ const unauthorizedErrorResponse = () => ({
 });
 export default defineEventHandler(async (event) => {
   const body = await useBody(event.req);
-  if (body.username === 'a') {
+  if (body.email === 'a') {
     // eslint-disable-next-line no-param-reassign
     console.log("a");
     event.res.statusCode = 401;
     return unauthorizedErrorResponse();
   }
-  if ([body.username, body.password].includes('1')) {
+  if ([body.email, body.password].includes('1')) {
     // eslint-disable-next-line no-param-reassign
     event.res.statusCode = 422;
     return validationErrorResponses();

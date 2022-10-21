@@ -17,16 +17,17 @@
               <div role="group">
                 <BFormInput
                   id="input-live"
-                  v-model="requestBody.username"
-                  :state="validationErrorMessages.username === undefined ? null : false"
+                  v-model="requestBody.email"
+                  :state="validationErrorMessages.email === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Username"
+                  placeholder="Email"
+                  type="email"
                   trim
                   required
                   class=""
                 />
                 <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.username" />
+                  <ValidationErrorMessage :messages="validationErrorMessages.email" />
                 </BFormInvalidFeedback>
               </div>
               <div role="group">
@@ -73,7 +74,7 @@ definePageMeta({
 });
 const {setToken} = useToken();
 const {getConfig} = useConfig();
-const requestBody = ref({username: '', password: ''});
+const requestBody = ref({email: '', password: ''});
 const unauthorizedErrorMessage = ref('');
 const isDisabledButton = ref(false);
 const validationErrorMessages = ref({
