@@ -1,24 +1,20 @@
 const SuccessResponse = () => ({
   token: 'BearerToken',
 });
-// const validationErrorResponses = () => ([
-//   {
-//     field: 'email',
-//     message: 'Tên đăng nhập không được để trống',
-//   },
-//   {
-//     field: 'email',
-//     message: 'Tên đăng nhập phải dài hơn 5 ký tự',
-//   },
-// ]);
 const validationErrorResponses = () => ({
-  email: [
-    'Tên đăng nhập không được để trống',
-    'Tên đăng nhập phải dài hơn 5 ký tự',
-  ],
+  meta: {
+    error_message: {
+      email: [
+        'Tên đăng nhập không được để trống',
+        'Tên đăng nhập phải dài hơn 5 ký tự',
+      ],
+    }
+  }
 });
 const unauthorizedErrorResponse = () => ({
-  message: 'Tên đăng nhập hoặc mật khẩu không hợp lệ',
+  meta: {
+    error_message: 'Tên đăng nhập hoặc mật khẩu không hợp lệ',
+  }
 });
 export default defineEventHandler(async (event) => {
   const body = await useBody(event.req);

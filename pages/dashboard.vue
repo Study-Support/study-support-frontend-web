@@ -36,7 +36,7 @@
                   <h5 class="m-3 text-end">Your groups</h5>
                   <div class="groups ms-3">
                     <button
-                      v-for="group in dataGetMyGroups" :key="group.id"
+                      v-for="group in myGroups" :key="group.id"
                       class="mt-3 d-block"
                       @click="navigateTo(`/groups/${group.id}`)" 
                       
@@ -57,27 +57,27 @@
               <ul class="col col-auto d-flex menu mb-1 mt-1">
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    HOMEPAGE
+                    TRANG CHỦ
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    GROUPS
+                    NHÓM HỌC
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    FIND MENTOR
+                    TÌM HƯỚNG DẪN
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    MENTORS
+                    NGƯỜI HƯỚNG DẪN
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    NOTIFICATIONS
+                    <BIconBellFill class="bell"/>
                   </NuxtLink>
                 </li>
               </ul>
@@ -93,7 +93,7 @@
                   <ul class="col col-auto d-flex menu mb-1">
                     <li class="text-decoration-none d-block">
                       <NuxtLink to="/dashboard">
-                        HOMEPAGE
+                        TRANG CHỦ
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
@@ -128,14 +128,12 @@
           </BCol>
         </BRow>
         <BRow class="mt-5">
-          <BCol>
-          </BCol>
           <BCol class=" header-content col-12 col-lg-6">
             <BRow class="mb-5">
               <h2 class="col slogan"> Together we can change the world </h2>
             </BRow>
-            <BRow class="mb-4 d-flex justify-content-end">
-              <p class="col idiom text-end col-12 col-auto"> If we do not plant knowledge when young, it will give us no shade when we are old</p>
+            <BRow class="mb-4">
+              <p class="col idiom col-12 col-auto"> If we do not plant knowledge when young, it will give us no shade when we are old</p>
             </BRow>
             <BRow class="">
               <BCol>
@@ -219,7 +217,7 @@
 </template>
 <script setup>
 import "@fontsource/love-ya-like-a-sister";
-import {BIconX, BIconPeopleFill, BIconArrowRight} from 'bootstrap-icons-vue';
+import {BIconX, BIconPeopleFill, BIconArrowRight, BIconBellFill} from 'bootstrap-icons-vue';
 definePageMeta({
   layout: false,
 });
@@ -243,6 +241,9 @@ const intros = ref([
     img: 'intro3.png',
   }
 ])
+const myGroups = ref({
+
+})
 const userId = ref({
   user_id: '',
 });
@@ -285,7 +286,7 @@ const {
   get: getMentors,
   onFetchResponse: getMentorsResponse,
 } = useFetchApi({
-  requireAuth: true,
+  requireAuth: false,
   disableHandleErrorUnauthorized: false,
 })(
   '/mentors',
@@ -310,7 +311,7 @@ const {
   onFetchResponse: getGroupsResponse,
   onFetchError: getGroupsError,
 } = useFetchApi({
-  requireAuth: true,
+  requireAuth: false,
   disableHandleErrorUnauthorized: false,
 })(
   url1,
@@ -322,7 +323,7 @@ const {
   get: getTopGroup,
   onFetchResponse: getTopGroupResponse
 } = useFetchApi({
-  requireAuth: true,
+  requireAuth: false,
   disableHandleErrorUnauthorized: false,
 })(
   url2,
@@ -330,24 +331,27 @@ const {
 );
 getTopGroup().json().execute();
 getTopGroupResponse(()=> {
-  topGroup.value = dataGetTopGroup.value.slice(0, 4);
+  topGroup.value = dataGetTopGroup.value.data.data.slice(0, 4);
 })
 
 getMentors().json().execute();
 getMentorsResponse(() => {
-  topMentor.value = dataGetMentors.value.slice(0, 3);
+  topMentor.value = dataGetMentors.value.data.data.slice(0, 3);
 })
 
 getMe().json().execute();
 getMeResponse(() => {
-  user.value = dataGetMe.value;
-  userId.value.user_id = dataGetMe.value.id;
+  user.value = dataGetMe.value.data.data;
+  userId.value.user_id = user.value.id;
   getGroups().json().execute();
 });
 getMeError(() => {
   deleteToken();
 });
 
+getGroupsResponse(() => {
+  myGroups.value = dataGetMyGroups.value.data.data;
+})
 
 // Set sticky menu
 window.document.body.onscroll = function() {
@@ -373,7 +377,6 @@ const scrollWin = () => {
   min-width: 20px;
 }
 .header-content {
-  text-align: right;
   margin-top: 45px;
 }
 
@@ -382,11 +385,11 @@ h1 {
   color: #ffffff;
 }
 h5 {
-  color: rgb(36, 125, 67);
+  color: rgb(135, 182, 235);
 }
 .top-dashboard {
-  background-color: rgb(96, 141, 113);
-  background-image: url("assets/g.jpg");
+  background-color: rgb(96, 121, 141);
+  background-image: url("assets/a.png");
   background-repeat: none;
   background-size: 100%;
   min-height:  615px;
@@ -413,7 +416,7 @@ ul.login {
   padding-right: 0px;
 }
 ul.login li>a {
-  background-color: #148063a1;
+  background-color: #0d77a8;
   padding: 5px 15px;
   margin-right: 5px;
   border-radius: 0 0 4px 4px;
@@ -424,14 +427,14 @@ a.user {
   margin-right: 8px;
   font-size: small;
   font-weight: 600;
-  color: rgb(117, 194, 154);
+  color: #8CCB40;
 }
 span.contact {
   font-size: small;
-  color: rgb(225, 225, 225);
+  color: rgb(207, 207, 207);
 }
 span.contact a {
-  color: rgb(0, 0, 0);
+  color: #8CCB40;
 }
 img {
   width: 250px;
@@ -452,8 +455,12 @@ ul.menu li:last-child {
   padding-right: 0px;
 }
 ul.menu li a:hover {
-  color: #00d235;
+  color: rgb(0, 108, 240);
   transition: color 300ms linear;
+}
+.bell {
+  font-size: 25px;
+  margin-bottom: 10px;
 }
 .horizontal {
   height: 0.2em;
@@ -474,8 +481,8 @@ img.laptop {
 }
 .let-start {
   display: inline-block;
-  background-color: #8fffdf;;
-  color: rgb(34, 107, 71);
+  background-color: rgb(249, 253, 255);
+  color: #0b0b0b;
   text-align: center;
   padding: 15px;
   border-radius: 5px;
@@ -495,7 +502,7 @@ img.laptop {
   left: 0;
   transition: all 2s;
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
-  background-color: #148063;
+  background-color: rgb(10,103,175);
   display: flex;
   justify-content: center;
   z-index: 1000;
@@ -517,7 +524,7 @@ img.laptop {
   color: white;
 }
 .sidebar svg {
-  color: rgb(36, 125, 67);
+  color: rgb(1, 116, 188);
 }
 .sidebarShow {
   right:-50vh;
@@ -567,7 +574,7 @@ img.laptop {
   color: #274435;
 }
 .all-groups {
-  background-color: #effaf4;
+  background-color: #EFF4FA;
 }
 .all-groups h3 {
   line-height: 36px;
@@ -593,7 +600,7 @@ img.laptop {
   left: -65px;
   width: 60%;
   height: 75%;
-  background-color: #bcddcbea;
+  background-color: #bcceddea;
   /* background-color: #effaf4; */
   z-index: -10000;
 }

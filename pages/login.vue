@@ -4,7 +4,7 @@
       <BContainer>
         <BRow class="pt-3 text-center">
           <BCol>
-            <h1 class="">LOGIN</h1>
+            <h1 class="">Đăng nhập vào website</h1>
           </BCol>
           
           <div v-if="unauthorizedErrorMessage !== ''" class="mess mt-2 ps-2">
@@ -35,7 +35,7 @@
                   v-model="requestBody.password"
                   :state="validationErrorMessages.password === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Password"
+                  placeholder="Mật khẩu"
                   trim
                   type="password"
                   required
@@ -48,16 +48,16 @@
               <SubmitButton
                 class="mt-3"
                 :isDisabled="isDisabledButton"
-                :content="'Login'"
-                :color="'rgb(2, 62, 24)'"
+                :content="'Đăng nhập'"
+                :color="'rgb(63 88 120)'"
               />
             </form>
           </BCol>
         </BRow>
         <BRow class="pt-3 pb-4">
           <BCol class="text-center">
-            <span>Not a member? </span>
-            <NuxtLink to="/register">Signup</NuxtLink>
+            <span>Bạn chưa có tài khoản? </span>
+            <NuxtLink to="/register">Đăng ký ngay</NuxtLink>
           </BCol>
         </BRow>
       </BContainer>
@@ -99,9 +99,9 @@ onFetchResponse(() => {
 });
 onFetchError(() => {
   if (statusCode.value === getConfig('constants.statusCodes.unauthorized')) {
-    unauthorizedErrorMessage.value = data.value.message;
+    unauthorizedErrorMessage.value = data.value.meta.error_message;
   } else if (statusCode.value === getConfig('constants.statusCodes.validation')) {
-    validationErrorMessages.value = data.value;
+    validationErrorMessages.value = data.value.meta.error_message;
   }
   isDisabledButton.value = false;
 });
@@ -115,8 +115,9 @@ const submit = () => {
 </script>
 <style scoped>
 h1 {
-  font-family: "Love Ya Like A Sister";
-  color: rgb(2, 62, 24);
+  font-size: 28px;
+  font-weight: 700;
+  color: rgb(6, 45, 96);
 }
 .container {
   width: 50%;
@@ -129,7 +130,7 @@ h1 {
   font-size: small;
 }
 a {
-  color: rgb(2, 62, 24);
+  color: rgb(6, 45, 96);
   text-decoration: underline;
 }
 </style>
