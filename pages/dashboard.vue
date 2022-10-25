@@ -2,6 +2,47 @@
   <div>
     <BContainer fluid class="top-dashboard">
       <BContainer>
+        <div class="notification" :class="{notiShow: notiShow}">
+          <div class="inter">
+            <button @click="notiShow=!notiShow" :disabled="notiShow" class="p-2 bell">
+              <BIconBellFill />
+              Thông báo
+            </button>
+            <div class="input-group search">
+              <input
+                v-model="noti.search"
+                class="form-control border-end-0 border"
+                type="search"
+                placeholder="Nội dung"
+              >
+              <span class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5"
+                  type="button"
+                  @click="searchNoti"
+                >
+                  <BIconSearch />
+                </button>
+              </span>
+            </div>
+            <BIconX class="close" @click="notiShow=false"/>
+            <div class="noti-content p-2">
+              <p class="noti-mess">{{ mess }}</p>
+              <div v-for="noti in notifications" :key="noti.id" class="noti-item mb-4">
+                <p class="time">{{noti.time}}:</p>
+                <p class="title">{{noti.title}}</p>
+                <p class="des">{{noti.description}}</p>
+              </div>
+              <div class="loader">
+                <InfiniteLoading
+                  v-if="loading"
+                  class="loading ms-auto me-auto"
+                  @infinite="load"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
         <BRow>
           <BCol>
             <BRow class="d-flex justify-content-between mt-1">
@@ -27,7 +68,7 @@
                   <button @click="sidebarShow=false">
                     <BIconX class="close"/>
                   </button>
-                  <NuxtLink to="/user" class="mt-2 mb-4 user-infor d-block">
+                  <NuxtLink to="/my-account" class="mt-2 mb-4 user-infor d-block">
                     <div class="user-image">
                       <img src="assets/user.png" alt="">
                     </div>
@@ -36,7 +77,7 @@
                   <h5 class="m-3 text-end">Your groups</h5>
                   <div class="groups ms-3">
                     <button
-                      v-for="group in dataGetMyGroups" :key="group.id"
+                      v-for="group in myGroups" :key="group.id"
                       class="mt-3 d-block"
                       @click="navigateTo(`/groups/${group.id}`)" 
                       
@@ -50,34 +91,29 @@
             </BRow>
             <BRow class=" mt-3 mb-3 d-flex justify-content-between">
               <BCol class="col-auto">
-                <NuxtLink to="/dashboard">
+                <a href="/dashboard">
                   <h1>Study With Us</h1>
-                </NuxtLink>
+                </a>
               </BCol>
               <ul class="col col-auto d-flex menu mb-1 mt-1">
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    HOMEPAGE
+                    TRANG CHỦ
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    GROUPS
+                    NHÓM HỌC
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    FIND MENTOR
+                    TÌM HƯỚNG DẪN
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/dashboard">
-                    MENTORS
-                  </NuxtLink>
-                </li>
-                <li class="text-decoration-none d-block">
-                  <NuxtLink to="/dashboard">
-                    NOTIFICATIONS
+                    NGƯỜI HƯỚNG DẪN
                   </NuxtLink>
                 </li>
               </ul>
@@ -86,34 +122,29 @@
               <BCol :class="{sticky: sticky}">
                 <BRow class=" mt-2 mb-2 d-flex justify-content-between">
                   <BCol class="col-auto">
-                    <NuxtLink to="/dashboard">
+                    <a href="/dashboard">
                       <h2>Study With Us</h2>
-                    </NuxtLink>
+                    </a>
                   </BCol>
                   <ul class="col col-auto d-flex menu mb-1">
                     <li class="text-decoration-none d-block">
-                      <NuxtLink to="/dashboard">
-                        HOMEPAGE
+                      <NuxtLink to="/dashboard"  @click.prevent="scrollTop()">
+                        TRANG CHỦ
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
                       <NuxtLink to="/dashboard">
-                        GROUPS
+                        NHÓM HỌC
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
                       <NuxtLink to="/dashboard">
-                        FIND MENTOR
+                        TÌM HƯỚNG DẪN
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
                       <NuxtLink to="/dashboard">
-                        MENTORS
-                      </NuxtLink>
-                    </li>
-                    <li class="text-decoration-none d-block">
-                      <NuxtLink to="/dashboard">
-                        NOTIFICATIONS
+                        NGƯỜI HƯỚNG DẪN
                       </NuxtLink>
                     </li>
                   </ul>
@@ -128,14 +159,12 @@
           </BCol>
         </BRow>
         <BRow class="mt-5">
-          <BCol>
-          </BCol>
           <BCol class=" header-content col-12 col-lg-6">
             <BRow class="mb-5">
               <h2 class="col slogan"> Together we can change the world </h2>
             </BRow>
-            <BRow class="mb-4 d-flex justify-content-end">
-              <p class="col idiom text-end col-12 col-auto"> If we do not plant knowledge when young, it will give us no shade when we are old</p>
+            <BRow class="mb-4">
+              <p class="col idiom col-12 col-auto"> If we do not plant knowledge when young, it will give us no shade when we are old</p>
             </BRow>
             <BRow class="">
               <BCol>
@@ -219,13 +248,24 @@
 </template>
 <script setup>
 import "@fontsource/love-ya-like-a-sister";
-import {BIconX, BIconPeopleFill, BIconArrowRight} from 'bootstrap-icons-vue';
+import InfiniteLoading from 'v3-infinite-loading';
+import 'v3-infinite-loading/lib/style.css';
+import {BIconX, BIconPeopleFill, BIconArrowRight, BIconBellFill, BIconSearch} from 'bootstrap-icons-vue';
 definePageMeta({
   layout: false,
 });
 const {token, deleteToken} = useToken();
+const {getConfig} = useConfig();
+const loading = ref(true);
 const sticky = ref(false);
 const sidebarShow = ref(false);
+const notiShow = ref(false);
+const notifications = ref([]);
+const mess = ref('');
+const noti = ref({
+  search: '',
+  page: 0,
+});
 const intros = ref([
   {
     title: 'Sign up group',
@@ -243,6 +283,7 @@ const intros = ref([
     img: 'intro3.png',
   }
 ])
+const myGroups = ref({});
 const userId = ref({
   user_id: '',
 });
@@ -266,6 +307,7 @@ const topMentor = ref([
     subject: '',
   },
 ]);
+
 // Lấy thông tin user
 const {
   data: dataGetMe,
@@ -278,19 +320,21 @@ const {
 })(
   '/users/me',
   {immediate: false},
-  );
+);
+
 // Lấy tất cả mentor
 const {
   data: dataGetMentors,
   get: getMentors,
   onFetchResponse: getMentorsResponse,
 } = useFetchApi({
-  requireAuth: true,
+  requireAuth: false,
   disableHandleErrorUnauthorized: false,
 })(
   '/mentors',
   {immediate: false},
   );
+
 // Tạo url lấy user theo id
 const {url: url1} = useUrl({
   path: '/groups',
@@ -303,6 +347,23 @@ const {url: url2} = useUrl({
     isAccept: 'true'
   },
 });
+const {url: url3} = useUrl({
+  path: '/notifications',
+  queryParams: noti.value,
+});
+// Lấy tất cả thông báo
+const {
+  data: dataGetNotis,
+  get: getNotis,
+  onFetchResponse: getNotisResponse,
+} = useFetchApi({
+  requireAuth: false,
+  disableHandleErrorUnauthorized: false,
+})(
+  url3,
+  {immediate: false},
+  );
+
 // Lấy groups của user đang đăng nhập
 const {
   data: dataGetMyGroups,
@@ -310,7 +371,7 @@ const {
   onFetchResponse: getGroupsResponse,
   onFetchError: getGroupsError,
 } = useFetchApi({
-  requireAuth: true,
+  requireAuth: false,
   disableHandleErrorUnauthorized: false,
 })(
   url1,
@@ -322,7 +383,7 @@ const {
   get: getTopGroup,
   onFetchResponse: getTopGroupResponse
 } = useFetchApi({
-  requireAuth: true,
+  requireAuth: false,
   disableHandleErrorUnauthorized: false,
 })(
   url2,
@@ -330,26 +391,52 @@ const {
 );
 getTopGroup().json().execute();
 getTopGroupResponse(()=> {
-  topGroup.value = dataGetTopGroup.value.slice(0, 4);
+  topGroup.value = dataGetTopGroup.value.data.data.slice(0, 4);
 })
 
 getMentors().json().execute();
 getMentorsResponse(() => {
-  topMentor.value = dataGetMentors.value.slice(0, 3);
-  console.log(topMentor.value);
+  topMentor.value = dataGetMentors.value.data.data.slice(0, 3);
 })
 
 getMe().json().execute();
 getMeResponse(() => {
-  user.value = dataGetMe.value;
-  userId.value.user_id = dataGetMe.value.id;
+  user.value = dataGetMe.value.data.data;
+  userId.value.user_id = user.value.id;
   getGroups().json().execute();
 });
 getMeError(() => {
   deleteToken();
 });
-
-
+getGroupsResponse(() => {
+  myGroups.value = dataGetMyGroups.value.data.data;
+});
+getNotisResponse(() => {
+  // notifications.value = dataGetNotis.value.data.data;
+  if (dataGetNotis.value.data.data.length !== 0) {
+    notifications.value = notifications.value.concat(dataGetNotis.value.data.data);
+  }
+  if (dataGetNotis.value.data.data.length < getConfig('constants.pagination')) {
+    loading.value = false;
+  }
+  if (notifications.value.length === 0) {
+    mess.value = 'Không có thông báo nào!';
+  }
+});
+// Lấy dữ liệu notifications theo paginate
+const load = () => {
+  setTimeout(() => {
+    noti.value.page += 1;
+    getNotis().json().execute();
+  }, 500);
+};
+// nhấn search notifications
+const searchNoti = () => {
+  mess.value = '';
+  noti.value.page = 0;
+  loading.value = true;
+  notifications.value = [];
+};
 // Set sticky menu
 window.document.body.onscroll = function() {
   if(window.scrollY > 150) {
@@ -363,6 +450,9 @@ window.document.body.onscroll = function() {
 const scrollWin = () => {
   window.scrollTo(0, 570);
 }
+const scrollTop = () => {
+  window.scrollTo(0, 0);
+}
 </script>
 <style scoped>
 
@@ -374,7 +464,6 @@ const scrollWin = () => {
   min-width: 20px;
 }
 .header-content {
-  text-align: right;
   margin-top: 45px;
 }
 
@@ -383,11 +472,11 @@ h1 {
   color: #ffffff;
 }
 h5 {
-  color: rgb(36, 125, 67);
+  color: rgb(135, 182, 235);
 }
 .top-dashboard {
-  background-color: rgb(96, 141, 113);
-  background-image: url("assets/g.jpg");
+  background-color: rgb(96, 141, 116);
+  background-image: url("assets/a.jpg");
   background-repeat: none;
   background-size: 100%;
   min-height:  615px;
@@ -395,7 +484,6 @@ h5 {
   color: white;
   position: relative;
 }
-
 .top-dashboard a{
   color: white;
 }
@@ -414,7 +502,7 @@ ul.login {
   padding-right: 0px;
 }
 ul.login li>a {
-  background-color: #148063a1;
+  background-color: #0d77a8;
   padding: 5px 15px;
   margin-right: 5px;
   border-radius: 0 0 4px 4px;
@@ -425,14 +513,14 @@ a.user {
   margin-right: 8px;
   font-size: small;
   font-weight: 600;
-  color: rgb(117, 194, 154);
+  color: #8CCB40;
 }
 span.contact {
   font-size: small;
-  color: rgb(225, 225, 225);
+  color: rgb(207, 207, 207);
 }
 span.contact a {
-  color: rgb(0, 0, 0);
+  color: #8CCB40;
 }
 img {
   width: 250px;
@@ -453,7 +541,7 @@ ul.menu li:last-child {
   padding-right: 0px;
 }
 ul.menu li a:hover {
-  color: #00d235;
+  color: rgb(0, 108, 240);
   transition: color 300ms linear;
 }
 .horizontal {
@@ -475,8 +563,8 @@ img.laptop {
 }
 .let-start {
   display: inline-block;
-  background-color: #8fffdf;;
-  color: rgb(34, 107, 71);
+  background-color: rgb(249, 253, 255);
+  color: #0b0b0b;
   text-align: center;
   padding: 15px;
   border-radius: 5px;
@@ -496,7 +584,7 @@ img.laptop {
   left: 0;
   transition: all 2s;
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
-  background-color: #148063;
+  background-color: rgb(10,103,175);
   display: flex;
   justify-content: center;
   z-index: 1000;
@@ -518,7 +606,7 @@ img.laptop {
   color: white;
 }
 .sidebar svg {
-  color: rgb(36, 125, 67);
+  color: rgb(1, 116, 188);
 }
 .sidebarShow {
   right:-50vh;
@@ -568,7 +656,7 @@ img.laptop {
   color: #274435;
 }
 .all-groups {
-  background-color: #effaf4;
+  background-color: #EFF4FA;
 }
 .all-groups h3 {
   line-height: 36px;
@@ -594,7 +682,7 @@ img.laptop {
   left: -65px;
   width: 60%;
   height: 75%;
-  background-color: #bcddcbea;
+  background-color: #bcceddea;
   /* background-color: #effaf4; */
   z-index: -10000;
 }
@@ -633,5 +721,102 @@ img.laptop {
   position: absolute;
   bottom: 0;
   right: -40px;
+}
+.notification {
+  position: fixed;
+  bottom: 0;
+  right: 20px;
+  border-radius: 3px 3px 0 0;
+  transition: all .4s;
+  overflow: hidden;
+  width: 130px;
+  height: 40px;
+  z-index: 10000;
+  box-shadow: 0 0 7px 0 #999;
+  background-color: rgb(216, 224, 231);
+  
+}
+.notification .search {
+  display: inline-block;
+  color: black;
+  width: 400px;
+  text-align: center;
+}
+.notification .search input{
+  margin: 5px;
+  margin-right: 0;
+  width: 70%;
+  display: inline-block;
+  border-radius: 4px 0 0 4px !important;
+}
+.notification .search button {
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 2.55px;
+  height: 34px;
+  padding: 0 9px;
+  display: inline-block;
+  border-left: 1px solid rgb(223, 223, 223) !important;
+  color: black;
+}
+.notification .search button:hover svg {
+  color: rgb(7, 30, 95)
+}
+
+.notification .noti-mess {
+  color: red;
+}
+.notification .bell{
+  border:none;
+  width: 130px;
+  height: 40px;
+  color: black;
+  background-color: rgb(216, 224, 231);
+}
+.notiShow {
+  height: 420px;
+  width: 600px;
+}
+.inter {
+  position: relative;
+}
+.notiShow .close {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-weight: bold;
+  font-size: 30px;
+  color: black;
+}
+.notiShow .noti-content {
+  color: black;
+  height: 400px;
+  overflow: auto;
+  background-color: rgb(255, 255, 255);
+}
+.noti-item p {
+  margin: 0;
+}
+.noti-item .time {
+  margin: 0 0 5px;
+  /* color: #aaa; */
+  color: red;
+  font-size: 13px;
+  font-weight: 600;
+  display: inline-block;
+}
+.noti-item .title {
+  margin: 0 0 5px;
+  color: #003eff;
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-block;
+  padding-left: 5px;
+}
+.noti-item .des {
+  font-size: 15px;
+  padding-left: 20px;
+}
+.loading >>> div {
+margin: auto;
 }
 </style>

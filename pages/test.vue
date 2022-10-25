@@ -1,13 +1,28 @@
 <template>
-    <div class="mentor">
-        <button @click="toast">asd</button>
-    </div>
+    <div>
+ 
+</div>
 </template>
 <script setup>
 const toast = () => {
     const {$toast} = useNuxtApp();
     $toast('HELOOOOOOOOOOO','success', 2000);
 }
+const {
+  data: dataGetMentors,
+  get: getMentors,
+  onFetchResponse: getMentorsResponse,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  '/notification',
+  {immediate: false},
+);
+getMentors().json().execute();
+getMentorsResponse(() => {
+    console.log(dataGetMentors.value);
+})
 </script>
 <style scoped>
 .mentor {

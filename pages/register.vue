@@ -4,20 +4,20 @@
       <BContainer>
         <BRow class="pt-3 text-center">
           <BCol>
-            <h1 class="">REGISTER</h1>
+            <h1 class="">Đăng ký tài khoản</h1>
           </BCol>
         </BRow>
         <BRow class="p-4 pt-2 pb-2">
             <form @submit.prevent="submit" class="col">
               <BRow>
                 <BCol role="group">
-                  <label> LOGIN INFORMATION</label>
+                  <label> THÔNG TIN ĐĂNG NHẬP</label>
                   <BFormInput
                     id="input-live"
                     v-model="registerData.email"
                     :state="validationErrorMessages.email === undefined ? null : false"
                     aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Enter email"
+                    placeholder="Email"
                     type="email"
                     trim
                     required
@@ -34,7 +34,7 @@
                     v-model="registerData.password"
                     :state="validationErrorMessages.password === undefined ? null : false"
                     aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Password"
+                    placeholder="Mật khẩu"
                     trim
                     type="password"
                     required
@@ -50,7 +50,7 @@
                     v-model="registerData.confirm_password"
                     :state="isPasswordMatched"
                     aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Confirm password"
+                    placeholder="Nhập lại mật khẩu"
                     trim
                     type="password"
                     required
@@ -63,18 +63,18 @@
               </BRow>
               <BRow>
                 <BCol role="group">
-                  <label class="pt-4"> PERSONAL INFORMATION</label>
+                  <label class="pt-4"> THÔNG TIN CÁ NHÂN</label>
                   <BFormInput
                     id="input-live"
-                    v-model="registerData.fullname"
-                    :state="validationErrorMessages.fullname === undefined ? null : false"
+                    v-model="registerData.full_name"
+                    :state="validationErrorMessages.full_name === undefined ? null : false"
                     aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Enter full name"
+                    placeholder="Họ và tên"
                     trim
                     required
                   />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
+                    <ValidationErrorMessage :messages="validationErrorMessages.full_name" />
                   </BFormInvalidFeedback>
                 </BCol>
               </BRow>
@@ -82,18 +82,17 @@
                 <BCol role="group">
                   <BFormInput
                     id="input-live"
-                    v-model="registerData.phonenumber"
-                    :state="validationErrorMessages.phonenumber === undefined ? null : false"
+                    v-model="registerData.phone_number"
+                    :state="validationErrorMessages.phone_number === undefined ? null : false"
                     aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Phone number"
+                    placeholder="Số điện thoại"
                     trim
-                    type="tel"
                     pattern="[0]{1}[0-9]{9}"
                     required
                     class="mt-2"
                   />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.phonenumber" />
+                    <ValidationErrorMessage :messages="validationErrorMessages.phone_number" />
                   </BFormInvalidFeedback>
                 </BCol>
               </BRow>
@@ -104,7 +103,7 @@
                     v-model="registerData.address"
                     :state="validationErrorMessages.address === undefined ? null : false"
                     aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Address"
+                    placeholder="Địa chỉ thường trú"
                     trim
                     required
                     class="mt-2"
@@ -118,12 +117,12 @@
                     v-model="registerData.gender"
                     class="form-select mt-2"
                   >
-                    <option value="" disabled selected>Select gender</option>
+                    <option value="" disabled selected>Giới tính</option>
                     <option value="0">
-                      Male
+                      Nam
                     </option>
                     <option value="1">
-                      Female
+                      Nữ
                     </option>
                   </select>
                 </BCol>
@@ -135,16 +134,16 @@
                     date-picker
                     required
                     textInput
-                    placeholder="Choose birthday" class="m-1 ms-2 date-picker"
+                    placeholder="Ngày sinh" class="m-1 ms-2 date-picker"
                   />
                 </BCol>
                 <BCol role="group">
                   <select
-                    v-model="registerData.faculty"
+                    v-model="registerData.faculty_id"
                     class="form-select mt-2"
                     required
                   >
-                    <option value="" disabled selected>Choose your faculty</option>
+                    <option value="" disabled selected>Khoa của bạn</option>
                     <option v-for="faculty in dataFaculty" :key="faculty.id" :value="faculty.id">
                       {{ faculty.name }}
                     </option>
@@ -154,15 +153,15 @@
               <SubmitButton
                 class="mt-3"
                 :isDisabled="isDisabledButton"
-                :content="'Register'"
-                :color="'rgb(2, 62, 24)'"
+                :content="'Đăng ký'"
+                :color="'rgb(63 88 120)'"
               />
             </form>
         </BRow>
         <BRow class="pt-2 pb-3">
           <BCol class="text-center">
-            <span>Have already an account? </span>
-            <NuxtLink to="/login">Login here</NuxtLink>
+            <span>Bạn đã có tài khoản? </span>
+            <NuxtLink to="/login">Đăng nhập</NuxtLink>
           </BCol>
         </BRow>
       </BContainer>
@@ -183,14 +182,14 @@ const {setToken} = useToken();
 const {getConfig} = useConfig();
 const isDisabledButton = ref(false);
 const registerData = reactive({
-  username: '',
-  fullname: '',
+  full_name: '',
   password: '',
   confirm_password: '',
   email: '',
   gender: '',
   birthday: '',
-  faculty: '',
+  faculty_id: '',
+  phone_number: '',
 });
 const validationErrorMessages = ref({});
 const {
@@ -198,7 +197,7 @@ const {
   get: getFaculty,
 } = useFetchApi({
   requireAuth: true,
-  disableHandleErrorUnauthorized: false,
+  disableHandleErrorUnauthorized: true,
 })(
   '/faculties',
   {immediate: false},
@@ -213,7 +212,7 @@ const {
   requireAuth: false,
   disableHandleErrorUnauthorized: true,
 })(
-  '/users',
+  '/register',
   {immediate: false},
 );
 
@@ -228,9 +227,10 @@ onFetchResponse(() => {
   navigateTo({name: 'login'});
 });
 onFetchError(() => {
+  console.log(data.value.meta.error_message);
   isDisabledButton.value = false;
   if (statusCode.value === getConfig('constants.statusCodes.validation')) {
-    validationErrorMessages.value = data.value;
+    validationErrorMessages.value = data.value.meta.error_message;
     // Incase server return passwordConfirm no matched error message
     isPasswordMatched.value = validationErrorMessages.passwordConfirm !== '' ? null : false;
   }
@@ -241,7 +241,6 @@ const submit = () => {
   if (isPasswordMatched.value) {
     isDisabledButton.value = true;
     registerData.birthday = registerData.birthday.toString().slice(4, 15);
-    console.log(registerData)
     post(registerData).json().execute();
   }
 };
@@ -249,8 +248,9 @@ const submit = () => {
 </script>
 <style scoped>
 h1 {
-  font-family: "Love Ya Like A Sister";
-  color: rgb(2, 62, 24);
+  font-size: 28px;
+  font-weight: 700;
+  color: rgb(6, 45, 96);
 }
 .container {
   width: 50%;
@@ -265,7 +265,7 @@ h1 {
 label {
   font-weight:400 !important;  
   font-size: 13px;
-  color: rgba(2, 62, 24, 0.886);
+  color: rgb(6, 45, 96);
   padding-left: 2px;
   padding-bottom: 3px;
 }
@@ -292,7 +292,7 @@ select option:first-child {
   color: black;
 }
 a {
-  color: rgb(2, 62, 24);
+  color: rgb(6, 45, 96);
   text-decoration: underline;
 }
 

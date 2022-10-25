@@ -1,45 +1,51 @@
-const createGetResponse = () => ([
+const createGetResponse = () => (
   {
-    id: '5',
-    username: 'Như',
-    fullname: 'Harry Potter',
-    password: 'abcxyz',
-    email: 'email@example.com',
-    group_id: '12332111',
-    created_at: '2022-08-05T16:04:43.967Z',
-    updated_at: '2022-08-05T16:04:43.967Z',
-  },
-  {
-    id: '1',
-    username: 'Bố',
-    fullname: 'Harry Potter',
-    password: 'abcxyz',
-    email: 'email@example.com',
-    group_id: '12332111',
-    created_at: '2022-08-05T16:04:43.967Z',
-    updated_at: '2022-08-05T16:04:43.967Z',
-  },
-  {
-    id: '2',
-    username: 'Mẹ',
-    fullname: 'Harry Potter',
-    password: 'abcxyz',
-    email: 'email@example.com',
-    group_id: '12332111',
-    created_at: '2022-08-05T16:04:43.967Z',
-    updated_at: '2022-08-05T16:04:43.967Z',
-  },
-  {
-    id: '3',
-    username: 'My',
-    fullname: 'Harry Potter',
-    password: 'abcxyz',
-    email: 'email@example.com',
-    group_id: '12332111',
-    created_at: '2022-08-05T16:04:43.967Z',
-    updated_at: '2022-08-05T16:04:43.967Z',
-  },
-]);
+    data: {
+      data: [
+        {
+          id: '5',
+          username: 'Như',
+          fullname: 'Harry Potter',
+          password: 'abcxyz',
+          email: 'email@example.com',
+          group_id: '12332111',
+          created_at: '2022-08-05T16:04:43.967Z',
+          updated_at: '2022-08-05T16:04:43.967Z',
+        },
+        {
+          id: '1',
+          username: 'Bố',
+          fullname: 'Harry Potter',
+          password: 'abcxyz',
+          email: 'email@example.com',
+          group_id: '12332111',
+          created_at: '2022-08-05T16:04:43.967Z',
+          updated_at: '2022-08-05T16:04:43.967Z',
+        },
+        {
+          id: '2',
+          username: 'Mẹ',
+          fullname: 'Harry Potter',
+          password: 'abcxyz',
+          email: 'email@example.com',
+          group_id: '12332111',
+          created_at: '2022-08-05T16:04:43.967Z',
+          updated_at: '2022-08-05T16:04:43.967Z',
+        },
+        {
+          id: '3',
+          username: 'My',
+          fullname: 'Harry Potter',
+          password: 'abcxyz',
+          email: 'email@example.com',
+          group_id: '12332111',
+          created_at: '2022-08-05T16:04:43.967Z',
+          updated_at: '2022-08-05T16:04:43.967Z',
+        },
+      ]
+    }
+  }
+)
 
 const createPostResponse = () => ({
   api_token: 'beareAuthApiToken',

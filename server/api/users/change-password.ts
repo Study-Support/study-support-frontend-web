@@ -1,23 +1,16 @@
-// const validationErrorResponses = () => ([
-//   {
-//     field: 'current_password',
-//     message: 'Mật khẩu cũ không đúng',
-//   },
-//   {
-//     field: 'confirm_password',
-//     message: 'Mật khẩu nhập lại không đúng',
-//   },
-
-// ]);
 const validationErrorResponses = () => ({
-  current_password: [
-    'Mật khẩu cũ không đúng',
-    'Mật khẩu cũ không đúng',
-  ],
-  confirm_password: [
-    'Mật khẩu nhập lại không đúng',
-    'Mật khẩu nhập lại không đúng',
-  ],
+  meta: {
+    error_message: {
+      current_password: [
+        'Mật khẩu cũ không đúng',
+        'Mật khẩu cũ không đúng',
+      ],
+      confirm_password: [
+        'Mật khẩu nhập lại không đúng',
+        'Mật khẩu nhập lại không đúng',
+      ],
+    }
+  }
 });
 
 export default defineEventHandler(async (event) => {
