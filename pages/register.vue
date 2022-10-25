@@ -197,7 +197,7 @@ const {
   get: getFaculty,
 } = useFetchApi({
   requireAuth: true,
-  disableHandleErrorUnauthorized: false,
+  disableHandleErrorUnauthorized: true,
 })(
   '/faculties',
   {immediate: false},

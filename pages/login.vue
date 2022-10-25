@@ -94,7 +94,7 @@ const {
 );
 onFetchResponse(() => {
   setToken(data.value.token);
-  $toast('Đăng nhập thành công','success', 2000);
+  $toast('Đăng nhập thành công','success', 1500);
   return navigateTo({name: 'dashboard'});
 });
 onFetchError(() => {

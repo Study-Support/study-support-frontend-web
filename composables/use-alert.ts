@@ -1,6 +1,6 @@
 const useAlert = () => {
   const {$swal} = useNuxtApp();
-  const errorAlert = (mess: string, res: string) => {
+  const errorAlert = (mess: string, res?: any) => {
     $swal.fire({
       title: 'Lỗi',
       text: mess,
@@ -8,18 +8,22 @@ const useAlert = () => {
       confirmButtonText: 'Đóng',
       confirmButtonColor: 'red',
     }).then(() => {
-      navigateTo(res);
+      if(res) {
+        res();
+      }
     });
   };
-  const successAlert = (mess: string, res: string) => {
+  const successAlert = (mess: string,  res?: any) => {
     $swal.fire({
       title: 'Success!',
       text: mess,
       icon: 'success',
       confirmButtonText: 'Đóng',
-      confirmButtonColor: 'rgb(252, 118, 118)',
+      confirmButtonColor: 'rgb(87 188 129)',
     }).then(() => {
-      navigateTo(res);
+      if(res) {
+        res();
+      }
     });
   };
   return {errorAlert, successAlert};

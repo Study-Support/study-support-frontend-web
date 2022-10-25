@@ -3,7 +3,7 @@
     <BRow>
       <BCol class="position-fixed top-0 start-0 menu-top">
         <BRow class="d-flex justify-content-between mt-2">
-          <BCol class="mb-2 ps-4 col-auto">
+          <BCol class="ps-4 col-auto">
             <NuxtLink to="/dashboard"><h2>Study With Us</h2></NuxtLink>
           </BCol>
           <button
@@ -30,6 +30,7 @@
 
 <script setup>
 import {BIconBoxArrowLeft} from 'bootstrap-icons-vue';
+const {$toast} = useNuxtApp();
 
 const {deleteToken} = useToken();
 const {
@@ -43,6 +44,7 @@ const {
   {immediate: false},
 );
 onFetchResponse(() => {
+  $toast('Đăng xuất thành công','success', 1500);
   deleteToken();
   return navigateTo({name: 'dashboard'});
 });
@@ -61,7 +63,7 @@ button {
 }
 .logout {
   font-size: 20px;
-  margin-top: -5px;
+  margin-top: -15px;
 }
 p {
   font-size: 15px;

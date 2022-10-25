@@ -1,6 +1,65 @@
 <template>
     <div class="full">
       <BContainer fluid>
+        <div class="background" v-if="showChangePass" @click="closeChangePass"></div>
+        <div class="change-pass" :class="{showChangePass: showChangePass}">
+          <form @submit.prevent="save">
+            <button class="close" @click="closeChangePass">
+              <BIconX/>
+            </button>
+            <div role="group" class="mb-3">
+              <label> Nhập mật khẩu cũ </label>
+              <BFormInput
+                id="input-live"
+                v-model="changeData.current_password"
+                :state="validationErrorChangePassMessages.current_password === undefined ? null : false"
+                aria-describedby="input-live-help input-live-feedback"
+                required
+                type="password"
+                trim
+              />
+              <BFormInvalidFeedback>
+                <ValidationErrorMessage :messages="validationErrorChangePassMessages.current_password" />
+              </BFormInvalidFeedback>
+            </div>
+            <div role="group" class="mb-3">
+              <label> Nhập mật khẩu mới </label>
+              <BFormInput
+                id="input-live"
+                v-model="changeData.password"
+                :state="validationErrorChangePassMessages.password === undefined ? null : false"
+                aria-describedby="input-live-help input-live-feedback"
+                required
+                type="password"
+                trim
+              />
+              <BFormInvalidFeedback>
+                <ValidationErrorMessage :messages="validationErrorChangePassMessages.password" />
+              </BFormInvalidFeedback>
+            </div>
+            <div role="group" class="mb-3">
+              <label> Nhập lại mật khẩu mới </label>
+              <BFormInput
+                id="input-live"
+                v-model="changeData.confirm_password"
+                :state="isPasswordMatched"
+                aria-describedby="input-live-help input-live-feedback"
+                required
+                type="password"
+                trim
+              />
+              <BFormInvalidFeedback>
+                <ValidationErrorMessage :messages="validationErrorChangePassMessages.confirm_password" />
+              </BFormInvalidFeedback>
+            </div>
+            <SubmitButton
+              :isDisabled="isDisabledButton"
+              :content="'Lưu'"
+              :color="'rgb(64 97 128)'"
+              class="mt-2"
+            />
+        </form>
+        </div>
         <BRow>
           <BCol class=" col-3 col-lg-2 text-center sidebar">
             <div class="avatar">
@@ -135,14 +194,14 @@
               <SubmitButton
                 :isDisabled="isDisabledButton"
                 :content="'Update'"
-                :color="'rgb(2, 62, 24)'"
+                :color="'rgb(64 97 128)'"
                 class="col-6 col-lg-2 pe-0"
               />
               <SubmitButton
                 :isDisabled="isDisabledButton"
                 :content="'Change password'"
-                @click.prevent = "navigateTo('my-account/change-password')"
-                :color="'rgb(2, 62, 24)'"
+                @click.prevent = "showChangePass=true"
+                :color="'rgb(64 97 128)'"
                 class="col-6 col-lg-3"
               />
             </BRow>
@@ -157,6 +216,7 @@ import "@fontsource/love-ya-like-a-sister";
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import authenticated from "~~/middleware/authenticated";
+import {BIconX} from 'bootstrap-icons-vue';
 
 definePageMeta({
   layout: 'logout-page',
@@ -166,6 +226,8 @@ const {$toast} = useNuxtApp();
 const {setToken} = useToken();
 const {getConfig} = useConfig();
 const {$swal} = useNuxtApp();
+const {successAlert} = useAlert();
+
 const isDisabledButton = ref(false);
 const userData = ref({
   username: '',
@@ -178,9 +240,33 @@ const userData = ref({
   faculty: '',
 });
 const validationErrorMessages = ref({});
+const dataFaculty = ref([]);
+
+const showChangePass = ref(false);
+const changeData = ref({
+  current_password: '',
+  password: '',
+  confirm_password: '',
+});
+const validationErrorChangePassMessages = ref({
+});
 const {
-  data: dataFaculty,
+  data: dataChangePass,
+  onFetchResponse: changePassRes,
+  statusCode,
+  onFetchError: changePassErr,
+  put: changePassPut,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  '/users/change-password',
+  {immediate: false},
+);
+const {
+  data: dataGetFaculty,
   get: getFaculty,
+  onFetchResponse: getFacultyResponse,
   } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
@@ -216,26 +302,54 @@ const {
 // Lấy thông tin cá nhân
 getMe().json().execute();
 getMeResponse(() => {
-  userData.value = dataGetMe.value;
+  userData.value = dataGetMe.value.data.data;
 })
 // Lấy tất cả khoa
 getFaculty().json().execute();
+getFacultyResponse(() => {
+  dataFaculty.value = dataGetFaculty.value.data.data;
+});
+
+const isPasswordMatched = computed(
+  () => (changeData.value.confirm_password === '' ? null : changeData.value.confirm_password === changeData.value.password),
+);
+changePassRes(() => {
+isDisabledButton.value = false;
+successAlert('Thay đổi mật khẩu thành công!', () => {
+  closeChangePass();
+});
+});
+const closeChangePass = () => {
+  showChangePass.value = false;
+  changeData.value.current_password = '',
+  changeData.value.password = '',
+  changeData.value.confirm_password = ''
+  validationErrorChangePassMessages.value = {};
+};
+changePassErr(() => {
+  if (statusCode.value === getConfig('constants.statusCodes.validation')) {
+    validationErrorChangePassMessages.value = dataChangePass.value.meta.error_message;
+  }
+  isDisabledButton.value = false;
+  return false;
+});
+function save () {
+  validationErrorChangePassMessages.value = {};
+  if (isPasswordMatched.value) {
+    isDisabledButton.value = true;
+    changePassPut(changeData).json().execute();
+  }
+}
 
 // Trả về khi put thông tin cá nhân
 resPut(() => {
-  userData.value = dataPut.value;
-  $swal.fire({
-    title: 'Success!',
-    text: 'Updated',
-    icon: 'success',
-    confirmButtonText: 'Đóng',
-    confirmButtonColor: 'rgb(252, 118, 118)',
-  })
+  userData.value = dataPut.value.data.data;
+  successAlert('Updated');
   isDisabledButton.value = false;
 });
 errPut(() => {
   if (codePut.value === getConfig('constants.statusCodes.validation')) {
-    validationErrorMessages.value = dataPut.value;
+    validationErrorMessages.value = dataPut.value.meta.error_message;
   }
   isDisabledButton.value = false;
   return false;
@@ -260,17 +374,17 @@ const submit = () => {
 <style scoped>
 h1 {
   font-family: "Love Ya Like A Sister";
-  color: rgb(2, 62, 24);
+  color: rgb(2, 21, 62);
   margin: 0px; 
   background-color: transparent;
 
 }
 .sidebar, .infor {
-  min-height: calc(100vh - 60px);
+  min-height: calc(100vh - 50px);
 }
 .sidebar {
   padding-top: 20px;
-  background-color: #c1cec9;
+  background-color: #cdd6de;
   border-right: 1px solid rgb(169, 186, 178);
 }
 .avatar {
@@ -286,7 +400,7 @@ h1 {
 }
 .infor {
   padding: 0 50px;
-  background-color: #d9e1df;
+  background-color: #dfe6ec;
   padding-top: 20px;
   height: 100%;
 }
@@ -312,6 +426,7 @@ label {
   width: 100%;
   margin-left: 0 !important;
   margin-right: 12px;
+  z-index: -1000;
 }
 .date-picker::placeholder {
   font-weight: 500;
@@ -329,6 +444,40 @@ select {
 select option:first-child {
   color: black;
 }
-
-
+.change-pass {
+  position: fixed;
+  top: -400px;
+  width: 60%;
+  left: 20%;
+  padding: 30px;
+  transition: all .4s;
+  background-color: white;
+  z-index: 2;
+}
+.change-pass form{
+  position: relative;
+}
+.change-pass .close {
+  position: absolute;
+  top: -35px;
+  right: -15px;
+  font-weight: bold;
+  font-size: 25px;
+}
+.change-pass input{
+  border: 1px solid black !important;
+}
+.showChangePass {
+  top: 0;
+}
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(207, 207, 207, 0.53);
+  z-index: 1;
+  transition: all 2s;
+}
 </style>
