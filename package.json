@@ -10,6 +10,7 @@
         "lintfix": "eslint --fix"
     },
     "devDependencies": {
+        "@fontsource/love-ya-like-a-sister": "^4.5.11",
         "@nuxtjs/eslint-config": "^10.0.0",
         "@typescript-eslint/eslint-plugin": "^5.4.0",
         "@typescript-eslint/parser": "^5.4.0",
@@ -37,13 +38,15 @@
         "v3-infinite-loading": "^1.2.1",
         "vue-chart-3": "^3.1.8",
         "vue-sweetalert2": "^5.0.5",
-        "vue-useurl": "^1.0.33",
-        "@fontsource/love-ya-like-a-sister": "^4.5.11",
-        "vue-toastification": "2.0.0-rc.5"
+        "vue-toastification": "2.0.0-rc.5",
+        "vue-useurl": "^1.0.33"
     },
     "lint-staged": {
         "**/*.{js,ts,vue}": [
             "yarn lint"
         ]
+    },
+    "dependencies": {
+        "@fontsource/quicksand": "^4.5.11"
     }
 }

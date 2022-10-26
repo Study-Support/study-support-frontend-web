@@ -23,7 +23,7 @@ const props = defineProps({
 }
 .full {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0 5px 8px 0 rgb(0 0 0 / 10%);
     overflow: hidden;
     display: block;
@@ -41,7 +41,6 @@ const props = defineProps({
 }
 .image img{
     width: 100%;
-    border-radius: 10px 10px 0 0;
     transition: .3s ease;
     height: 100%;
 }

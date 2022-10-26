@@ -51,6 +51,16 @@ const createGetResponse = () => ({
         created_at: '2022-08-05T16:04:43.967Z',
         updated_at: '2022-08-05T16:04:43.967Z',
       },
+      {
+        id: '6',
+        name: 'Chuyên đề công nghệ Công nghệ thông tin',
+        img: 'g4.jpg',
+        faculty: 'Công nghệ tiên tiến và xây dựng dân dụng',
+        quatity: '2',
+        group_id: '12332111',
+        created_at: '2022-08-05T16:04:43.967Z',
+        updated_at: '2022-08-05T16:04:43.967Z',
+      },
     ]
   }
 });

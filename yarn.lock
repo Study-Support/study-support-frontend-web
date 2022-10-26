@@ -311,6 +311,11 @@
   resolved "https://registry.yarnpkg.com/@fontsource/love-ya-like-a-sister/-/love-ya-like-a-sister-4.5.11.tgz#7db94614b6d997b80743ccbf0593350dac5ef649"
   integrity sha512-RXMzUVCoA9C3WPNRGRfYoj5jcCy2yC+Vuv+SSgjEYKtWCrCPKQXwWAR/FffFMk5eKm8fX8IUBKaR2OEDmfeo/A==
 
+"@fontsource/quicksand@^4.5.11":
+  version "4.5.11"
+  resolved "https://registry.yarnpkg.com/@fontsource/quicksand/-/quicksand-4.5.11.tgz#2865b0b2f1e82eaaaf94df881d7b0538ef11b5c7"
+  integrity sha512-SdgbixomUPBMjv+QZH72XsyJMY/P/XzEEFl7KCop+lAuBfy1fiqX+RyMheHhdNfR6Uk8MJla0iyb1ngcJXD0gw==
+
 "@humanwhocodes/config-array@^0.10.4":
   version "0.10.4"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.10.4.tgz#01e7366e57d2ad104feea63e72248f22015c520c"

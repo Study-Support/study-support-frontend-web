@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="img m-auto">
+        <div class="img m-auto p-2">
             <img :src="`assets/intros/${intro.img}`" alt=""/>
         </div>
         <NuxtLink to="groups/create">
@@ -29,7 +29,7 @@ h6 {
   font-size: 15px;
   color: rgba(39,48,68,0.7);
   line-height: 27px;
-  padding: 20px;
+  /* padding: 20px; */
 }
 .img {
   width: 150px;

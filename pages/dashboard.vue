@@ -121,7 +121,7 @@
             <BRow v-if="sticky">
               <BCol :class="{sticky: sticky}">
                 <BRow class=" mt-2 mb-2 d-flex justify-content-between">
-                  <BCol class="col-auto">
+                  <BCol class="col-auto ps-0">
                     <a href="/dashboard">
                       <h2>Study With Us</h2>
                     </a>
@@ -179,10 +179,10 @@
       <BRow class="how-to-work pt-3 pb-4">
           <BCol>
             <BRow class="text-center mb-5">
-              <h2>How to join?</h2>
+              <h2>3 cách để tham gia</h2>
             </BRow>
             <BRow class="d-flex justify-content-between three-ways">
-              <BCol class="text-center col-12 col-md-4" v-for="intro in intros" :key="intro.id">
+              <BCol class="text-center col-12" v-for="intro in intros" :key="intro.id">
                 <Intro :intro="intro" />
               </BCol>
             </BRow>
@@ -190,8 +190,7 @@
         </BRow>
     </BContainer>
     <BContainer fluid class="all-groups pt-4 pb-3">
-        <h3 class="ms-3">Nhóm tìm thành viên</h3>
-        <p>Nhóm sẽ có người hướng dẫn</p>
+        <h3 class="ms-3">Nhóm học</h3>
         <BRow class="ms-1 me-1 mb-4">
           <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
             <GroupCard
@@ -201,12 +200,13 @@
         </BRow>
         <div class="text-end me-1 more">
           <NuxtLink to="groups">
-            Xem tất cả <BIconArrowRight />
+            Xem thêm <BIconArrowRight />
           </NuxtLink>
         </div>
     </BContainer>
     <BContainer class="mentors">
-      <h3 class="text-center">Our mentors</h3>
+      <h3 class="text-center">Người hướng dẫn</h3>
+      <p class="text-center a"> Những bạn hiện là người hướng dẫn của nhà trường</p>
       <div class="bg">
       </div>
       <div class="mentor-item">
@@ -226,43 +226,34 @@
       </div>
       <div class="text-end me-1 more">
         <NuxtLink to="mentors">
-          Xem tất cả <BIconArrowRight />
+          Xem thêm <BIconArrowRight />
         </NuxtLink>
       </div> 
     </BContainer>
-    <BContainer fluid class="all-groups pt-5 pb-4 mt-5">
-        <h3 class="ms-3">Tìm người hướng dẫn</h3>
-        <BRow class="ms-1 me-1 mb-4 d-flex justify-content-center">
-          <BCol class="col-10">
-            <BRow>
-              <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
-                <GroupCard
-                  :group="group"
-                />
-              </BCol>
-            </BRow>
+    <BContainer fluid class="find-mentors">
+      <BContainer>
+        <BRow>
+          <BCol>
+            <div class="d-flex justify-content-around flex-wrap">
+              <FindMentor v-for="group in topGroupFindMentor" :key="group.id" :group="group" class="item"/>
+            </div>
+          </BCol>
+          <BCol class="content">
+            <h2>Tìm kiếm người hướng dẫn</h2>
+            <div class="text-center">
+              <NuxtLink to="groups?filter=mentor" class="more">
+                Xem thêm
+              </NuxtLink>
+            </div>
           </BCol>
         </BRow>
-        <div class="text-end me-1 more">
-          <NuxtLink to="groups-find-mentor">
-            Xem tất cả <BIconArrowRight />
-          </NuxtLink>
-        </div>
-        <h3 class="ms-3">Nhóm tự học tìm thành viên</h3>
-        <p>Nhóm không có người hướng dẫn</p>
-        <BRow class="ms-1 me-1 mb-4">
-          <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
-            <GroupCard
-              :group="group"
-            />
-          </BCol>
-        </BRow>
-        <div class="text-end me-1 more">
-          <NuxtLink to="groups-find-mentor">
-            Xem tất cả <BIconArrowRight />
-          </NuxtLink>
-        </div>
+      </BContainer>
     </BContainer>
+    <p>ádfasdfasdf</p>
+    <p>ádfasdfasdf</p>
+    <p>ádfasdfasdf</p>
+    <p>ádfasdfasdf</p>
+    <p>ádfasdfasdf</p>
   </div>
 </template>
 <script setup>
@@ -270,6 +261,8 @@ import "@fontsource/love-ya-like-a-sister";
 import InfiniteLoading from 'v3-infinite-loading';
 import 'v3-infinite-loading/lib/style.css';
 import {BIconX, BIconPeopleFill, BIconArrowRight, BIconBellFill, BIconSearch} from 'bootstrap-icons-vue';
+import "@fontsource/quicksand";
+
 definePageMeta({
   layout: false,
 });
@@ -287,18 +280,18 @@ const noti = ref({
 });
 const intros = ref([
   {
-    title: 'Sign up group',
-    content: 'Bạn đang cảm thấy khó khăn với một môn học và cần sự giúp đỡ của các anh, chị để được cải thiện, hãy đăng ký nhu cầu tạo nhóm học để nhà trường xem xét nhé',
+    title: 'Đăng ký nhu cầu',
+    content: 'Bạn cần sự giúp đỡ của các anh, chị để được cải thiện môn học hoặc nhóm để cùng nhau học tập, hãy đăng ký nhu cầu tạo nhóm học.',
     img: 'intro1.png',
   },
   {
-    title: 'Join to group',
-    content: 'Những nhóm bên dưới là những nhóm đã được nhà trường xem xét, bạn cũng cảm thấy chưa tốt môn đó thì join vào cùng học với mọi người nhé',
+    title: 'Tham gia nhóm',
+    content: 'Nhóm học là nhóm sẽ có người hướng dẫn. Nhóm tự học có thể là nhóm nghiên cứu khoa học, học nhóm... không có người hướng dẫn.',
     img: 'intro2.png',
   },
   {
-    title: 'Sign up to be a mentor',
-    content: 'Những nhóm đã được nhà trường xem xét bên dưới đang thiếu mentor đấy, nếu bạn học tốt và đạt điểm cao môn đó thì đăng ký làm mentor nhóm nhé',
+    title: 'Là người hướng dẫn',
+    content: 'Những nhóm ở mục tìm người hướng dẫn, nếu bạn học tốt và đạt điểm cao môn đó thì đăng ký nhé',
     img: 'intro3.png',
   }
 ])
@@ -311,6 +304,8 @@ const user = ref({
   fullname: '',
 });
 const topGroup = ref([
+]);
+const topGroupFindMentor = ref([
 ]);
 const topMentor = ref([
   {
@@ -359,11 +354,17 @@ const {url: url1} = useUrl({
   path: '/groups',
   queryParams: userId.value,
 });
-// tạo url lấy user theo đã được duyệt để tìm tìm member chưa
+// tạo url lấy user theo đã được duyệt để 
 const {url: url2} = useUrl({
   path: '/groups',
   queryParams: {
-    isAccept: 'true'
+    type: '1'
+  },
+});
+const {url: url4} = useUrl({
+  path: '/groups',
+  queryParams: {
+    type: '0'
   },
 });
 const {url: url3} = useUrl({
@@ -396,7 +397,7 @@ const {
   url1,
   {immediate: false},
 );
-// Lấy groups đã được accept
+// Lấy groups đang tìm member
 const {
   data: dataGetTopGroup,
   get: getTopGroup,
@@ -411,6 +412,22 @@ const {
 getTopGroup().json().execute();
 getTopGroupResponse(()=> {
   topGroup.value = dataGetTopGroup.value.data.data.slice(0, 4);
+})
+// Lấy groups đang tìm mentor
+const {
+  data: dataGetGroupFindMentor,
+  get: getGroupFindMentor,
+  onFetchResponse: GetGroupFindMentorResponse
+} = useFetchApi({
+  requireAuth: false,
+  disableHandleErrorUnauthorized: false,
+})(
+  url4,
+  {immediate: false},
+);
+getGroupFindMentor().json().execute();
+GetGroupFindMentorResponse(()=> {
+  topGroupFindMentor.value = dataGetGroupFindMentor.value.data.data.slice(0, 6);
 })
 
 getMentors().json().execute();
@@ -674,6 +691,11 @@ img.laptop {
   font-family: sans-serif;
   color: #274435;
 }
+@media screen and (min-width: 768px) {
+  .how-to-work .three-ways>div {
+  width: 32%;
+}
+}
 .all-groups {
   background-color: #EFF4FA;
 }
@@ -683,10 +705,6 @@ img.laptop {
   font-size: 35px;
   font-family: sans-serif;
   color: #1e2d26;
-}
-.all-groups p {
-  padding: 0 30px;
-  color: #707070;
 }
 .more a, .more svg {
   color: black;
@@ -701,7 +719,7 @@ img.laptop {
 }
 .mentors .bg {
   position: absolute;
-  top: 100px;
+  top: 120px;
   left: -65px;
   width: 60%;
   height: 75%;
@@ -716,8 +734,13 @@ img.laptop {
   font-family: sans-serif;
   color: #273044;
 }
+.mentors .a {
+  font-size: 16px;
+  color: #5a5e65;
+  line-height: 20px;
+}
 .mentor-item {
-  padding: 50px 20% 0 12%;
+  padding: 60px 20% 0 12%;
   z-index: 10;
 }
 .mentor-item>div {
@@ -841,5 +864,39 @@ img.laptop {
 }
 .loading >>> div {
 margin: auto;
+}
+.find-mentors {
+  background-image: url("assets/mentor.jpg");
+  margin-top: 100px;
+}
+
+.find-mentors .container {
+  padding: 70px 0;
+}
+.find-mentors .content h2 {
+  font-family: 'Quicksand';
+  line-height: 60px;
+  font-weight: 700;
+  font-size: 45px;
+  color: #ffffff;
+  text-align: center;
+  padding: 50px 100px;
+}
+.find-mentors .content>div{
+  
+}
+.find-mentors .more {
+  border: 1.5px solid white;
+  padding: 15px 30px;
+  color: white;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: larger;
+  transition: all .3s;
+}
+.find-mentors .more:hover {
+  background-color: white;
+  color: rgb(56, 56, 56);
+
 }
 </style>
