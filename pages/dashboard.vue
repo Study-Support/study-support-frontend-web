@@ -189,8 +189,9 @@
           </BCol>
         </BRow>
     </BContainer>
-    <BContainer fluid class="all-groups pt-5 pb-4">
-        <h3 class="ms-3">Groups find members</h3>
+    <BContainer fluid class="all-groups pt-4 pb-3">
+        <h3 class="ms-3">Nhóm tìm thành viên</h3>
+        <p>Nhóm sẽ có người hướng dẫn</p>
         <BRow class="ms-1 me-1 mb-4">
           <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
             <GroupCard
@@ -230,7 +231,25 @@
       </div> 
     </BContainer>
     <BContainer fluid class="all-groups pt-5 pb-4 mt-5">
-        <h3 class="ms-3">Groups find mentors</h3>
+        <h3 class="ms-3">Tìm người hướng dẫn</h3>
+        <BRow class="ms-1 me-1 mb-4 d-flex justify-content-center">
+          <BCol class="col-10">
+            <BRow>
+              <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
+                <GroupCard
+                  :group="group"
+                />
+              </BCol>
+            </BRow>
+          </BCol>
+        </BRow>
+        <div class="text-end me-1 more">
+          <NuxtLink to="groups-find-mentor">
+            Xem tất cả <BIconArrowRight />
+          </NuxtLink>
+        </div>
+        <h3 class="ms-3">Nhóm tự học tìm thành viên</h3>
+        <p>Nhóm không có người hướng dẫn</p>
         <BRow class="ms-1 me-1 mb-4">
           <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
             <GroupCard
@@ -659,11 +678,15 @@ img.laptop {
   background-color: #EFF4FA;
 }
 .all-groups h3 {
-  line-height: 36px;
-  font-weight: 700;
+  line-height: 26px;
+  font-weight: 600;
   font-size: 35px;
   font-family: sans-serif;
   color: #1e2d26;
+}
+.all-groups p {
+  padding: 0 30px;
+  color: #707070;
 }
 .more a, .more svg {
   color: black;
@@ -751,7 +774,7 @@ img.laptop {
 }
 .notification .search button {
   border-radius: 0 4px 4px 0;
-  margin-bottom: 2.55px;
+  margin-bottom: 3px;
   height: 34px;
   padding: 0 9px;
   display: inline-block;
