@@ -23,6 +23,7 @@ const props = defineProps({
     height: 170px;
     min-width: 100px;
     background-color: #9fd5ff;
+    background-color: #dbefff;
     flex: 0 0 calc(33.3% - 10px);
     margin-bottom: 10px;
     padding: 12px;

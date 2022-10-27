@@ -176,9 +176,9 @@
       </BContainer>
     </BContainer>
     <BContainer class="mt-5 mb-4">
-      <BRow class="how-to-work pt-3 pb-4">
+      <BRow class="how-to-work pt-4 pb-5">
           <BCol>
-            <BRow class="text-center mb-5">
+            <BRow class="text-center mb-4">
               <h2>3 cách để tham gia</h2>
             </BRow>
             <BRow class="d-flex justify-content-between three-ways">
@@ -189,7 +189,7 @@
           </BCol>
         </BRow>
     </BContainer>
-    <BContainer fluid class="all-groups pt-4 pb-3">
+    <BContainer fluid class="all-groups pt-5 pb-5">
         <h3 class="ms-3">Nhóm học</h3>
         <BRow class="ms-1 me-1 mb-4">
           <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
@@ -199,7 +199,7 @@
           </BCol>
         </BRow>
         <div class="text-end me-1 more">
-          <NuxtLink to="groups">
+          <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.findMember') } }">
             Xem thêm <BIconArrowRight />
           </NuxtLink>
         </div>
@@ -241,7 +241,7 @@
           <BCol class="content">
             <h2>Tìm kiếm người hướng dẫn</h2>
             <div class="text-center">
-              <NuxtLink to="groups?filter=mentor" class="more">
+              <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.findMentor') } }" class="more">
                 Xem thêm
               </NuxtLink>
             </div>
@@ -249,6 +249,24 @@
         </BRow>
       </BContainer>
     </BContainer>
+    <BContainer class="self-study mt-5">
+        <BRow class="d-flex justify-content-between">
+          <BCol class="col-6">
+            <div class="img">
+              <img src="assets/self.jpg" alt="">
+            </div>
+          </BCol>
+          <BCol class="content col-5">
+            <h2>Tham gia các nhóm tự học để nâng cao kiến thức</h2>
+            <p>Đây là các nhóm không có người hướng dẫn, có thể là nhóm nghiên cứu khoa học, học nhóm... tìm thành viên để cùng nhau học tập, nghiên cứu.</p>
+            <div class="pt-5">
+              <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.selfStudy') } }" class="more">
+                Xem chi tiết
+              </NuxtLink>
+            </div>
+          </BCol>
+        </BRow>
+      </BContainer>
     <p>ádfasdfasdf</p>
     <p>ádfasdfasdf</p>
     <p>ádfasdfasdf</p>
@@ -354,17 +372,17 @@ const {url: url1} = useUrl({
   path: '/groups',
   queryParams: userId.value,
 });
-// tạo url lấy user theo đã được duyệt để 
+// tạo url lấy nhóm tìm member
 const {url: url2} = useUrl({
   path: '/groups',
   queryParams: {
-    type: '1'
+    type: getConfig('constants.typeOfGroup.findMember'),
   },
 });
 const {url: url4} = useUrl({
   path: '/groups',
   queryParams: {
-    type: '0'
+    type: getConfig('constants.typeOfGroup.findMentor'),  
   },
 });
 const {url: url3} = useUrl({
@@ -871,9 +889,12 @@ margin: auto;
 }
 
 .find-mentors .container {
-  padding: 70px 0;
+  padding: 130px 0;
 }
-.find-mentors .content h2 {
+.find-mentors .item:nth-child(2n) {
+  background-color: white;
+}
+.content h2 {
   font-family: 'Quicksand';
   line-height: 60px;
   font-weight: 700;
@@ -882,21 +903,52 @@ margin: auto;
   text-align: center;
   padding: 50px 100px;
 }
-.find-mentors .content>div{
-  
-}
-.find-mentors .more {
+.content .more {
   border: 1.5px solid white;
-  padding: 15px 30px;
+  padding: 15px 50px;
   color: white;
   border-radius: 4px;
   font-weight: 400;
   font-size: larger;
   transition: all .3s;
 }
-.find-mentors .more:hover {
+.content .more:hover {
   background-color: white;
   color: rgb(56, 56, 56);
 
+}
+.self-study .content h2{
+  color: #0e1928;
+  padding: 50px 0 20px 0;
+  text-align: left;
+  line-height: 52px;
+}
+.self-study .content p{
+  font-size: 18px;
+  line-height: 32px;
+  color: #848484;
+}
+.self-study .content .more {
+  border-color: black;
+  color: black;
+}
+.self-study .content .more {
+  border-color: transparent;
+  background-color: #3075a9;
+  color: white;
+}
+.self-study .content .more:hover {
+  background-color: #668eb0;
+}
+.self-study .img {
+  height: 300px;
+  width: 100%;
+  background-color: red;
+  margin-top: 10%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.self-study img {
+  width: 100%;
 }
 </style>
