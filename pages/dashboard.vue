@@ -102,7 +102,7 @@
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
-                  <NuxtLink to="/dashboard">
+                  <NuxtLink  :to="{path: 'groups', query: {type: getConfig('constants.typeOfGroup.all')}}">
                     NHÓM HỌC
                   </NuxtLink>
                 </li>
@@ -133,7 +133,7 @@
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
-                      <NuxtLink to="/dashboard">
+                      <NuxtLink :to="{path: 'groups', query: {type: getConfig('constants.typeOfGroup.all')}}">
                         NHÓM HỌC
                       </NuxtLink>
                     </li>
@@ -313,7 +313,7 @@ const intros = ref([
     img: 'intro3.png',
   }
 ])
-const myGroups = ref({});
+const myGroups = ref([]);
 const userId = ref({
   user_id: '',
 });
@@ -691,6 +691,14 @@ img.laptop {
   padding: 10px;
   border: 1px solid rgb(146, 146, 146);
   border-radius: 5px;
+}
+.sidebar .groups {
+  height: 70%;  
+  overflow: auto;
+  text-align: left;
+}
+.sidebar .groups button {
+  text-align: left;
 }
 .avatar {
   width: 26px;

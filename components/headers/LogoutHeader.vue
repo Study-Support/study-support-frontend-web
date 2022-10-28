@@ -30,6 +30,8 @@
 
 <script setup>
 import {BIconBoxArrowLeft} from 'bootstrap-icons-vue';
+import "@fontsource/love-ya-like-a-sister";
+
 const {$toast} = useNuxtApp();
 
 const {deleteToken} = useToken();
@@ -72,5 +74,8 @@ p {
   font-family: "Love Ya Like A Sister";
   display: block;
   min-width: 20px;
+}
+.menu-top {
+  background-color: rgb(10, 103, 175);
 }
 </style>
