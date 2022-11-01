@@ -15,7 +15,7 @@
               </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink :to="{path: 'groups', query: {type: getConfig('constants.typeOfGroup.all')}}">
+              <NuxtLink :to="{path: '/groups', query: {type: getConfig('constants.typeOfGroup.all')}}">
                 NHÓM HỌC
               </NuxtLink>
             </li>
@@ -53,7 +53,7 @@
               <button
                 v-for="group in myGroups" :key="group.id"
                 class="mt-3 d-block"
-                @click="navigateTo(`/groups/${group.id}`)" 
+                @click="navigateTo(`groups/${group.id}`)" 
                 
               >
                 <BIconPeopleFill  class="me-2"/>

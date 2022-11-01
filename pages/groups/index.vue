@@ -56,25 +56,21 @@
         <BCol class="result col-12 col-md-9 pt-4">
           <table>
             <tr class="title">
+              <th>STT</th>
               <th>Khoa</th>
               <th>Môn học</th>
               <th>Thành viên hiện tại</th>
               <th>Tham gia nhóm</th>
-              <th v-if="filter.a.type==='all'">Loại nhóm</th>
             </tr>
-            <tr v-for="group in groupsResult" :key="group.id">
+            <tr v-for="(group, index) in groupsResult" :key="group.id">
+              <td>{{index}}</td>
               <td>{{group.faculty}}</td>
               <td>{{group.name}}</td>
               <td>{{group.quatity}}</td>
               <td>
-                <button>
+                <button @click="navigateTo(`/groups/${group.id}`)">
                   Tham gia
                 </button>
-              </td>
-              <td v-if="filter.a.type === 'all'" class="findMentor">
-                <span v-if="group.status === getConfig('constants.typeOfGroup.findMentor')" class="findMentor">Tìm NHD</span>
-                <span v-if="group.status === getConfig('constants.typeOfGroup.findMember')" class="findMember">Tìm TV</span>
-                <span v-if="group.status === getConfig('constants.typeOfGroup.selfStudy')" class="selfStudy">Tự học</span>
               </td>
             </tr>
           </table>
@@ -205,15 +201,18 @@ span {
   overflow: auto;
 }
  th:nth-child(1), .td:nth-child(1) {
+  width: 5%;
+}
+ th:nth-child(2), .td:nth-child(1) {
   width: 30%;
 }
-th:nth-child(2), .td:nth-child(2) {
+th:nth-child(3), .td:nth-child(2) {
   width: 30%;
 }
-.th:nth-child(3), .td:nth-child(3) {
-  width: 15%;
+.th:nth-child(4), .td:nth-child(3) {
+  width: 10%;
 }
-.th:nth-child(4), .td:nth-child(4) {
+.th:nth-child(5), .td:nth-child(4) {
   width: 25%;
 }
 
@@ -237,7 +236,7 @@ th {
   color: white;
   background-color: #075794;
 }
-td:nth-child(3), td:nth-child(4), td:nth-child(5) {
+td:nth-child(1), td:nth-child(4), td:nth-child(5) {
   text-align: center;
 }
 td:nth-child(4) button {
@@ -259,7 +258,7 @@ tr:nth-child(even) {
   text-align: center;
 }
 .search input{
-  margin: 5px;
+  margin: 0px;
   margin-right: 0;
   width: 100%;
   display: inline-block;

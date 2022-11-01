@@ -51,10 +51,10 @@
               </BCol>
               <ul class="col col-auto d-flex login" v-if="dataGetMe === null">
                 <li class="d-flex register">
-                  <NuxtLink class="text-decoration-none d-block" to="/register"> Register </NuxtLink>
+                  <NuxtLink class="text-decoration-none d-block" to="/register"> Đăng ký </NuxtLink>
                 </li>
                 <li class="d-flex">
-                  <NuxtLink class="text-decoration-none d-block" to="/login"> Login </NuxtLink>
+                  <NuxtLink class="text-decoration-none d-block" to="/login"> Đăng nhập </NuxtLink>
                 </li>
               </ul>
               <BCol v-else class="col-auto">

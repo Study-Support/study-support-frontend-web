@@ -233,7 +233,6 @@ onFetchResponse(() => {
   navigateTo({name: 'login'});
 });
 onFetchError(() => {
-  console.log(data.value.meta.error_message);
   isDisabledButton.value = false;
   if (statusCode.value === getConfig('constants.statusCodes.validation')) {
     validationErrorMessages.value = data.value.meta.error_message;

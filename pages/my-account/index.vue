@@ -77,13 +77,13 @@
             <h1 class="text-center">My account</h1>
             <BRow class="mb-3">
               <BCol role="group">
-                <label for="email">Email</label>
+                <label for="email">Địa chỉ email</label>
                 <BFormInput
                   id="email"
                   v-model="userData.email"
                   :state="validationErrorMessages.email === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Enter email"
+                  placeholder="Địa chỉ email"
                   type="email"
                   trim
                   required
@@ -95,13 +95,13 @@
             </BRow>
             <BRow class="mb-3">
               <BCol role="group">
-                <label for="fullname">Full name</label>
+                <label for="fullname">Họ và tên</label>
                 <BFormInput
                   id="fullname"
                   v-model="userData.fullname"
                   :state="validationErrorMessages.fullname === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Enter full name"
+                  placeholder="Họ và tên"
                   trim
                   required
                 />
@@ -112,13 +112,13 @@
             </BRow>
             <BRow class="mb-3">
               <BCol role="group">
-                <label for="phonename">Phone number</label>
+                <label for="phonename">Số điện thoại</label>
                 <BFormInput
                   id="phonename"
                   v-model="userData.phonenumber"
                   :state="validationErrorMessages.phonenumber === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Phone number"
+                  placeholder="Số điện thoại"
                   trim
                   type="tel"
                   pattern="[0]{1}[0-9]{9}"
@@ -131,13 +131,13 @@
             </BRow>
             <BRow class="mb-3">
               <BCol role="group" class="pe-0">
-                <label for="address">Address</label>
+                <label for="address">Địa chỉ thường trú</label>
                 <BFormInput
                   id="address"
                   v-model="userData.address"
                   :state="validationErrorMessages.address === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Address"
+                  placeholder="Địa chỉ thường trú"
                   trim
                   required
                 />
@@ -146,7 +146,7 @@
                 </BFormInvalidFeedback>
               </BCol>
               <BCol>
-                <label for="gender">Gender</label>
+                <label for="gender">Giới tính</label>
                 <select
                   id="gender"
                   v-model="userData.gender"
@@ -154,28 +154,28 @@
                 >
                   <option value="" disabled selected>Select gender</option>
                   <option value="0">
-                    Male
+                    Nam
                   </option>
                   <option value="1">
-                    Female
+                    Nữ
                   </option>
                 </select>
               </BCol>
             </BRow>
             <BRow class="mb-3">
               <BCol class="pe-0">
-                <label for="birthday">birthday</label>
+                <label for="birthday">Ngày sinh</label>
                 <Datepicker
                   id="birthday"
                   v-model="userData.birthday"
                   date-picker
                   required
                   textInput
-                  placeholder="Choose birthday" class="ms-2 date-picker"
+                  placeholder="Chọn ngày sinh" class="ms-2 date-picker"
                 />
               </BCol>
               <BCol role="group" >
-                <label for="faculty">Faculty</label>
+                <label for="faculty">Khoa đang học</label>
                 <select
                   id="faculty"
                   v-model="userData.faculty"
@@ -183,7 +183,7 @@
                   required
                   disabled
                 >
-                  <option value="" disabled selected>Choose your faculty</option>
+                  <option value="" disabled selected>Chọn khoa</option>
                   <option v-for="faculty in dataFaculty" :key="faculty.id" :value="faculty.id">
                     {{ faculty.name }}
                   </option>
@@ -412,7 +412,7 @@ button {
 label {
   font-weight:400 !important;  
   font-size: 13px;
-  color: rgba(2, 62, 24, 0.886);
+  color: rgba(2, 18, 62, 0.886);
   padding-left: 2px;
   padding-bottom: 3px;
 }
@@ -478,5 +478,8 @@ select option:first-child {
   background-color: rgba(207, 207, 207, 0.53);
   z-index: 1;
   transition: all 2s;
+}
+input, select, .date-picker {
+  box-shadow: 0 3px 5px 0 rgb(0 0 0 / 10%);
 }
 </style>
