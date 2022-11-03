@@ -53,14 +53,14 @@
             @click.prevent = "search"
           />
         </BCol>
-        <BCol>
-          <BRow>
+        <BCol class="pt-3">
+          <BRow class="text-end">
             <BCol class="register">
               <button>Đăng ký nhu cầu tạo nhóm</button>
             </BCol>
           </BRow>
           <BRow>
-            <BCol class="result col-12 col-md-9 pt-4">
+            <BCol class="result pt-2">
               <table>
                 <tr class="title">
                   <th>STT</th>
@@ -95,7 +95,7 @@
     </BContainer> 
   </template>
 <script setup>
-import {BIconSearch} from 'bootstrap-icons-vue';
+import {BIconSearch, BIconPlusSquare} from 'bootstrap-icons-vue';
 import InfiniteLoading from 'v3-infinite-loading';
 import 'v3-infinite-loading/lib/style.css';
 
@@ -200,13 +200,13 @@ span {
   color: rgb(220, 201, 0);
 }
 .filter, .result {
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 100px);
 }
 .filter {
   background-color: #F6F8FC;
 }
 .result {
-  height: calc(100vh - 50px);
+  height: calc(100vh - 100px);
   overflow: auto;
 }
  th:nth-child(1), .td:nth-child(1) {
@@ -259,7 +259,9 @@ td:nth-child(1) {
 tr:nth-child(even) {
   background-color: #efefef;
 }
-
+td button {
+  border: 0.5px solid rgb(81, 81, 81);
+}
 
 .search {
   display: inline-block;
@@ -285,6 +287,11 @@ margin-top: 10px;
   margin: auto;
 }
 .register button {
-  color: black;
+  color: rgb(0, 0, 0);
+  border: none;
+  font-size: 16px;
+  background-color: transparent;
+  padding: 5px 10px 5px 0px;
+  text-decoration: underline;
 }
 </style>

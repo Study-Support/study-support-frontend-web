@@ -1,5 +1,9 @@
 const SuccessResponse = () => ({
-  token: 'BearerToken',
+  data: {
+    token: {
+      access_token: 'accesstoken'
+    }
+  }
 });
 const validationErrorResponses = () => ({
   meta: {

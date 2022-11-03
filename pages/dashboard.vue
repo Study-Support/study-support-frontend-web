@@ -74,7 +74,10 @@
                     </div>
                     Xem trang cá nhân
                   </NuxtLink>
-                  
+                  <div class="p-2">
+                    <h5>Nhóm học</h5>
+                    <GroupMenu />
+                  </div>
                 </div>
               </BCol>
             </BRow>
@@ -429,7 +432,7 @@ getMeResponse(() => {
   getGroups().json().execute();
 });
 getMeError(() => {
-  deleteToken();
+  // deleteToken();
 });
 
 getNotisResponse(() => {
@@ -618,7 +621,7 @@ img.laptop {
   position: fixed;
   top: 0px;
   right:0px;
-  background-color: rgba(58, 65, 62, 0.977);
+  background-color: rgb(58, 65, 62);
   height: 100vh;
   width: 50vh;
   transition: all 200ms linear;
@@ -658,6 +661,7 @@ img.laptop {
   padding: 10px;
   border: 1px solid rgb(146, 146, 146);
   border-radius: 5px;
+  font-weight: 600;
 }
 .sidebar .groups {
   height: 70%;  

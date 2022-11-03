@@ -97,7 +97,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/me',
+  '/user',
   {immediate: false},
 );
 // Lấy groups của user đang đăng nhập
@@ -124,7 +124,7 @@ getMeResponse(() => {
   getGroups().json().execute();
 });
 getMeError(() => {
-  deleteToken();
+  // deleteToken();
 });
 
 </script>
