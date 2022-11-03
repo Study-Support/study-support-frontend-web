@@ -76,7 +76,7 @@ const {token, deleteToken} = useToken();
 const sidebarShow = ref(false);
 const user = ref({
   id: '',
-  fullname: '',
+  full_name: '',
 });
 const userId = ref({
   user_id: '',

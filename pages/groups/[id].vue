@@ -28,7 +28,7 @@
     </BRow>
     <BRow class="mt-3">
       <BCol>
-        <p><span>Thành viên hiện có:</span> {{group.quatity}} thành viên</p>
+        <p><span>Thành viên hiện có:</span> {{group.quantity}} thành viên</p>
         <div v-for="(member, index) in group.members" :key="member.id">
           <p class="mb-0"> {{index + 1}}. {{member.full_name}} _ Khoa: {{member.faculty}}</p>
         </div>
@@ -94,7 +94,7 @@ const group = ref({
   subject: '',
   title: '',
   information: '',
-  quatity: '',
+  quantity: '',
   members: [
     {
       full_name: '',

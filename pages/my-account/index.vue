@@ -41,7 +41,7 @@
               <label> Nhập lại mật khẩu mới </label>
               <BFormInput
                 id="input-live"
-                v-model="changeData.confirm_password"
+                v-model="changeData.password_confirmation"
                 :state="isPasswordMatched"
                 aria-describedby="input-live-help input-live-feedback"
                 required
@@ -49,7 +49,7 @@
                 trim
               />
               <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorChangePassMessages.confirm_password" />
+                <ValidationErrorMessage :messages="validationErrorChangePassMessages.password_confirmation" />
               </BFormInvalidFeedback>
             </div>
             <SubmitButton
@@ -95,18 +95,18 @@
             </BRow>
             <BRow class="mb-3">
               <BCol role="group">
-                <label for="fullname">Họ và tên</label>
+                <label for="full_name">Họ và tên</label>
                 <BFormInput
-                  id="fullname"
-                  v-model="userData.fullname"
-                  :state="validationErrorMessages.fullname === undefined ? null : false"
+                  id="full_name"
+                  v-model="userData.full_name"
+                  :state="validationErrorMessages.full_name === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
                   placeholder="Họ và tên"
                   trim
                   required
                 />
                 <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
+                  <ValidationErrorMessage :messages="validationErrorMessages.full_name" />
                 </BFormInvalidFeedback>
               </BCol>
             </BRow>
@@ -115,8 +115,8 @@
                 <label for="phonename">Số điện thoại</label>
                 <BFormInput
                   id="phonename"
-                  v-model="userData.phonenumber"
-                  :state="validationErrorMessages.phonenumber === undefined ? null : false"
+                  v-model="userData.phone_number"
+                  :state="validationErrorMessages.phone_number === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
                   placeholder="Số điện thoại"
                   trim
@@ -178,7 +178,7 @@
                 <label for="faculty">Khoa đang học</label>
                 <select
                   id="faculty"
-                  v-model="userData.faculty"
+                  v-model="userData.faculty_id"
                   class="form-select"
                   required
                   disabled
@@ -230,13 +230,14 @@ const {successAlert} = useAlert();
 const isDisabledButton = ref(false);
 const userData = ref({
   username: '',
-  fullname: '',
+  full_name: '',
   password: '',
-  confirm_password: '',
+  password_confirmation: '',
   email: '',
   gender: '',
   birthday: '',
-  faculty: '',
+  faculty_id: '',
+  phone_number: '',
 });
 const validationErrorMessages = ref({});
 const dataFaculty = ref([]);
@@ -245,7 +246,7 @@ const showChangePass = ref(false);
 const changeData = ref({
   current_password: '',
   password: '',
-  confirm_password: '',
+  password_confirmation: '',
 });
 const validationErrorChangePassMessages = ref({
 });
@@ -259,7 +260,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/change-password',
+  '/user/password',
   {immediate: false},
 );
 const {
@@ -282,7 +283,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/me',
+  '/user',
   {immediate: false},
 );
 const {
@@ -295,13 +296,13 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/me',
+  '/user/edit',
   {immediate: false},
 );
 // Lấy thông tin cá nhân
 getMe().json().execute();
 getMeResponse(() => {
-  userData.value = dataGetMe.value.data.data;
+  userData.value = dataGetMe.value.data;
 })
 // Lấy tất cả khoa
 getFaculty().json().execute();
@@ -310,7 +311,7 @@ getFacultyResponse(() => {
 });
 
 const isPasswordMatched = computed(
-  () => (changeData.value.confirm_password === '' ? null : changeData.value.confirm_password === changeData.value.password),
+  () => (changeData.value.password_confirmation === '' ? null : changeData.value.password_confirmation === changeData.value.password),
 );
 changePassRes(() => {
 isDisabledButton.value = false;
@@ -322,7 +323,7 @@ const closeChangePass = () => {
   showChangePass.value = false;
   changeData.value.current_password = '',
   changeData.value.password = '',
-  changeData.value.confirm_password = ''
+  changeData.value.password_confirmation = ''
   validationErrorChangePassMessages.value = {};
 };
 changePassErr(() => {

@@ -53,38 +53,47 @@
             @click.prevent = "search"
           />
         </BCol>
-        <BCol class="result col-12 col-md-9 pt-4">
-          <table>
-            <tr class="title">
-              <th>STT</th>
-              <th>Khoa</th>
-              <th>Môn học</th>
-              <th>Thành viên hiện tại</th>
-              <th>Tham gia nhóm</th>
-            </tr>
-            <tr v-for="(group, index) in groupsResult" :key="group.id">
-              <td>{{index}}</td>
-              <td>{{group.faculty}}</td>
-              <td>{{group.name}}</td>
-              <td>{{group.quatity}}</td>
-              <td>
-                <button @click="navigateTo(`/groups/${group.id}`)">
-                  Tham gia
-                </button>
-              </td>
-            </tr>
-          </table>
-          <div class="loader">
-            <InfiniteLoading
-              v-if="loading"
-              class="loading"
-              @infinite="load"
-            />
-          </div>
+        <BCol>
+          <BRow>
+            <BCol class="register">
+              <button>Đăng ký nhu cầu tạo nhóm</button>
+            </BCol>
+          </BRow>
+          <BRow>
+            <BCol class="result col-12 col-md-9 pt-4">
+              <table>
+                <tr class="title">
+                  <th>STT</th>
+                  <th>Khoa</th>
+                  <th>Môn học</th>
+                  <th>Thành viên hiện tại</th>
+                  <th>Tham gia nhóm</th>
+                </tr>
+                <tr v-for="(group, index) in groupsResult" :key="group.id">
+                  <td>{{index}}</td>
+                  <td>{{group.faculty}}</td>
+                  <td>{{group.name}}</td>
+                  <td>{{group.quantity}}</td>
+                  <td>
+                    <button @click="navigateTo(`/groups/${group.id}`)">
+                      Tham gia
+                    </button>
+                  </td>
+                </tr>
+              </table>
+              <div class="loader">
+                <InfiniteLoading
+                  v-if="loading"
+                  class="loading"
+                  @infinite="load"
+                />
+              </div>
+            </BCol>
+          </BRow>
         </BCol>
       </BRow>
-   </BContainer> 
-</template>
+    </BContainer> 
+  </template>
 <script setup>
 import {BIconSearch} from 'bootstrap-icons-vue';
 import InfiniteLoading from 'v3-infinite-loading';
@@ -274,5 +283,8 @@ margin-top: 10px;
 .loader {
   width: 90%;
   margin: auto;
+}
+.register button {
+  color: black;
 }
 </style>

@@ -2,10 +2,10 @@
     <NuxtLink :to="{ path: `/groups/${group.id}` }" class="find-mentor">
         <p class="faculty">Khoa {{group.faculty}}</p>
         <h5>{{group.name}}</h5>
-        <p class="quatity">Nhóm {{group.quatity}} thành viên</p>
+        <p class="quantity">Nhóm {{group.quantity}} thành viên</p>
         <!-- <p class="faculty">Khoa Công nghệ thông tin</p>
         <h5>Lập trình hướng đối tượng</h5>
-        <p class="quatity"> 3 Thành viên</p> -->
+        <p class="quantity"> 3 Thành viên</p> -->
     </NuxtLink>
 </template>
 <script setup>
@@ -56,7 +56,7 @@ h5 {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.quatity {
+.quantity {
     padding: 8px 0 0;
     margin-right: 15px;
     border-top: 1px solid #787b7d;

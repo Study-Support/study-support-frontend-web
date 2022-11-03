@@ -6,7 +6,7 @@ const createGetResponse = () => ({
           subject: 'Lập trình hướng đối tượng',
           img: 'g1.png',
           faculty: 'Khoa công nghệ thông tin',
-          quatity: '3',
+          quantity: '3',
           title: 'Cải thiện, hiểu rõ hơn về cách viết code theo đối tượng',
           information: 'Mình chưa hiểu rõ các tính chất cơ bản của lập trình hướng đối tượng, muốn có thêm nhiều lần thực hành để thuần thạo hơn. Bên cạnh đó học thêm kiến thức nâng cao hơn, ứng dụng vào dự án thực tế để sau này biết cách áp dụng',
           status: 1,
@@ -39,7 +39,7 @@ const createGetResponse = () => ({
         'Tên đăng nhập đã tồn tại',
         'Tên đăng nhập đã tồn tại',
       ],
-      quatity: [
+      quantity: [
         'Tên đăng nhập đã tồn tại',
         'Tên đăng nhập đã tồn tại',
       ],

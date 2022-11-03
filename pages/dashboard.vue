@@ -62,7 +62,7 @@
                   <div class="avatar">
                     <img src="assets/user.png" alt="">
                   </div>
-                  <a href="#" class="user">{{user.fullname}}</a>
+                  <a href="#" class="user">{{user.full_name}}</a>
                 </div>
                 <div class="sidebar" :class="{sidebarShow: !sidebarShow}">
                   <button @click="sidebarShow=false">
@@ -74,18 +74,7 @@
                     </div>
                     Xem trang cá nhân
                   </NuxtLink>
-                  <h5 class="m-3 text-end">Your groups</h5>
-                  <div class="groups ms-3">
-                    <button
-                      v-for="group in myGroups" :key="group.id"
-                      class="mt-3 d-block"
-                      @click="navigateTo(`/groups/${group.id}`)" 
-                      
-                    >
-                      <BIconPeopleFill  class="me-2"/>
-                      <span style="background-color: transparent" class="pt-2">{{ group.name }}</span>
-                  </button>
-                  </div>
+                  
                 </div>
               </BCol>
             </BRow>
@@ -313,13 +302,9 @@ const intros = ref([
     img: 'intro3.png',
   }
 ])
-const myGroups = ref([]);
-const userId = ref({
-  user_id: '',
-});
 const user = ref({
   id: '',
-  fullname: '',
+  full_name: '',
 });
 const topGroup = ref([
 ]);
@@ -327,15 +312,15 @@ const topGroupFindMentor = ref([
 ]);
 const topMentor = ref([
   {
-    fullname: '',
+    full_name: '',
     subject: '',
   },
   {
-    fullname: '',
+    full_name: '',
     subject: '',
   },
   {
-    fullname: '',
+    full_name: '',
     subject: '',
   },
 ]);
@@ -350,7 +335,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/me',
+  '/user',
   {immediate: false},
 );
 
@@ -367,11 +352,6 @@ const {
   {immediate: false},
   );
 
-// Tạo url lấy user theo id
-const {url: url1} = useUrl({
-  path: '/groups',
-  queryParams: userId.value,
-});
 // tạo url lấy nhóm tìm member
 const {url: url2} = useUrl({
   path: '/groups',
@@ -379,12 +359,14 @@ const {url: url2} = useUrl({
     type: getConfig('constants.typeOfGroup.findMember'),
   },
 });
+// tạo url lấy nhóm tìm mentor
 const {url: url4} = useUrl({
   path: '/groups',
   queryParams: {
-    type: getConfig('constants.typeOfGroup.findMentor'),  
+    type: getConfig('constants.typeOfGroup.findMentor'),
   },
 });
+
 const {url: url3} = useUrl({
   path: '/notifications',
   queryParams: noti.value,
@@ -402,19 +384,6 @@ const {
   {immediate: false},
   );
 
-// Lấy groups của user đang đăng nhập
-const {
-  data: dataGetMyGroups,
-  get: getGroups,
-  onFetchResponse: getGroupsResponse,
-  onFetchError: getGroupsError,
-} = useFetchApi({
-  requireAuth: false,
-  disableHandleErrorUnauthorized: false,
-})(
-  url1,
-  {immediate: false},
-);
 // Lấy groups đang tìm member
 const {
   data: dataGetTopGroup,
@@ -455,16 +424,14 @@ getMentorsResponse(() => {
 
 getMe().json().execute();
 getMeResponse(() => {
-  user.value = dataGetMe.value.data.data;
-  userId.value.user_id = user.value.id;
+  console.log(dataGetMe.value.data);
+  user.value = dataGetMe.value.data;
   getGroups().json().execute();
 });
 getMeError(() => {
   deleteToken();
 });
-getGroupsResponse(() => {
-  myGroups.value = dataGetMyGroups.value.data.data;
-});
+
 getNotisResponse(() => {
   // notifications.value = dataGetNotis.value.data.data;
   if (dataGetNotis.value.data.data.length !== 0) {

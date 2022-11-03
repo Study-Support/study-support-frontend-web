@@ -5,7 +5,7 @@ const createGetResponse = () => (
         {
           id: '5',
           username: 'Như',
-          fullname: 'Hoàng Thị Thu Như',
+          full_name: 'Hoàng Thị Thu Như',
           subject: 'Toán',
           image: 'assets/mentors/m1.jpg',
           group_id: '12332111',
@@ -15,7 +15,7 @@ const createGetResponse = () => (
         {
           id: '1',
           username: 'Bố',
-          fullname: 'Trần Thị Hồng Ngọc',
+          full_name: 'Trần Thị Hồng Ngọc',
           subject: 'Toán',
           image: 'assets/mentors/m2.jpg',
           group_id: '12332111',
@@ -25,7 +25,7 @@ const createGetResponse = () => (
         {
           id: '2',
           username: 'Mẹ',
-          fullname: 'Hồ Văn Trường',
+          full_name: 'Hồ Văn Trường',
           subject: 'Toán',
           image: 'assets/mentors/m3.jpg',
           group_id: '12332111',
@@ -35,7 +35,7 @@ const createGetResponse = () => (
         {
           id: '3',
           username: 'My',
-          fullname: 'Đinh Văn Hùng',
+          full_name: 'Đinh Văn Hùng',
           subject: 'Toán',
           image: 'assets/mentors/m4.jpg',
           group_id: '12332111',

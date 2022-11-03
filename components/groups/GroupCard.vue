@@ -6,7 +6,7 @@
         <div class="content m-3">
             <p class="">Khoa {{group.faculty}}</p>
             <h5>{{group.name}}</h5>
-            <p class="quatity"> {{group.quatity}} Thành viên</p>
+            <p class="quantity"> {{group.quantity}} Thành viên</p>
         </div>
     </NuxtLink>
 </template>
@@ -54,7 +54,7 @@ const props = defineProps({
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.quatity {
+.quantity {
     padding: 8px 0 0;
     margin-right: 15px;
     border-top: 1px solid #e0e0e0;

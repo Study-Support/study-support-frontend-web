@@ -37,12 +37,12 @@ const {$toast} = useNuxtApp();
 const {deleteToken} = useToken();
 const {
   onFetchResponse,
-  get,
+  post,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/logout',
+  '/logout',
   {immediate: false},
 );
 onFetchResponse(() => {
@@ -51,7 +51,7 @@ onFetchResponse(() => {
   return navigateTo({name: 'dashboard'});
 });
 const logout = () => {
-  get().json().execute();
+  post().json().execute();
 };
 </script>
 

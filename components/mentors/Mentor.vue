@@ -3,7 +3,7 @@
         <img :src="`${mentor.image}`" alt="">
         <div class="full"></div>
         <div class="infor">
-            <h5>{{mentor.fullname}}</h5>
+            <h5>{{mentor.full_name}}</h5>
             <p>{{mentor.subject}}</p>
         </div>
     </div>
