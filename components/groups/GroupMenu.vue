@@ -4,21 +4,21 @@
     <div class="group1" :class="`s${choose}`">
       <button v-for="group in groupsIsMember" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
         <BIconPeopleFill class="me-2" />
-        <span style="background-color: transparent">{{ group.name }}</span>
+        <span style="background-color: transparent">{{ group.subject }} <span v-if="group.is_creator">iscreator</span> </span>
       </button>
     </div>
     <button class="mt-2" @click="choose===2?choose=0:choose=2">Bạn là người hướng dẫn</button>
     <div class="group2" :class="`s${choose}`">
       <button v-for="group in groupsIsMentor" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
         <BIconPeopleFill class="me-2" />
-        <span style="background-color: transparent">{{ group.name }}</span>
+        <span style="background-color: transparent">{{ group.subject }}</span>
       </button>
     </div>
     <button class="mt-2" @click="choose===3?choose=0:choose=3">Bạn đang chờ duyệt</button>
     <div class="group3" :class="`s${choose}`">
       <button v-for="group in groupsIsRequire" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
         <BIconPeopleFill class="me-2" />
-        <span style="background-color: transparent">{{ group.name }}</span>
+        <span style="background-color: transparent">{{ group.subject }}</span>
       </button>
     </div>
   </div>
@@ -103,6 +103,7 @@ const {
 getgroupsIsMember().json().execute();
 getgroupsIsMemberResponse(() => {
   groupsIsMember.value = dataGetgroupsIsMember.value.data.data;
+  console.log(groupsIsMember.value);
 });
 
 getgroupsIsMentor().json().execute();

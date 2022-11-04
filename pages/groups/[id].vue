@@ -43,6 +43,9 @@
               <BFormInvalidFeedback>
                 <ValidationErrorMessage :messages="validationErrorMessages.difficult" />
               </BFormInvalidFeedback>
+            </div>
+
+            <div role="group">
               <label for="">Bạn mong muốn đạt được gì khi tham gia nhóm học?</label>
               <BFormTextarea v-model="register_inform.target" :state="validationErrorMessages.target === undefined ? null : false"
                 aria-describedby="input-live-help input-live-feedback" placeholder="Mong muốn" trim required
@@ -50,6 +53,8 @@
               <BFormInvalidFeedback>
                 <ValidationErrorMessage :messages="validationErrorMessages.target" />
               </BFormInvalidFeedback>
+            </div>
+            <div role="group">
               <label for="">Bạn có ý kiến gì không muốn gửi không?</label>
               <BFormInput v-model="register_inform.note" :state="validationErrorMessages.note === undefined ? null : false"
                 aria-describedby="input-live-help input-live-feedback" placeholder="Ý kiến cá nhân" trim required
@@ -57,6 +62,9 @@
               <BFormInvalidFeedback>
                 <ValidationErrorMessage :messages="validationErrorMessages.note" />
               </BFormInvalidFeedback>
+            </div>
+
+            <div role="group">
               <label for="">Bạn phải đảm bảo sẽ học tập chăm chỉ, nghiêm túc không? Nếu đánh giá không tốt về thái độ trong quá trình học, nhà trường sẽ bị giảm điểm rèn luyện vì thái độ học tập</label>
               <BFormCheckbox
                 id="checkbox-1"
@@ -68,6 +76,7 @@
                 Tôi đảm bảo
               </BFormCheckbox>
             </div>
+            
             <div class="text-end">
               <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'" :color="'rgb(63 88 120)'" />
             </div>
@@ -187,10 +196,10 @@ h5 {
   background-color: #dfe6ec;
   padding: 20px;
 }
-input {
-  /* width: 50%; */
-}
 .submit-button >>> button {
   width: 200px;
+}
+form> div {
+  margin-top: 10px;
 }
 </style>

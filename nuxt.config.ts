@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     '~/components/groups',
     '~/components/mentors',
     '~/components/headers',
+    '~/components/subjects',
   ],
   runtimeConfig: {
     public: {

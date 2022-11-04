@@ -1,7 +1,7 @@
 <template>
     <NuxtLink :to="{ path: `/groups/${group.id}` }" class="find-mentor">
         <p class="faculty">Khoa {{group.faculty}}</p>
-        <h5>{{group.name}}</h5>
+        <h5>{{group.subject}}</h5>
         <p class="quantity">Nhóm {{group.quantity}} thành viên</p>
         <!-- <p class="faculty">Khoa Công nghệ thông tin</p>
         <h5>Lập trình hướng đối tượng</h5>

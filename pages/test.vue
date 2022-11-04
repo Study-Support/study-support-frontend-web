@@ -1,12 +1,15 @@
 <template>
   <div>
     <div class="a">
-      <GroupMenu />
+      {{aa.aaa}}
+      <Subject />
     </div>
   </div>
 </template>
 <script setup>
-
+const aa = ref({
+  aaa: 'sdfasdf',
+})
 </script>
 <style scoped>
 * {

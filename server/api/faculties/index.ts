@@ -3,19 +3,19 @@ const createGetResponse = () => ({
     data: [
       {
         id: '1',
-        name: 'information technology',
+        name: 'Công nghệ thông tin',
       },
       {
         id: '2',
-        name: 'architect',
+        name: 'Kiến trúc',
       },
       {
         id: '3',
-        name: 'chemical',
+        name: 'Hóa',
       },
       {
         id: '4',
-        name: 'information technology',
+        name: 'Tự động hóa',
       },
     ]
   }

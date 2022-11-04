@@ -56,7 +56,7 @@
         <BCol class="pt-3">
           <BRow class="text-end">
             <BCol class="register">
-              <button>Đăng ký nhu cầu tạo nhóm</button>
+              <button @click="navigateTo('/groups/create')">Đăng ký nhu cầu tạo nhóm</button>
             </BCol>
           </BRow>
           <BRow>
@@ -72,7 +72,7 @@
                 <tr v-for="(group, index) in groupsResult" :key="group.id">
                   <td>{{index}}</td>
                   <td>{{group.faculty}}</td>
-                  <td>{{group.name}}</td>
+                  <td>{{group.subject}}</td>
                   <td>{{group.quantity}}</td>
                   <td>
                     <button @click="navigateTo(`/groups/${group.id}`)">
