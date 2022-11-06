@@ -5,7 +5,7 @@
         </div>
         <div class="content m-3">
             <p class="">Khoa {{group.faculty}}</p>
-            <h5>{{group.name}}</h5>
+            <h5>{{group.subject}}</h5>
             <p class="quantity"> {{group.quantity}} Thành viên</p>
         </div>
     </NuxtLink>

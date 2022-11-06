@@ -15,7 +15,7 @@
               </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink :to="{path: '/groups', query: {type: getConfig('constants.typeOfGroup.all')}}">
+              <NuxtLink :to="{ path: '/groups', query: { type: getConfig('constants.typeOfGroup.all') } }">
                 NHÓM HỌC
               </NuxtLink>
             </li>
@@ -29,38 +29,30 @@
                 NGƯỜI HƯỚNG DẪN
               </NuxtLink>
             </li>
-            <li @click="sidebarShow=!sidebarShow" class="text-decoration-none d-block">
+            <li @click="sidebarShow = !sidebarShow" class="text-decoration-none d-block">
               <a href="#" class="user">
                 <div class="avatar">
-                <img src="/assets/user.png" alt="">
-              </div>
+                  <img src="/assets/user.png" alt="">
+                </div>
               </a>
             </li>
           </ul>
         </BRow>
-        <div class="sidebar" :class="{sidebarShow: !sidebarShow}">
-            <button @click="sidebarShow=false">
-              <BIconX class="close"/>
-            </button>
-            <NuxtLink to="/my-account" class="mt-2 mb-4 user-infor d-block">
-              <div class="user-image">
-                <img src="assets/user.png" alt="">
-              </div>
-              Xem trang cá nhân
-            </NuxtLink>
-            <h5 class="m-3 text-end">Your groups</h5>
-            <div class="groups ms-3">
-              <button
-                v-for="group in myGroups" :key="group.id"
-                class="mt-3 d-block"
-                @click="navigateTo(`groups/${group.id}`)" 
-                
-              >
-                <BIconPeopleFill  class="me-2"/>
-                <span style="background-color: transparent" class="pt-2">{{ group.name }}</span>
-            </button>
+        <div class="sidebar" :class="{ sidebarShow: !sidebarShow }">
+          <button @click="sidebarShow = false">
+            <BIconX class="close" />
+          </button>
+          <NuxtLink to="/my-account" class="mt-2 mb-4 user-infor d-block">
+            <div class="user-image">
+              <img src="assets/user.png" alt="">
             </div>
+            Xem trang cá nhân
+          </NuxtLink>
+          <div class="p-2">
+            <h5>Nhóm học</h5>
+            <GroupMenu />
           </div>
+        </div>
       </BContainer>
     </BContainer>
     <div class="back-header" />
@@ -71,8 +63,8 @@
 import { BIconBoxArrowLeft, BIconX, BIconPeopleFill } from 'bootstrap-icons-vue';
 import "@fontsource/love-ya-like-a-sister";
 
-const {getConfig} = useConfig();
-const {token, deleteToken} = useToken();
+const { getConfig } = useConfig();
+const { token, deleteToken } = useToken();
 const sidebarShow = ref(false);
 const user = ref({
   id: '',
@@ -83,7 +75,7 @@ const userId = ref({
 });
 const myGroups = ref([]);
 // Tạo url lấy user theo id
-const {url: url1} = useUrl({
+const { url: url1 } = useUrl({
   path: '/groups',
   queryParams: userId.value,
 });
@@ -98,7 +90,7 @@ const {
   disableHandleErrorUnauthorized: false,
 })(
   '/user',
-  {immediate: false},
+  { immediate: false },
 );
 // Lấy groups của user đang đăng nhập
 const {
@@ -111,7 +103,7 @@ const {
   disableHandleErrorUnauthorized: false,
 })(
   url1,
-  {immediate: false},
+  { immediate: false },
 );
 
 getGroupsResponse(() => {
@@ -130,24 +122,30 @@ getMeError(() => {
 </script>
 
 <style scoped>
-*, a {
+*,
+a {
   color: white;
 }
+
 .menu-top {
   background-color: #465C71;
 }
+
 h5 {
   color: rgb(0, 108, 240);
 }
+
 .container-fluid {
   border-bottom: 1px solid black;
 
 }
+
 h2 {
   font-family: "Love Ya Like A Sister";
   display: block;
   min-width: 20px;
 }
+
 li {
   font-size: 13px;
   font-weight: 700;
@@ -159,45 +157,55 @@ li {
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 0%);
   background-color: transparent;
 }
+
 li:last-child {
   margin-right: 0px;
   padding-right: 0px;
 }
+
 li a:hover {
   color: rgb(0, 108, 240);
   transition: color 300ms linear;
 }
+
 .sidebar {
   position: fixed;
   top: 0px;
-  right:0px;
+  right: 0px;
   background-color: rgb(58, 65, 62);
   height: 100vh;
   width: 50vh;
   transition: all 200ms linear;
 }
+
 .sidebar a {
   color: white;
 }
+
 .sidebar span {
   color: white;
 }
+
 .sidebar svg {
   color: rgb(1, 116, 188);
 }
+
 .sidebarShow {
-  right:-50vh;
+  right: -50vh;
 }
+
 .sidebar button {
   border: 0px;
   background-color: rgb(58, 65, 62);
   text-align: left;
 }
+
 .sidebar button .close {
   color: white;
   font-weight: bold;
   font-size: 30px;
 }
+
 .sidebar .user-image {
   width: 35px;
   height: 35px;
@@ -205,10 +213,12 @@ li a:hover {
   margin-right: 5px;
   display: inline-block;
 }
+
 .sidebar .user-image img {
   width: 100%;
   border-radius: 60px;
 }
+
 .sidebar .user-infor {
   /* background-color: black; */
   margin: 10px;
@@ -216,6 +226,7 @@ li a:hover {
   border: 1px solid rgb(146, 146, 146);
   border-radius: 5px;
 }
+
 .avatar {
   width: 30px;
   height: 30px;
@@ -225,6 +236,7 @@ li a:hover {
   border-radius: 15px;
   overflow: hidden;
 }
+
 .avatar img {
   width: 100%;
   vertical-align: 0px;

@@ -4,7 +4,7 @@
     <div class="group1" :class="`s${choose}`">
       <button v-for="group in groupsIsMember" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
         <BIconPeopleFill class="me-2" />
-        <span style="background-color: transparent">{{ group.subject }} <span v-if="group.is_creator">iscreator</span> </span>
+        <span style="background-color: transparent">{{ group.subject }}</span>
       </button>
     </div>
     <button class="mt-2" @click="choose===2?choose=0:choose=2">Bạn là người hướng dẫn</button>
@@ -18,7 +18,12 @@
     <div class="group3" :class="`s${choose}`">
       <button v-for="group in groupsIsRequire" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
         <BIconPeopleFill class="me-2" />
-        <span style="background-color: transparent">{{ group.subject }}</span>
+        <span style="background-color: transparent" class="subject">
+          {{ group.subject }} 
+          <span v-if="group.is_mentor">Người HD</span>
+          <span v-if="group.is_creator">Tạo nhóm</span>
+          <span v-if="!group.is_mentor&&!group.is_creator">Tham gia</span>
+        </span>
       </button>
     </div>
   </div>
@@ -145,5 +150,10 @@ button {
 }
 .group1.s1, .group2.s2, .group3.s3 {
   height: 300px;
+}
+
+.subject span{
+  font-size: 13px;
+  background-color: rgb(158, 89, 89);
 }
 </style>

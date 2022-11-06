@@ -65,7 +65,7 @@
             </div>
 
             <div role="group">
-              <label for="">Bạn phải đảm bảo sẽ học tập chăm chỉ, nghiêm túc không? Nếu đánh giá không tốt về thái độ trong quá trình học, nhà trường sẽ bị giảm điểm rèn luyện vì thái độ học tập</label>
+              <label for="">Bạn có đảm bảo sẽ học tập chăm chỉ, nghiêm túc không? Nếu đánh giá không tốt về thái độ trong quá trình học, nhà trường sẽ đánh giá rèn luyện vì thái độ học tập</label>
               <BFormCheckbox
                 id="checkbox-1"
                 v-model="register_inform.confirm"

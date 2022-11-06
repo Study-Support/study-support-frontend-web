@@ -2,7 +2,6 @@
   <div>
     <div class="a">
       {{aa.aaa}}
-      <Subject />
     </div>
   </div>
 </template>

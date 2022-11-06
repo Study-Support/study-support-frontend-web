@@ -8,8 +8,8 @@ a {
 }
 
 input {
-    border: 0px solid #ced4da !important;
-    border-radius: 2px !important;
+    border: 0px solid #ced4da;
+    border-radius: 2px;
     height: 35px;
 }
 
