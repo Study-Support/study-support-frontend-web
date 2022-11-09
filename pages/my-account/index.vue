@@ -41,7 +41,7 @@
               <label> Nhập lại mật khẩu mới </label>
               <BFormInput
                 id="input-live"
-                v-model="changeData.confirm_password"
+                v-model="changeData.password_confirmation"
                 :state="isPasswordMatched"
                 aria-describedby="input-live-help input-live-feedback"
                 required
@@ -49,7 +49,7 @@
                 trim
               />
               <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorChangePassMessages.confirm_password" />
+                <ValidationErrorMessage :messages="validationErrorChangePassMessages.password_confirmation" />
               </BFormInvalidFeedback>
             </div>
             <SubmitButton
@@ -77,13 +77,13 @@
             <h1 class="text-center">My account</h1>
             <BRow class="mb-3">
               <BCol role="group">
-                <label for="email">Email</label>
+                <label for="email">Địa chỉ email</label>
                 <BFormInput
                   id="email"
                   v-model="userData.email"
                   :state="validationErrorMessages.email === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Enter email"
+                  placeholder="Địa chỉ email"
                   type="email"
                   trim
                   required
@@ -95,30 +95,30 @@
             </BRow>
             <BRow class="mb-3">
               <BCol role="group">
-                <label for="fullname">Full name</label>
+                <label for="full_name">Họ và tên</label>
                 <BFormInput
-                  id="fullname"
-                  v-model="userData.fullname"
-                  :state="validationErrorMessages.fullname === undefined ? null : false"
+                  id="full_name"
+                  v-model="userData.full_name"
+                  :state="validationErrorMessages.full_name === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Enter full name"
+                  placeholder="Họ và tên"
                   trim
                   required
                 />
                 <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.fullname" />
+                  <ValidationErrorMessage :messages="validationErrorMessages.full_name" />
                 </BFormInvalidFeedback>
               </BCol>
             </BRow>
             <BRow class="mb-3">
               <BCol role="group">
-                <label for="phonename">Phone number</label>
+                <label for="phonename">Số điện thoại</label>
                 <BFormInput
                   id="phonename"
-                  v-model="userData.phonenumber"
-                  :state="validationErrorMessages.phonenumber === undefined ? null : false"
+                  v-model="userData.phone_number"
+                  :state="validationErrorMessages.phone_number === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Phone number"
+                  placeholder="Số điện thoại"
                   trim
                   type="tel"
                   pattern="[0]{1}[0-9]{9}"
@@ -131,13 +131,13 @@
             </BRow>
             <BRow class="mb-3">
               <BCol role="group" class="pe-0">
-                <label for="address">Address</label>
+                <label for="address">Địa chỉ thường trú</label>
                 <BFormInput
                   id="address"
                   v-model="userData.address"
                   :state="validationErrorMessages.address === undefined ? null : false"
                   aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Address"
+                  placeholder="Địa chỉ thường trú"
                   trim
                   required
                 />
@@ -146,7 +146,7 @@
                 </BFormInvalidFeedback>
               </BCol>
               <BCol>
-                <label for="gender">Gender</label>
+                <label for="gender">Giới tính</label>
                 <select
                   id="gender"
                   v-model="userData.gender"
@@ -154,36 +154,36 @@
                 >
                   <option value="" disabled selected>Select gender</option>
                   <option value="0">
-                    Male
+                    Nam
                   </option>
                   <option value="1">
-                    Female
+                    Nữ
                   </option>
                 </select>
               </BCol>
             </BRow>
             <BRow class="mb-3">
               <BCol class="pe-0">
-                <label for="birthday">birthday</label>
+                <label for="birthday">Ngày sinh</label>
                 <Datepicker
                   id="birthday"
                   v-model="userData.birthday"
                   date-picker
                   required
                   textInput
-                  placeholder="Choose birthday" class="ms-2 date-picker"
+                  placeholder="Chọn ngày sinh" class="ms-2 date-picker"
                 />
               </BCol>
               <BCol role="group" >
-                <label for="faculty">Faculty</label>
+                <label for="faculty">Khoa đang học</label>
                 <select
                   id="faculty"
-                  v-model="userData.faculty"
+                  v-model="userData.faculty_id"
                   class="form-select"
                   required
                   disabled
                 >
-                  <option value="" disabled selected>Choose your faculty</option>
+                  <option value="" disabled selected>Chọn khoa</option>
                   <option v-for="faculty in dataFaculty" :key="faculty.id" :value="faculty.id">
                     {{ faculty.name }}
                   </option>
@@ -212,7 +212,6 @@
   </template>
   
 <script setup>
-import "@fontsource/love-ya-like-a-sister";
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import authenticated from "~~/middleware/authenticated";
@@ -231,13 +230,14 @@ const {successAlert} = useAlert();
 const isDisabledButton = ref(false);
 const userData = ref({
   username: '',
-  fullname: '',
+  full_name: '',
   password: '',
-  confirm_password: '',
+  password_confirmation: '',
   email: '',
   gender: '',
   birthday: '',
-  faculty: '',
+  faculty_id: '',
+  phone_number: '',
 });
 const validationErrorMessages = ref({});
 const dataFaculty = ref([]);
@@ -246,7 +246,7 @@ const showChangePass = ref(false);
 const changeData = ref({
   current_password: '',
   password: '',
-  confirm_password: '',
+  password_confirmation: '',
 });
 const validationErrorChangePassMessages = ref({
 });
@@ -260,7 +260,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/change-password',
+  '/user/password',
   {immediate: false},
 );
 const {
@@ -283,7 +283,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/me',
+  '/user',
   {immediate: false},
 );
 const {
@@ -296,13 +296,13 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/me',
+  '/user/edit',
   {immediate: false},
 );
 // Lấy thông tin cá nhân
 getMe().json().execute();
 getMeResponse(() => {
-  userData.value = dataGetMe.value.data.data;
+  userData.value = dataGetMe.value.data;
 })
 // Lấy tất cả khoa
 getFaculty().json().execute();
@@ -311,7 +311,7 @@ getFacultyResponse(() => {
 });
 
 const isPasswordMatched = computed(
-  () => (changeData.value.confirm_password === '' ? null : changeData.value.confirm_password === changeData.value.password),
+  () => (changeData.value.password_confirmation === '' ? null : changeData.value.password_confirmation === changeData.value.password),
 );
 changePassRes(() => {
 isDisabledButton.value = false;
@@ -323,7 +323,7 @@ const closeChangePass = () => {
   showChangePass.value = false;
   changeData.value.current_password = '',
   changeData.value.password = '',
-  changeData.value.confirm_password = ''
+  changeData.value.password_confirmation = ''
   validationErrorChangePassMessages.value = {};
 };
 changePassErr(() => {
@@ -413,7 +413,7 @@ button {
 label {
   font-weight:400 !important;  
   font-size: 13px;
-  color: rgba(2, 62, 24, 0.886);
+  color: rgba(2, 18, 62, 0.886);
   padding-left: 2px;
   padding-bottom: 3px;
 }
@@ -479,5 +479,8 @@ select option:first-child {
   background-color: rgba(207, 207, 207, 0.53);
   z-index: 1;
   transition: all 2s;
+}
+input, select, .date-picker {
+  box-shadow: 0 3px 5px 0 rgb(0 0 0 / 10%);
 }
 </style>

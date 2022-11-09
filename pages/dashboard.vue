@@ -51,10 +51,10 @@
               </BCol>
               <ul class="col col-auto d-flex login" v-if="dataGetMe === null">
                 <li class="d-flex register">
-                  <NuxtLink class="text-decoration-none d-block" to="/register"> Register </NuxtLink>
+                  <NuxtLink class="text-decoration-none d-block" to="/register"> Đăng ký </NuxtLink>
                 </li>
                 <li class="d-flex">
-                  <NuxtLink class="text-decoration-none d-block" to="/login"> Login </NuxtLink>
+                  <NuxtLink class="text-decoration-none d-block" to="/login"> Đăng nhập </NuxtLink>
                 </li>
               </ul>
               <BCol v-else class="col-auto">
@@ -62,7 +62,7 @@
                   <div class="avatar">
                     <img src="assets/user.png" alt="">
                   </div>
-                  <a href="#" class="user">{{user.fullname}}</a>
+                  <a href="#" class="user">{{user.full_name}}</a>
                 </div>
                 <div class="sidebar" :class="{sidebarShow: !sidebarShow}">
                   <button @click="sidebarShow=false">
@@ -74,17 +74,8 @@
                     </div>
                     Xem trang cá nhân
                   </NuxtLink>
-                  <h5 class="m-3 text-end">Your groups</h5>
-                  <div class="groups ms-3">
-                    <button
-                      v-for="group in myGroups" :key="group.id"
-                      class="mt-3 d-block"
-                      @click="navigateTo(`/groups/${group.id}`)" 
-                      
-                    >
-                      <BIconPeopleFill  class="me-2"/>
-                      <span style="background-color: transparent" class="pt-2">{{ group.name }}</span>
-                  </button>
+                  <div class="p-2">
+                    <GroupMenu />
                   </div>
                 </div>
               </BCol>
@@ -102,7 +93,7 @@
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
-                  <NuxtLink to="/dashboard">
+                  <NuxtLink  :to="{path: 'groups', query: {type: getConfig('constants.typeOfGroup.all')}}">
                     NHÓM HỌC
                   </NuxtLink>
                 </li>
@@ -121,7 +112,7 @@
             <BRow v-if="sticky">
               <BCol :class="{sticky: sticky}">
                 <BRow class=" mt-2 mb-2 d-flex justify-content-between">
-                  <BCol class="col-auto">
+                  <BCol class="col-auto ps-0">
                     <a href="/dashboard">
                       <h2>Study With Us</h2>
                     </a>
@@ -133,7 +124,7 @@
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
-                      <NuxtLink to="/dashboard">
+                      <NuxtLink :to="{path: 'groups', query: {type: getConfig('constants.typeOfGroup.all')}}">
                         NHÓM HỌC
                       </NuxtLink>
                     </li>
@@ -176,22 +167,21 @@
       </BContainer>
     </BContainer>
     <BContainer class="mt-5 mb-4">
-      <BRow class="how-to-work pt-3 pb-4">
+      <BRow class="how-to-work pt-4 pb-5">
           <BCol>
-            <BRow class="text-center mb-5">
-              <h2>How to join?</h2>
+            <BRow class="text-center mb-4">
+              <h2>3 cách để tham gia</h2>
             </BRow>
             <BRow class="d-flex justify-content-between three-ways">
-              <BCol class="text-center col-12 col-md-4" v-for="intro in intros" :key="intro.id">
+              <BCol class="text-center col-12" v-for="intro in intros" :key="intro.id">
                 <Intro :intro="intro" />
               </BCol>
             </BRow>
           </BCol>
         </BRow>
     </BContainer>
-    <BContainer fluid class="all-groups pt-4 pb-3">
-        <h3 class="ms-3">Nhóm tìm thành viên</h3>
-        <p>Nhóm sẽ có người hướng dẫn</p>
+    <BContainer fluid class="all-groups pt-5 pb-5">
+        <h3 class="ms-3">Nhóm học</h3>
         <BRow class="ms-1 me-1 mb-4">
           <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
             <GroupCard
@@ -200,13 +190,14 @@
           </BCol>
         </BRow>
         <div class="text-end me-1 more">
-          <NuxtLink to="groups">
-            Xem tất cả <BIconArrowRight />
+          <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.findMember') } }">
+            Xem thêm <BIconArrowRight />
           </NuxtLink>
         </div>
     </BContainer>
     <BContainer class="mentors">
-      <h3 class="text-center">Our mentors</h3>
+      <h3 class="text-center">Người hướng dẫn</h3>
+      <p class="text-center a"> Những bạn hiện là người hướng dẫn của nhà trường</p>
       <div class="bg">
       </div>
       <div class="mentor-item">
@@ -226,43 +217,52 @@
       </div>
       <div class="text-end me-1 more">
         <NuxtLink to="mentors">
-          Xem tất cả <BIconArrowRight />
+          Xem thêm <BIconArrowRight />
         </NuxtLink>
       </div> 
     </BContainer>
-    <BContainer fluid class="all-groups pt-5 pb-4 mt-5">
-        <h3 class="ms-3">Tìm người hướng dẫn</h3>
-        <BRow class="ms-1 me-1 mb-4 d-flex justify-content-center">
-          <BCol class="col-10">
-            <BRow>
-              <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
-                <GroupCard
-                  :group="group"
-                />
-              </BCol>
-            </BRow>
+    <BContainer fluid class="find-mentors">
+      <BContainer>
+        <BRow>
+          <BCol>
+            <div class="d-flex justify-content-around flex-wrap">
+              <FindMentor v-for="group in topGroupFindMentor" :key="group.id" :group="group" class="item"/>
+            </div>
+          </BCol>
+          <BCol class="content">
+            <h2>Tìm kiếm người hướng dẫn</h2>
+            <div class="text-center">
+              <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.findMentor') } }" class="more">
+                Xem thêm
+              </NuxtLink>
+            </div>
           </BCol>
         </BRow>
-        <div class="text-end me-1 more">
-          <NuxtLink to="groups-find-mentor">
-            Xem tất cả <BIconArrowRight />
-          </NuxtLink>
-        </div>
-        <h3 class="ms-3">Nhóm tự học tìm thành viên</h3>
-        <p>Nhóm không có người hướng dẫn</p>
-        <BRow class="ms-1 me-1 mb-4">
-          <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
-            <GroupCard
-              :group="group"
-            />
-          </BCol>
-        </BRow>
-        <div class="text-end me-1 more">
-          <NuxtLink to="groups-find-mentor">
-            Xem tất cả <BIconArrowRight />
-          </NuxtLink>
-        </div>
+      </BContainer>
     </BContainer>
+    <BContainer class="self-study mt-5">
+        <BRow class="d-flex justify-content-between">
+          <BCol class="col-6">
+            <div class="img">
+              <img src="assets/self.jpg" alt="">
+            </div>
+          </BCol>
+          <BCol class="content col-5">
+            <h2>Tham gia các nhóm tự học để nâng cao kiến thức</h2>
+            <p>Đây là các nhóm không có người hướng dẫn, có thể là nhóm nghiên cứu khoa học, học nhóm... tìm thành viên để cùng nhau học tập, nghiên cứu.</p>
+            <div class="pt-5">
+              <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.selfStudy') } }" class="more">
+                Xem chi tiết
+              </NuxtLink>
+            </div>
+          </BCol>
+        </BRow>
+      </BContainer>
+    <p>ádfasdfasdf</p>
+    <p>ádfasdfasdf</p>
+    <p>ádfasdfasdf</p>
+    <p>ádfasdfasdf</p>
+    <p>ádfasdfasdf</p>
   </div>
 </template>
 <script setup>
@@ -270,6 +270,8 @@ import "@fontsource/love-ya-like-a-sister";
 import InfiniteLoading from 'v3-infinite-loading';
 import 'v3-infinite-loading/lib/style.css';
 import {BIconX, BIconPeopleFill, BIconArrowRight, BIconBellFill, BIconSearch} from 'bootstrap-icons-vue';
+import "@fontsource/quicksand";
+
 definePageMeta({
   layout: false,
 });
@@ -287,42 +289,40 @@ const noti = ref({
 });
 const intros = ref([
   {
-    title: 'Sign up group',
-    content: 'Bạn đang cảm thấy khó khăn với một môn học và cần sự giúp đỡ của các anh, chị để được cải thiện, hãy đăng ký nhu cầu tạo nhóm học để nhà trường xem xét nhé',
+    title: 'Đăng ký nhu cầu',
+    content: 'Bạn cần sự giúp đỡ của các anh, chị để được cải thiện môn học hoặc nhóm để cùng nhau học tập, hãy đăng ký nhu cầu tạo nhóm học.',
     img: 'intro1.png',
   },
   {
-    title: 'Join to group',
-    content: 'Những nhóm bên dưới là những nhóm đã được nhà trường xem xét, bạn cũng cảm thấy chưa tốt môn đó thì join vào cùng học với mọi người nhé',
+    title: 'Tham gia nhóm',
+    content: 'Nhóm học là nhóm sẽ có người hướng dẫn. Nhóm tự học có thể là nhóm nghiên cứu khoa học, học nhóm... không có người hướng dẫn.',
     img: 'intro2.png',
   },
   {
-    title: 'Sign up to be a mentor',
-    content: 'Những nhóm đã được nhà trường xem xét bên dưới đang thiếu mentor đấy, nếu bạn học tốt và đạt điểm cao môn đó thì đăng ký làm mentor nhóm nhé',
+    title: 'Là người hướng dẫn',
+    content: 'Những nhóm ở mục tìm người hướng dẫn, nếu bạn học tốt và đạt điểm cao môn đó thì đăng ký nhé',
     img: 'intro3.png',
   }
 ])
-const myGroups = ref({});
-const userId = ref({
-  user_id: '',
-});
 const user = ref({
   id: '',
-  fullname: '',
+  full_name: '',
 });
 const topGroup = ref([
 ]);
+const topGroupFindMentor = ref([
+]);
 const topMentor = ref([
   {
-    fullname: '',
+    full_name: '',
     subject: '',
   },
   {
-    fullname: '',
+    full_name: '',
     subject: '',
   },
   {
-    fullname: '',
+    full_name: '',
     subject: '',
   },
 ]);
@@ -337,7 +337,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/me',
+  '/user',
   {immediate: false},
 );
 
@@ -354,18 +354,21 @@ const {
   {immediate: false},
   );
 
-// Tạo url lấy user theo id
-const {url: url1} = useUrl({
-  path: '/groups',
-  queryParams: userId.value,
-});
-// tạo url lấy user theo đã được duyệt để tìm tìm member chưa
+// tạo url lấy nhóm tìm member
 const {url: url2} = useUrl({
   path: '/groups',
   queryParams: {
-    isAccept: 'true'
+    type: getConfig('constants.typeOfGroup.findMember'),
   },
 });
+// tạo url lấy nhóm tìm mentor
+const {url: url4} = useUrl({
+  path: '/groups',
+  queryParams: {
+    type: getConfig('constants.typeOfGroup.findMentor'),
+  },
+});
+
 const {url: url3} = useUrl({
   path: '/notifications',
   queryParams: noti.value,
@@ -383,20 +386,7 @@ const {
   {immediate: false},
   );
 
-// Lấy groups của user đang đăng nhập
-const {
-  data: dataGetMyGroups,
-  get: getGroups,
-  onFetchResponse: getGroupsResponse,
-  onFetchError: getGroupsError,
-} = useFetchApi({
-  requireAuth: false,
-  disableHandleErrorUnauthorized: false,
-})(
-  url1,
-  {immediate: false},
-);
-// Lấy groups đã được accept
+// Lấy groups đang tìm member
 const {
   data: dataGetTopGroup,
   get: getTopGroup,
@@ -412,24 +402,28 @@ getTopGroup().json().execute();
 getTopGroupResponse(()=> {
   topGroup.value = dataGetTopGroup.value.data.data.slice(0, 4);
 })
+// Lấy groups đang tìm mentor
+const {
+  data: dataGetGroupFindMentor,
+  get: getGroupFindMentor,
+  onFetchResponse: GetGroupFindMentorResponse
+} = useFetchApi({
+  requireAuth: false,
+  disableHandleErrorUnauthorized: false,
+})(
+  url4,
+  {immediate: false},
+);
+getGroupFindMentor().json().execute();
+GetGroupFindMentorResponse(()=> {
+  topGroupFindMentor.value = dataGetGroupFindMentor.value.data.data.slice(0, 6);
+})
 
 getMentors().json().execute();
 getMentorsResponse(() => {
   topMentor.value = dataGetMentors.value.data.data.slice(0, 3);
 })
 
-getMe().json().execute();
-getMeResponse(() => {
-  user.value = dataGetMe.value.data.data;
-  userId.value.user_id = user.value.id;
-  getGroups().json().execute();
-});
-getMeError(() => {
-  deleteToken();
-});
-getGroupsResponse(() => {
-  myGroups.value = dataGetMyGroups.value.data.data;
-});
 getNotisResponse(() => {
   // notifications.value = dataGetNotis.value.data.data;
   if (dataGetNotis.value.data.data.length !== 0) {
@@ -447,7 +441,7 @@ const load = () => {
   setTimeout(() => {
     noti.value.page += 1;
     getNotis().json().execute();
-  }, 500);
+  }, 100);
 };
 // nhấn search notifications
 const searchNoti = () => {
@@ -489,9 +483,6 @@ const scrollTop = () => {
 h1 {
   margin: 0px;
   color: #ffffff;
-}
-h5 {
-  color: rgb(135, 182, 235);
 }
 .top-dashboard {
   background-color: rgb(96, 141, 116);
@@ -616,7 +607,7 @@ img.laptop {
   position: fixed;
   top: 0px;
   right:0px;
-  background-color: rgba(58, 65, 62, 0.977);
+  background-color: rgb(58, 65, 62);
   height: 100vh;
   width: 50vh;
   transition: all 200ms linear;
@@ -656,6 +647,15 @@ img.laptop {
   padding: 10px;
   border: 1px solid rgb(146, 146, 146);
   border-radius: 5px;
+  font-weight: 600;
+}
+.sidebar .groups {
+  height: 70%;  
+  overflow: auto;
+  text-align: left;
+}
+.sidebar .groups button {
+  text-align: left;
 }
 .avatar {
   width: 26px;
@@ -674,6 +674,11 @@ img.laptop {
   font-family: sans-serif;
   color: #274435;
 }
+@media screen and (min-width: 768px) {
+  .how-to-work .three-ways>div {
+  width: 32%;
+}
+}
 .all-groups {
   background-color: #EFF4FA;
 }
@@ -683,10 +688,6 @@ img.laptop {
   font-size: 35px;
   font-family: sans-serif;
   color: #1e2d26;
-}
-.all-groups p {
-  padding: 0 30px;
-  color: #707070;
 }
 .more a, .more svg {
   color: black;
@@ -701,7 +702,7 @@ img.laptop {
 }
 .mentors .bg {
   position: absolute;
-  top: 100px;
+  top: 120px;
   left: -65px;
   width: 60%;
   height: 75%;
@@ -716,8 +717,13 @@ img.laptop {
   font-family: sans-serif;
   color: #273044;
 }
+.mentors .a {
+  font-size: 16px;
+  color: #5a5e65;
+  line-height: 20px;
+}
 .mentor-item {
-  padding: 50px 20% 0 12%;
+  padding: 60px 20% 0 12%;
   z-index: 10;
 }
 .mentor-item>div {
@@ -841,5 +847,73 @@ img.laptop {
 }
 .loading >>> div {
 margin: auto;
+}
+.find-mentors {
+  background-image: url("assets/mentor.jpg");
+  margin-top: 100px;
+}
+
+.find-mentors .container {
+  padding: 130px 0;
+}
+.find-mentors .item:nth-child(2n) {
+  background-color: white;
+}
+.content h2 {
+  font-family: 'Quicksand';
+  line-height: 60px;
+  font-weight: 700;
+  font-size: 45px;
+  color: #ffffff;
+  text-align: center;
+  padding: 50px 100px;
+}
+.content .more {
+  border: 1.5px solid white;
+  padding: 15px 50px;
+  color: white;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: larger;
+  transition: all .3s;
+}
+.content .more:hover {
+  background-color: white;
+  color: rgb(56, 56, 56);
+
+}
+.self-study .content h2{
+  color: #0e1928;
+  padding: 50px 0 20px 0;
+  text-align: left;
+  line-height: 52px;
+}
+.self-study .content p{
+  font-size: 18px;
+  line-height: 32px;
+  color: #848484;
+}
+.self-study .content .more {
+  border-color: black;
+  color: black;
+}
+.self-study .content .more {
+  border-color: transparent;
+  background-color: #3075a9;
+  color: white;
+}
+.self-study .content .more:hover {
+  background-color: #668eb0;
+}
+.self-study .img {
+  height: 300px;
+  width: 100%;
+  background-color: red;
+  margin-top: 10%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+.self-study img {
+  width: 100%;
 }
 </style>

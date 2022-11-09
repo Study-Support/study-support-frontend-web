@@ -9,6 +9,12 @@ const CONFIG = {
       notFound: 404,
     },
     pagination: 10,
+    typeOfGroup: {
+      findMentor: 2,
+      findMember: 1,
+      selfStudy: 0,
+      all: 'all',
+    }
   }
 };
 const useConfig = () => {

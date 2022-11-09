@@ -3,8 +3,12 @@
         <img :src="`${mentor.image}`" alt="">
         <div class="full"></div>
         <div class="infor">
-            <h5>{{mentor.fullname}}</h5>
-            <p>{{mentor.subject}}</p>
+            <p>Khoa: {{mentor.faculty}}</p>
+            <h5>Tên: {{mentor.full_name}}</h5>
+            <div class="subjects">
+                <p v-for="sub in mentor.subjects" :key="sub.id">{{sub.name}}</p>
+            </div>
+            <p>{{mentor.rating}}</p>
         </div>
     </div>
 </template>
@@ -46,7 +50,7 @@ const props = defineProps({
 }
 .infor {
     position: absolute;
-    bottom: -100px;
+    bottom: -150px;
     left: 0px;
     width: 100%;
     background-color: black;
@@ -72,8 +76,9 @@ p {
 img {
     width: 100%;
 }
-/* :src="`assets/mentor/${mentor.img}`"
-    <NuxtLink :to="{path:`mentors/${mentor.id}`}">
-
-*/
+.subjects p{
+    margin: 0 10px;
+    color: rgb(255, 255, 255);
+    font-size: 12px;
+}
 </style>
