@@ -50,7 +50,7 @@ const props = defineProps({
 }
 .infor {
     position: absolute;
-    bottom: -100px;
+    bottom: -150px;
     left: 0px;
     width: 100%;
     background-color: black;
@@ -76,10 +76,6 @@ p {
 img {
     width: 100%;
 }
-/* :src="`assets/mentor/${mentor.img}`"
-    <NuxtLink :to="{path:`mentors/${mentor.id}`}">
-
-*/
 .subjects p{
     margin: 0 10px;
     color: rgb(255, 255, 255);

@@ -75,7 +75,7 @@
                   <td>{{group.subject}}</td>
                   <td>{{group.quantity}}</td>
                   <td>
-                    <button @click="navigateTo(`/groups/${group.id}`)">
+                    <button @click="join(group)">
                       Tham gia
                     </button>
                   </td>
@@ -180,6 +180,14 @@ const load = () => {
     filter.value.a.page += 1; 
   }, 100);
 };
+const join = (group) => {
+  if(group.status === 1) {
+    navigateTo(`/groups/${group.id}/register-is-member`);
+  }
+  if(group.status === 2) {
+    navigateTo(`/groups/${group.id}/register-is-mentor`);
+  }
+}
 </script>
 <style scoped>
 label {

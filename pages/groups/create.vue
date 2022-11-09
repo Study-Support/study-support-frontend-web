@@ -216,6 +216,7 @@ const submit = () => {
   showConfirmError.value = false;
   if (data.value.confirm !== 'agreed') {
     showConfirmError.value = true;
+    isDisabledButton.value = false;
   } else {
     postCreateGroup(data.value).json().execute();
   }

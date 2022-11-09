@@ -12,14 +12,17 @@ const createGetResponse = () => ({
           status: 1,
           members: [
             {
+                id: '1',
                 full_name: 'Hoàng Thị Thu Như',
                 faculty: 'Công nghệ thông tin',
             },
             {
+                id: '2',
                 full_name: 'Hoàng Thị Thu Như',
                 faculty: 'Công nghệ thông tin',
             },
             {
+                id: '3',
                 full_name: 'Hoàng Thị Thu Như',
                 faculty: 'Công nghệ thông tin',
             },

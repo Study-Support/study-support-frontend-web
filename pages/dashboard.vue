@@ -424,15 +424,6 @@ getMentorsResponse(() => {
   topMentor.value = dataGetMentors.value.data.data.slice(0, 3);
 })
 
-getMe().json().execute();
-getMeResponse(() => {
-  user.value = dataGetMe.value.data;
-  getGroups().json().execute();
-});
-getMeError(() => {
-  // deleteToken();
-});
-
 getNotisResponse(() => {
   // notifications.value = dataGetNotis.value.data.data;
   if (dataGetNotis.value.data.data.length !== 0) {
