@@ -75,7 +75,6 @@
                     Xem trang cá nhân
                   </NuxtLink>
                   <div class="p-2">
-                    <h5>Nhóm học</h5>
                     <GroupMenu />
                   </div>
                 </div>
@@ -427,7 +426,6 @@ getMentorsResponse(() => {
 
 getMe().json().execute();
 getMeResponse(() => {
-  console.log(dataGetMe.value.data);
   user.value = dataGetMe.value.data;
   getGroups().json().execute();
 });
@@ -452,7 +450,7 @@ const load = () => {
   setTimeout(() => {
     noti.value.page += 1;
     getNotis().json().execute();
-  }, 500);
+  }, 100);
 };
 // nhấn search notifications
 const searchNoti = () => {
@@ -494,9 +492,6 @@ const scrollTop = () => {
 h1 {
   margin: 0px;
   color: #ffffff;
-}
-h5 {
-  color: rgb(135, 182, 235);
 }
 .top-dashboard {
   background-color: rgb(96, 141, 116);

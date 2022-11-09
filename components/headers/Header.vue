@@ -49,7 +49,6 @@
             Xem trang cá nhân
           </NuxtLink>
           <div class="p-2">
-            <h5>Nhóm học</h5>
             <GroupMenu />
           </div>
         </div>

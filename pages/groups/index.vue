@@ -33,7 +33,7 @@
             </select>
           </div>
           <div class="mt-3">
-            <label for="type">Chọn khoa</label>
+            <label>Chọn khoa</label>
             <select
               v-model="filter.a.faculty"
               class="form-select mt-1"
@@ -178,7 +178,7 @@ const load = () => {
   setTimeout(() => {
     getFilterGroups().json().execute();
     filter.value.a.page += 1; 
-  }, 500);
+  }, 100);
 };
 </script>
 <style scoped>
@@ -278,7 +278,7 @@ td button {
 .search button:hover svg {
   color: rgb(7, 30, 95)
 }
-.loading >>> div {
+.loading :deep(div) {
 margin: auto;
 margin-top: 10px;
 }

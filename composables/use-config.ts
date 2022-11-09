@@ -10,9 +10,9 @@ const CONFIG = {
     },
     pagination: 10,
     typeOfGroup: {
-      findMentor: 0,
+      findMentor: 2,
       findMember: 1,
-      selfStudy: 2,
+      selfStudy: 0,
       all: 'all',
     }
   }
