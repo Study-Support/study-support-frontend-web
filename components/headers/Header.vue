@@ -20,12 +20,12 @@
               </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink to="/dashboard">
+              <NuxtLink :to="{ path: '/groups', query: { type: getConfig('constants.typeOfGroup.findMentor') } }">
                 TÌM HƯỚNG DẪN
               </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink to="/dashboard">
+              <NuxtLink to="/mentors">
                 NGƯỜI HƯỚNG DẪN
               </NuxtLink>
             </li>

@@ -292,16 +292,32 @@ const intros = ref([
     title: 'Đăng ký nhu cầu',
     content: 'Bạn cần sự giúp đỡ của các anh, chị để được cải thiện môn học hoặc nhóm để cùng nhau học tập, hãy đăng ký nhu cầu tạo nhóm học.',
     img: 'intro1.png',
+    to: {
+      path: 'groups/create',
+      query: '',
+    }
   },
   {
     title: 'Tham gia nhóm',
     content: 'Nhóm học là nhóm sẽ có người hướng dẫn. Nhóm tự học có thể là nhóm nghiên cứu khoa học, học nhóm... không có người hướng dẫn.',
     img: 'intro2.png',
+    to: {
+      path: 'groups',
+      query: {
+        type: getConfig('constants.typeOfGroup.all')
+      }
+    }
   },
   {
     title: 'Là người hướng dẫn',
     content: 'Những nhóm ở mục tìm người hướng dẫn, nếu bạn học tốt và đạt điểm cao môn đó thì đăng ký nhé',
     img: 'intro3.png',
+    to: {
+      path: 'groups',
+      query: {
+        type: getConfig('constants.typeOfGroup.findMentor')
+      },
+    }
   }
 ])
 const user = ref({
@@ -604,7 +620,7 @@ img.laptop {
   left: 0;
   transition: all 2s;
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
-  background-color: rgb(10,103,175);
+  background-color: rgb(22, 128, 210);
   display: flex;
   justify-content: center;
   z-index: 1000;

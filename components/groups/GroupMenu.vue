@@ -26,7 +26,7 @@
       </button>
     </div>
 
-    <button class="mt-2" @click="choose===4?choose=0:choose=4">Là người hướng dẫn</button>
+    <button class="mt-2" @click="choose===4?choose=0:choose=4">Bạn là người hướng dẫn</button>
     <div class="group4" :class="`s${choose}`">
       <button v-for="group in groupsIsRequireGroup" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
         <BIconPeopleFill class="me-2" />

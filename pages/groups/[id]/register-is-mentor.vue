@@ -2,7 +2,7 @@
   <BContainer class="pt-3">
     <BRow>
       <BCol class="pb-3">
-        <h5>>> Đăng ký là thành viên của nhóm</h5>
+        <h5>>> Đăng ký là người hướng dẫn của nhóm</h5>
       </BCol>
     </BRow>
     <BRow>
@@ -28,7 +28,7 @@
     </BRow>
     <BRow class="mt-3">
       <BCol>
-        <p><span>Thành viên:</span> {{ group.quantity }} thành viên</p>
+        <p class="quantity"><span>Thành viên:</span> {{ group.quantity }} thành viên</p>
         <div v-for="(member, index) in group.members" :key="member.id">
           <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
         </div>
@@ -155,7 +155,7 @@ const {
   `groups/${route.params.id}`,
   { immediate: false },
 )
-// Lấy thông tin cv
+// Lấy thông tin cv của user đk cho nhóm đó
 const {
   data: dataCv,
   get: getCv,
@@ -196,6 +196,20 @@ const {
   {immediate: false},
 );
 
+// Lấy thông tin cv của user với môn đó
+const {
+  data: dataCvSubject,
+  get: getCvSubject,
+  onFetchResponse: getCvSubjectRes,
+  onFetchError: getCvSubjectErr,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  `/member/${route.params.id}/register`,
+  { immediate: false },
+)
+
 getMeResponse(() => {
   if(group.value.mentors.find(mentor => mentor.id === dataGetMe.value.data.id)) {
     statusShow.value = 2;
@@ -221,16 +235,14 @@ getGroupRes(() => {
 
 getCv().json().execute();
 getCvRes(() => {
-  register_inform.value.cv_link = dataCv.value.data.cv_link;
-  register_inform.value.smart_banking = dataCv.value.data.smart_banking;
+  // register_inform.value.cv_link = dataCv.value.data.cv_link;
+  // register_inform.value.smart_banking = dataCv.value.data.smart_banking;
 });
 
 postMentorRes(() => {
-  isDisabledButton.value = false;
   getGroup().json().execute();
 });
 postMentorErr(() => {
-  isDisabledButton.value = false;
   errorAlert(dataMentor.value.meta.error_message);
 })
 const submit = () => {
@@ -241,6 +253,7 @@ const submit = () => {
     isDisabledButton.value = false;
   } else {
     postMentor(register_inform.value).json().execute();
+    isDisabledButton.value = false;
   }
 }
 </script>
@@ -303,6 +316,9 @@ label span {
 .notice-success span {
   font-weight: 600;
   color: green;
+}
+.quantity span {
+  font-weight: 600;
 }
 </style>
   

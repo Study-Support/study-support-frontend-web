@@ -22,10 +22,10 @@
                 Tất cả
               </option>
               <option :value="getConfig('constants.typeOfGroup.findMentor')" >
-                Nhóm tìm thành viên
+                Nhóm tìm người hướng dẫn
               </option>
               <option :value="getConfig('constants.typeOfGroup.findMember')" >
-                Nhóm tìm người hướng dẫn
+                Nhóm tìm thành viên
               </option>
               <option :value="getConfig('constants.typeOfGroup.selfStudy')" >
                 Nhóm tự học
@@ -212,6 +212,14 @@ span {
 }
 .filter {
   background-color: #F6F8FC;
+}
+.filter label {
+  font-weight: 600;
+}
+.filter select {
+  font-weight: 500;
+  color: #585858 !important;
+  font-size: smaller;
 }
 .result {
   height: calc(100vh - 100px);

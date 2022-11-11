@@ -3,7 +3,7 @@
         <div class="img m-auto p-2">
             <img :src="`assets/intros/${intro.img}`" alt=""/>
         </div>
-        <NuxtLink to="groups/create">
+        <NuxtLink :to="{ path: intro.to.path, query: intro.to.query }">
             <h3>{{intro.title}}</h3>
         </NuxtLink>
         <h6>
