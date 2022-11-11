@@ -18,7 +18,7 @@
     <h5 class="pt-3">Yêu cầu chờ duyệt</h5>
     <button class="mt-2" @click="choose===3?choose=0:choose=3">Tạo nhóm học</button>
     <div class="group3" :class="`s${choose}`">
-      <button v-for="group in groupsIsRequireMentor" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
+      <button v-for="group in groupsIsRequireMentor" :key="group.id" class="d-block" @click="navigateTo(`/groups/create/${group.id}`)">
         <BIconPeopleFill class="me-2" />
         <span style="background-color: transparent" class="subject">
           {{ group.subject }}

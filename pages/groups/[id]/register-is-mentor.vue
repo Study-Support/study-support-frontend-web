@@ -250,34 +250,41 @@ getGroupRes(() => {
 
 // Đã đăng ký mentor
 getCvRes(() => {
+  isDisabledButton.value = false;
   statusShow.value = 2;
   register_inform.value = dataCv.value.data;
 });
 // Chưa có đăng ký mentor cho nhóm này
 getCvErr(() => {
+  isDisabledButton.value = false;
   statusShow.value = 1;
   // Lấy cv đăng ký mentor cho môn này chưa
   getCvSubject().json().execute();
 });
 
 postMentorRes(() => {
+  isDisabledButton.value = false;
   successAlert('Bạn đã đăng ký thành công!')
   statusShow.value = 2;
   getGroup().json().execute();
 });
 postMentorErr(() => {
+  isDisabledButton.value = false;
   errorAlert(dataMentor.value.meta.error_message);
 })
 
 putMentorRes(() => {
+  isDisabledButton.value = false;
   successAlert('Chỉnh sửa thông tin thành công!');
   register_inform.value = dataMentorPut.value.data;
 })
 putMentorErr(() => {
+  isDisabledButton.value = false;
   errorAlert(dataMentorPut.value.meta.error_message);
 })
 
 delMentorRes(() => {
+  isDisabledButton.value = false;
   successAlert('Hủy đăng ký thành công!');
   statusShow.value = 1;
   register_inform.value.cv_link = '';
@@ -289,10 +296,12 @@ delMentorRes(() => {
   getCvSubject().json().execute();
 })
 delMentorErr(() => {
+  isDisabledButton.value = false;
   errorAlert(dataMentordel.value.meta.error_message)
 })
 // Đã đăng ký 
 getCvSubjectRes(() => {
+  isDisabledButton.value = false;
   beforeShow.value = 1;
   register_inform.value.cv_link = dataCvSubject.value.data.cv_link;
   register_inform.value.smart_banking = dataCvSubject.value.data.smart_banking;
@@ -306,7 +315,6 @@ const submit = () => {
     isDisabledButton.value = false;
   } else {
     postMentor(register_inform.value).json().execute();
-    isDisabledButton.value = false;
   }
 }
 const update = () => {
@@ -317,14 +325,12 @@ const update = () => {
     isDisabledButton.value = false;
   } else {
     putMentor(register_inform.value).json().execute();
-    isDisabledButton.value = false;
   }
 }
 const deletee = () => {
   isDisabledButton.value = true;
   showConfirmError.value = false;
   delMentor().json().execute();
-  isDisabledButton.value = false;
 }
 </script>
   

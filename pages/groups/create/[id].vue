@@ -8,12 +8,8 @@
       </div>
       <div class="form">
         <BContainer class="register">
-          <h4 class=" pb-2" v-if="!isSuccess">Đăng ký nhu cầu tạo nhóm học</h4>
-          <h4 class=" pb-2 success" v-else>Đăng ký nhu cầu tạo nhóm học đã thực hiện thành công!</h4>
-          <p>Đăng ký sẽ được nhà trường xem xét thông tin và duyệt nếu nhóm học thực sự cần thiết và nội dung đảm bảo.
-            Chú ý kiểm tra email để nắm thông tin. Nếu nhóm được duyệt, bạn sẽ là thành viên của nhóm. Bạn có thể chỉnh sửa hoặc xóa yêu cầu trước khi nhà
-            trường thực hiện duyệt.</p>
-          <form @submit.prevent="submit" class="row" v-if="!isSuccess">
+          <h4 class=" pb-2">Đăng ký nhu cầu tạo nhóm học</h4>
+          <form @submit.prevent="submit" class="row">
             <BCol>
               <BRow>
                 <label class="title">1. Chọn môn học bạn muốn đăng ký học</label>
@@ -60,7 +56,8 @@
                     </BFormInvalidFeedback>
                   </div>
                   <div role="group">
-                    <label for="">Thông tin cụ thể về những gì mà bạn muốn học, mục tiêu sau khi kết thúc khóa
+                    <label for="">Thông tin cụ thể về những gì mà bạn muốn học, mục tiêu sau khi kết
+                      thúc khóa
                       học?</label>
                     <BFormTextarea v-model="data.target"
                       :state="validationErrorMessages.target === undefined ? null : false"
@@ -80,20 +77,25 @@
                   </div>
 
                   <div role="group">
-                    <label for="">Bạn có đảm bảo sẽ học tập chăm chỉ, nghiêm túc không? Nếu đánh giá không tốt về thái
-                      độ trong quá trình học, nhà trường sẽ đánh giá rèn luyện vì thái độ học tập</label>
+                    <label for="">Bạn có đảm bảo sẽ học tập chăm chỉ, nghiêm túc không? Nếu đánh giá
+                      không tốt về thái
+                      độ trong quá trình học, nhà trường sẽ đánh giá rèn luyện vì thái độ học
+                      tập</label>
                     <BFormCheckbox id="checkbox-1" v-model="data.confirm" name="checkbox-1" value="agreed"
                       unchecked-value="not_agreed">
                       Đảm bảo
                     </BFormCheckbox>
-                    <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin trên!</span>
+                    <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin
+                      trên!</span>
                   </div>
                 </BCol>
               </BRow>
             </BCol>
             <div class="text-end">
-              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
-                :color="'rgb(63 88 120)'" />
+              <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
+                  :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
+                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký nhu cầu'"
+                  :color="'rgb(255 57 57)'" @click.prevent="deletee" />
             </div>
           </form>
         </BContainer>
@@ -101,19 +103,18 @@
     </div>
   </div>
 </template>
-
+  
 <script setup>
 import { BIconArrowLeft } from 'bootstrap-icons-vue';
 definePageMeta({
   layout: false,
 });
 
-const router = useRouter();
+const route = useRoute();
 const config = useConfig();
-const { errorAlert } = useAlert();
+const { errorAlert, successAlert } = useAlert();
 const isDisabledButton = ref(false);
 const showConfirmError = ref(false);
-const isSuccess = ref(false);
 const data = ref({
   difficult: '',
   target: '',
@@ -159,12 +160,38 @@ const {
   url1,
   { immediate: false },
 );
-
+// Lấy thông tin group
 const {
-  data: dataCreateGroup,
-  post: postCreateGroup,
-  onFetchResponse: postCreateGroupResponse,
-  onFetchError: postCreateGroupError,
+  data: dataGetGroup,
+  get: getGroup,
+  onFetchResponse: getGroupRes,
+  onFetchError: getGroupErr,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  `groups/${route.params.id}/create`,
+  { immediate: false },
+)
+// sửa thông tin
+const {
+  data: dataPutCreateGroup,
+  put: putCreateGroup,
+  onFetchResponse: putCreateGroupResponse,
+  onFetchError: putCreateGroupError,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: true,
+})(
+  '/groups',
+  { immediate: false },
+);
+// sửa thông tin
+const {
+  data: dataDelCreateGroup,
+  delete: delCreateGroup,
+  onFetchResponse: delCreateGroupResponse,
+  onFetchError: delCreateGroupError,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
@@ -173,56 +200,71 @@ const {
   { immediate: false },
 );
 
-const {
-  data: dataGetMe,
-  get: getMe,
-  onFetchResponse: getMeResponse,
-  onFetchError: getMeError,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})(
-  '/user',
-  {immediate: false},
-);
-// Lấy thông tin cá nhân
-getMe().json().execute();
-getMeResponse(() => {
-  faculty.value.faculty_id = dataGetMe.value.data.faculty_id;
-})
-
 getFaculty().json().execute();
+getSubject().json().execute();
 getFacultyResponse(() => {
   faculties.value = dataFaculty.value.data.data;
 })
 getSubjectResponse(() => {
   subjects.value = dataSubject.value.data.data;
 })
-// Xử lý tạo group
-postCreateGroupResponse(() => {
-  isDisabledButton.value = false;
-  isSuccess.value = true;
+
+getGroup().json().execute();
+// xử lý thông tin nhóm 
+getGroupRes(() => {
+  // kiểm tra thực sự nhóm đang đợi duyệt không.
+  if (dataGetGroup.value.data.status === 0) {
+    data.value = dataGetGroup.value.data;
+    faculty.value.faculty_id = data.value.faculty_id;
+  }
+  else {
+    alert("Nhóm hiện không đợi duyệt!");
+    navigateTo('/dashboard');
+  }
 })
-postCreateGroupError(() => {
+
+// Xử lý sửa group
+putCreateGroupResponse(() => {
   isDisabledButton.value = false;
-  errorAlert(dataCreateGroup.value.meta.error_message);
+  successAlert('Chỉnh sửa thông tin thành công!')
+})
+putCreateGroupError(() => {
+  isDisabledButton.value = false;
+  errorAlert(dataPutCreateGroup.value.meta.error_message);
+})
+
+// Xử lý xóa group
+delCreateGroupResponse(() => {
+  isDisabledButton.value = false;
+  successAlert('Đã xóa nhu cầu tạo nhóm học!', () => {
+    navigateTo('/dashboard');
+  })
+})
+delCreateGroupError(() => {
+  isDisabledButton.value = false;
+  errorAlert(dataDelCreateGroup.value.meta.error_message);
 })
 watch(faculty.value, () => {
   getSubject().json().execute();
   data.value.faculty_id = faculty.value.faculty_id;
 });
-const submit = () => {
+const update = () => {
   isDisabledButton.value = true;
   showConfirmError.value = false;
   if (data.value.confirm !== 'agreed') {
     showConfirmError.value = true;
     isDisabledButton.value = false;
   } else {
-    postCreateGroup(data.value).json().execute();
+    putCreateGroup(data.value).json().execute();
   }
 }
+const deletee = () => {
+  isDisabledButton.value = true;
+  showConfirmError.value = false;
+  delCreateGroup().json().execute();
+}
 </script>
-
+  
 <style scoped>
 .full {
   background-color: #dfe6ec;
@@ -237,7 +279,9 @@ h4 {
   background-color: #ffffff;
   padding: 20px;
 }
-
+.submit-button {
+  display: inline-block;
+}
 .submit-button>>>button {
   width: 200px;
 }
@@ -297,3 +341,4 @@ label.title {
   color: rgb(0, 179, 0);
 }
 </style>
+  
