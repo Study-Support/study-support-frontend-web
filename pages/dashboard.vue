@@ -98,12 +98,12 @@
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
-                  <NuxtLink to="/dashboard">
+                  <NuxtLink :to="{path: 'groups', query: {type: getConfig('constants.typeOfGroup.findMentor')}}">
                     TÌM HƯỚNG DẪN
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
-                  <NuxtLink to="/dashboard">
+                  <NuxtLink to="/mentors">
                     NGƯỜI HƯỚNG DẪN
                   </NuxtLink>
                 </li>
@@ -423,6 +423,16 @@ getMentors().json().execute();
 getMentorsResponse(() => {
   topMentor.value = dataGetMentors.value.data.data.slice(0, 3);
 })
+
+getMe().json().execute();
+getMeResponse(() => {
+  user.value = dataGetMe.value.data;
+  getGroups().json().execute();
+});
+getMeError(() => {
+  // deleteToken();
+});
+
 
 getNotisResponse(() => {
   // notifications.value = dataGetNotis.value.data.data;

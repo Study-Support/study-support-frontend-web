@@ -1,4 +1,4 @@
-const createGetResponse = () => ({
+const createGetResponse1 = () => ({
     data:{
       data: 
         {
@@ -11,6 +11,57 @@ const createGetResponse = () => ({
           information: 'Mình chưa hiểu rõ các tính chất cơ bản của lập trình hướng đối tượng, muốn có thêm nhiều lần thực hành để thuần thạo hơn. Bên cạnh đó học thêm kiến thức nâng cao hơn, ứng dụng vào dự án thực tế để sau này biết cách áp dụng',
           status: 1,
           members: [
+            {
+                id: '1',
+                full_name: 'Hoàng Thị Thu Như',
+                faculty: 'Công nghệ thông tin',
+            },
+            {
+                id: '2',
+                full_name: 'Hoàng Thị Thu Như',
+                faculty: 'Công nghệ thông tin',
+            },
+            {
+                id: '3',
+                full_name: 'Hoàng Thị Thu Như',
+                faculty: 'Công nghệ thông tin',
+            },
+          ],
+          created_at: '2022-08-05T16:04:43.967Z',
+          updated_at: '2022-08-05T16:04:43.967Z',
+        }
+    }
+  });
+const createGetResponse2 = () => ({
+    data:{
+      data: 
+        {
+          id: '5',
+          subject: 'Lập trình hướng đối tượng',
+          img: 'g1.png',
+          faculty: 'Khoa công nghệ thông tin',
+          quantity: '3',
+          title: 'Cải thiện, hiểu rõ hơn về cách viết code theo đối tượng',
+          information: 'Mình chưa hiểu rõ các tính chất cơ bản của lập trình hướng đối tượng, muốn có thêm nhiều lần thực hành để thuần thạo hơn. Bên cạnh đó học thêm kiến thức nâng cao hơn, ứng dụng vào dự án thực tế để sau này biết cách áp dụng',
+          status: 2,
+          members: [
+            {
+                id: '1',
+                full_name: 'Hoàng Thị Thu Như',
+                faculty: 'Công nghệ thông tin',
+            },
+            {
+                id: '2',
+                full_name: 'Hoàng Thị Thu Như',
+                faculty: 'Công nghệ thông tin',
+            },
+            {
+                id: '3',
+                full_name: 'Hoàng Thị Thu Như',
+                faculty: 'Công nghệ thông tin',
+            },
+          ],
+          mentors: [
             {
                 id: '1',
                 full_name: 'Hoàng Thị Thu Như',
@@ -57,7 +108,6 @@ const createGetResponse = () => ({
         }
         return createPostResponse();
       }
-    
-      return createGetResponse();
+      return createGetResponse2();
     });
     

@@ -99,6 +99,7 @@ definePageMeta({
 const route = useRoute();
 const isDisabledButton = ref(false);
 const showConfirmError = ref(false);
+const { errorAlert } = useAlert();
 const statusShow = ref(0);
 const group = ref({
   id: '',
@@ -137,7 +138,7 @@ const {
 )
 
 const {
-  data: dataMemberGroup,
+  data: dataMember,
   post: postMember,
   onFetchResponse: postMemberRes,
   onFetchError: postMemberErr,
@@ -181,7 +182,7 @@ getGroupRes(() => {
     getMe().json().execute();
   }
   else {
-    alert("Nhóm không tìm thành viên!");
+    alert("Nhóm hiện không tìm thành viên!");
     navigateTo('/groups?type=all');
   }
 });
@@ -190,6 +191,10 @@ postMemberRes(() => {
   isDisabledButton.value = false;
   getGroup().json().execute();
 });
+postMemberErr(() => {
+  isDisabledButton.value = false;
+  errorAlert(dataMember.value.meta.error_message);
+})
 const submit = () => {
   isDisabledButton.value = true;
   showConfirmError.value = false;

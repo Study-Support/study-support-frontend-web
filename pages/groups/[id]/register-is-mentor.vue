@@ -34,67 +34,72 @@
         </div>
         <div class="mt-5 register">
           <h5 class="text-center" for="">Thông tin kiểm duyệt đăng ký là người hướng dẫn:</h5>
-          <label for="" class="pb-3 pt-2">Tôi đã tìm hiểu kỹ về Thông báo tuyển chọn sinh viên tham gia hướng dẫn, hỗ
-            trợ học tập (Mentor) của Trường. Tôi nhận thấy bản thân đáp ứng các tiêu chuẩn của Mentor và đăng ký làm
-            Mentor cho học phần {{ group.subject }}</label>
-          <form @submit.prevent="submit">
-            <div role="group">
-              <label>1. Thành tích bạn đạt được ở môn học này. <span>Bỏ hết vào một thư mục và chia sẻ link đường dẫn ở
-                  chế độ xem public.</span></label>
-              <BFormInput v-model="register_inform.cv_link"
-                :state="validationErrorMessages.cv_link === undefined ? null : false" placeholder="Link thành tích" trim
-                required class="" />
-              <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorMessages.cv_link" />
-              </BFormInvalidFeedback>
-            </div>
-            <div role="group">
-              <label>2. Kế hoạch công việc dự kiến:</label>
-              <BFormTextarea v-model="register_inform.schedule"
-                :state="validationErrorMessages.schedule === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback" placeholder="Kế hoạch dự kiến" trim required
-                class="" />
-              <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorMessages.schedule" />
-              </BFormInvalidFeedback>
-            </div>
+          <p class="notice-success" v-if="statusShow === 2">
+            <span>Đăng ký đã thực hiện thành công!.</span>
+            Nhà trường sẽ xem xét thông tin bạn đăng ký, theo dõi email để cập nhật thông tin nhé.</p>
+          <div v-if="statusShow === 1">
+            <label for="" class="pb-3 pt-2">Tôi đã tìm hiểu kỹ về Thông báo tuyển chọn sinh viên tham gia hướng dẫn, hỗ
+              trợ học tập (Mentor) của Trường. Tôi nhận thấy bản thân đáp ứng các tiêu chuẩn của Mentor và đăng ký làm
+              Mentor cho học phần {{ group.subject }}</label>
+            <form @submit.prevent="submit">
+              <div role="group">
+                <label>1. Thành tích bạn đạt được ở môn học này. <span>Bỏ hết vào một thư mục và chia sẻ link đường dẫn ở
+                    chế độ xem public.</span></label>
+                <BFormInput v-model="register_inform.cv_link"
+                  :state="validationErrorMessages.cv_link === undefined ? null : false" placeholder="Link thành tích" trim
+                  required class="" />
+                <BFormInvalidFeedback>
+                  <ValidationErrorMessage :messages="validationErrorMessages.cv_link" />
+                </BFormInvalidFeedback>
+              </div>
+              <div role="group">
+                <label>2. Kế hoạch công việc dự kiến:</label>
+                <BFormTextarea v-model="register_inform.schedule"
+                  :state="validationErrorMessages.schedule === undefined ? null : false"
+                  aria-describedby="input-live-help input-live-feedback" placeholder="Kế hoạch dự kiến" trim required
+                  class="" />
+                <BFormInvalidFeedback>
+                  <ValidationErrorMessage :messages="validationErrorMessages.schedule" />
+                </BFormInvalidFeedback>
+              </div>
 
-            <div role="group">
-              <label for="">3. Tài khoản ngân hàng?<span>Bao gồm số tài khoản và tên ngân hàng.</span></label>
-              <BFormTextarea v-model="register_inform.smart_banking"
-                :state="validationErrorMessages.smart_banking === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback" placeholder="Tài khoản ngân hàng" trim required
-                class="" />
-              <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorMessages.smart_banking" />
-              </BFormInvalidFeedback>
-            </div>
-            <div role="group">
-              <label for="">4. Bạn có ý kiến gì không muốn gửi không?</label>
-              <BFormInput v-model="register_inform.note"
-                :state="validationErrorMessages.note === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback" placeholder="Ý kiến cá nhân" trim required
-                class="" />
-              <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorMessages.note" />
-              </BFormInvalidFeedback>
-            </div>
+              <div role="group">
+                <label for="">3. Tài khoản ngân hàng?<span>Bao gồm số tài khoản và tên ngân hàng.</span></label>
+                <BFormTextarea v-model="register_inform.smart_banking"
+                  :state="validationErrorMessages.smart_banking === undefined ? null : false"
+                  aria-describedby="input-live-help input-live-feedback" placeholder="Tài khoản ngân hàng" trim required
+                  class="" />
+                <BFormInvalidFeedback>
+                  <ValidationErrorMessage :messages="validationErrorMessages.smart_banking" />
+                </BFormInvalidFeedback>
+              </div>
+              <div role="group">
+                <label for="">4. Bạn có ý kiến gì không muốn gửi không?</label>
+                <BFormInput v-model="register_inform.note"
+                  :state="validationErrorMessages.note === undefined ? null : false"
+                  aria-describedby="input-live-help input-live-feedback" placeholder="Ý kiến cá nhân" trim required
+                  class="" />
+                <BFormInvalidFeedback>
+                  <ValidationErrorMessage :messages="validationErrorMessages.note" />
+                </BFormInvalidFeedback>
+              </div>
 
-            <div role="group">
-              <label for="">5. Bạn có đảm bảo sẽ hướng dẫn nghiêm túc, hết sức mình không? Nếu đánh giá không tốt về
-                thái độ trong quá trình hướng dẫn, nhà trường sẽ đánh giá rèn luyện vì thái độ học tập</label>
-              <BFormCheckbox id="checkbox-1" v-model="register_inform.confirm" name="checkbox-1" value="agreed"
-                unchecked-value="not_agreed">
-                Tôi đảm bảo
-              </BFormCheckbox>
-              <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin trên!</span>
-            </div>
+              <div role="group">
+                <label for="">5. Bạn có đảm bảo sẽ hướng dẫn nghiêm túc, hết sức mình không? Nếu đánh giá không tốt về
+                  thái độ trong quá trình hướng dẫn, nhà trường sẽ đánh giá rèn luyện vì thái độ học tập</label>
+                <BFormCheckbox id="checkbox-1" v-model="register_inform.confirm" name="checkbox-1" value="agreed"
+                  unchecked-value="not_agreed">
+                  Tôi đảm bảo
+                </BFormCheckbox>
+                <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin trên!</span>
+              </div>
 
-            <div class="text-end">
-              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
-                :color="'rgb(63 88 120)'" />
-            </div>
-          </form>
+              <div class="text-end">
+                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
+                  :color="'rgb(63 88 120)'" />
+              </div>
+            </form>
+          </div>
         </div>
       </BCol>
     </BRow>
@@ -110,6 +115,8 @@ definePageMeta({
 const route = useRoute();
 const isDisabledButton = ref(false);
 const showConfirmError = ref(false);
+const { errorAlert } = useAlert();
+const statusShow = ref(0);
 const groupId = ref({
   group_id: '',
 })
@@ -161,8 +168,9 @@ const {
   `/member/${route.params.id}/register`,
   { immediate: false },
 )
+// đăng ký là memtor
 const {
-  data: dataMemberPost,
+  data: dataMentor,
   post: postMentor,
   onFetchResponse: postMentorRes,
   onFetchError: postMentorErr,
@@ -173,9 +181,42 @@ const {
   `/groups/${route.params.id}/register`,
   { immediate: false },
 )
+
+// Lấy thông tin user
+const {
+  data: dataGetMe,
+  get: getMe,
+  onFetchResponse: getMeResponse,
+  onFetchError: getMeError,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  '/user',
+  {immediate: false},
+);
+
+getMeResponse(() => {
+  if(group.value.mentors.find(mentor => mentor.id === dataGetMe.value.data.id)) {
+    statusShow.value = 2;
+  } else {
+    statusShow.value = 1;
+  }
+});
+getMeError(() => {
+  // deleteToken();
+});
+
 getGroup().json().execute();
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data.data;
+  group.value = dataGetGroup.value.data.data
+  if(group.value.status === 2) {
+    getMe().json().execute();
+  }
+  else {
+    alert("Nhóm hiện không tìm người hướng dẫn!");
+    navigateTo('/groups?type=all');
+  }
 });
 
 getCv().json().execute();
@@ -185,8 +226,13 @@ getCvRes(() => {
 });
 
 postMentorRes(() => {
-
+  isDisabledButton.value = false;
+  getGroup().json().execute();
 });
+postMentorErr(() => {
+  isDisabledButton.value = false;
+  errorAlert(dataMentor.value.meta.error_message);
+})
 const submit = () => {
   isDisabledButton.value = true;
   showConfirmError.value = false;
@@ -253,6 +299,10 @@ label span {
 .confirm-error {
   color: red;
   font-size: 13px;
+}
+.notice-success span {
+  font-weight: 600;
+  color: green;
 }
 </style>
   

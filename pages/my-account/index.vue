@@ -74,7 +74,7 @@
             </button>
           </BCol>
           <form @submit.prevent="submit" class="col col-9 col-lg-10 infor">
-            <h1 class="text-center">My account</h1>
+            <h1 class="text-center">Trang cá nhân</h1>
             <BRow class="mb-3">
               <BCol role="group">
                 <label for="email">Địa chỉ email</label>
