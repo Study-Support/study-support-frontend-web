@@ -71,8 +71,8 @@ export default defineEventHandler(async (event) => {
     return createPutResponse();
   }
   if (isMethod(event.req, 'DELETE')) {
-    // event.res.statusCode = 422;
-    // return ValidationErrorResponses();
+    event.res.statusCode = 422;
+    return ValidationErrorResponses();
     return createDelResponse();
   }
   return createGetResponse();
