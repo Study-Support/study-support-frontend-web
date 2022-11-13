@@ -2,7 +2,7 @@
   <div class="full">
     <div class="header">
       <div class="img">
-        <button class="back-button" @click="router.go(-1);">
+        <button class="back-button" @click="navigateTo('/dashboard')">
           <BIconArrowLeft />
         </button>
       </div>

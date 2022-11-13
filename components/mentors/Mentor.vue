@@ -3,16 +3,17 @@
         <img :src="`${mentor.image}`" alt="">
         <div class="full"></div>
         <div class="infor">
-            <p>Khoa: {{mentor.faculty}}</p>
-            <h5>Tên: {{mentor.full_name}}</h5>
+            <h5 class="text-center">{{mentor.full_name}}</h5>
+            <p class="text-center">Khoa {{mentor.faculty}} - Trường Đại học Bách Khoa - Đại học Đà Nẵng</p>
             <div class="subjects">
                 <p v-for="sub in mentor.subjects" :key="sub.id">{{sub.name}}</p>
             </div>
-            <p>{{mentor.rating}}</p>
+            <p class="rating">{{mentor.rating}}</p> <BIconStar />
         </div>
     </div>
 </template>
 <script setup>
+import { BIconStar } from 'bootstrap-icons-vue';
 const props = defineProps({
     mentor: {
     type: Object,
@@ -58,9 +59,9 @@ const props = defineProps({
     transition: all  0.4s ease-in-out;
 }
 h5 {
-    font-size: 18px;
+    font-size: 17px;
     line-height: 20px;
-    font-weight: 700;
+    font-weight: 600;
     margin: 10px 10px 7px 10px;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -69,16 +70,35 @@ h5 {
     text-overflow: ellipsis;
 }
 p {
-    margin: 7px 10px;
+    margin: 7px 30px;
     color: rgb(174, 174, 174);
-    font-size: small;
+    font-size: 12px;
 }
 img {
     width: 100%;
+}
+.subjects {
+    background-color: rgb(65, 65, 65);
+    margin: 20px 10px 10px 10px;
+    padding: 3px;
+    border-radius: 5px;
 }
 .subjects p{
     margin: 0 10px;
     color: rgb(255, 255, 255);
     font-size: 12px;
+}
+.rating, svg{
+   color:rgb(162, 170, 255) !important; 
+}
+.rating {
+    display: inline-block;
+    margin: 0 5px 10px 15px;
+    padding-top: 10px;
+    font-size: 15px;
+}
+svg {
+    display: inline-block;
+    padding-bottom: 2px;
 }
 </style>
