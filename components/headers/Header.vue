@@ -128,6 +128,7 @@ a {
 
 .menu-top {
   background-color: #465C71;
+  z-index: 100;
 }
 
 h5 {

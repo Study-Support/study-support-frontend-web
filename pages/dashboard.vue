@@ -588,7 +588,7 @@ img.laptop {
   left: 0;
   transition: all 2s;
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
-  background-color: rgb(10, 103, 175);
+  background-color: #465C71;
   display: flex;
   justify-content: center;
   z-index: 1000;
@@ -674,9 +674,6 @@ img.laptop {
 .avatar img {
   width: 100%;
   border-radius: 13px;
-}
-.all-groups {
-  /* background-color: #EFF4FA; */
 }
 
 .all-groups h3 {
