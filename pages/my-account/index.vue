@@ -61,20 +61,21 @@
         </form>
         </div>
         <BRow>
-          <BCol class=" col-3 col-lg-2 text-center sidebar">
-            <div class="avatar">
-              <img src="assets/mentors/m1.jpg" alt="avatar">
+          <form @submit.prevent="submit" class="col infor">
+            <div class="avatar-infor">
+              <div class="avatar">
+                <img src="assets/mentors/m1.jpg" alt="avatar">
+                <div>
+                  <button
+                    href="#"
+                    @click.prevent = "changeAvatar"
+                  >
+                  <BIconCamera />
+                  </button>
+                </div>
+              </div>
+              <h1 class="text-center">Trang cá nhân</h1>
             </div>
-            <button
-              href="#"
-              @click.prevent = "changeAvatar"
-              class="text-center"
-            >
-              Change avatar
-            </button>
-          </BCol>
-          <form @submit.prevent="submit" class="col col-9 col-lg-10 infor">
-            <h1 class="text-center">Trang cá nhân</h1>
             <BRow class="mb-3">
               <BCol role="group">
                 <label for="email">Địa chỉ email</label>
@@ -215,7 +216,7 @@
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import authenticated from "~~/middleware/authenticated";
-import {BIconX} from 'bootstrap-icons-vue';
+import {BIconX, BIconCamera} from 'bootstrap-icons-vue';
 
 definePageMeta({
   layout: 'logout-page',
@@ -241,6 +242,7 @@ const userData = ref({
 });
 const validationErrorMessages = ref({});
 const dataFaculty = ref([]);
+const ratings = ref([]);
 
 const showChangePass = ref(false);
 const changeData = ref({
@@ -299,6 +301,23 @@ const {
   '/user/edit',
   {immediate: false},
 );
+// Lấy đánh giá
+const {
+  data: dataRating,
+  get: getRating,
+  onFetchResponse: getRatingResponse,
+  onFetchError: getRatingError,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  '/user/rating',
+  {immediate: false},
+);
+getRating().json().execute();
+getRatingResponse(() => {
+  ratings.value = dataRating.value.data;
+})
 // Lấy thông tin cá nhân
 getMe().json().execute();
 getMeResponse(() => {
@@ -373,42 +392,56 @@ const submit = () => {
 </script>
 <style scoped>
 h1 {
-  font-family: "Love Ya Like A Sister";
-  color: rgb(2, 21, 62);
+  color: rgb(75, 82, 98);
   margin: 0px; 
   background-color: transparent;
-
-}
-.sidebar, .infor {
-  min-height: calc(100vh - 50px);
-}
-.sidebar {
-  padding-top: 20px;
-  background-color: #cdd6de;
-  border-right: 1px solid rgb(169, 186, 178);
+  font-size: 35px;
+  font-weight: 600;
 }
 .avatar {
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   margin-left: auto;
   margin-right: auto;
   border-radius: 100px;
   overflow: hidden;
+  position: relative;
+}
+.avatar> div {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(200, 200, 200, 0.477);
+  width: 100%;
+  height: 100%;
+}
+.avatar:hover div {
+  display: inline-block;
+}
+.avatar button {
+  width: 100%;
+  
 }
 .avatar img {
   width: 100%;
 }
 .infor {
   padding: 0 50px;
-  background-color: #dfe6ec;
+  background-color: #ffffff;
   padding-top: 20px;
   height: 100%;
+}
+.avatar-infor {
+  z-index: -1000;
 }
 button {
   border: 0px;
   padding-top: 5px;
   background-color: transparent;
   color: rgb(2, 62, 24);
+  display: block;
+  margin: auto;
 }
 label {
   font-weight:400 !important;  

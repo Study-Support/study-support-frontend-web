@@ -34,10 +34,12 @@
         </div>
         <div class="mt-5 register">
           <h5 class="text-center pb-3" for="">Thông tin kiểm duyệt đăng ký thành viên</h5>
-          <p class="notice-success" v-if="statusShow === 2">
-            <span>Đăng ký đã thực hiện thành công!.</span>
-            Bây giờ bạn là thành viên của nhóm học trên. Nhà trường thể thực hiện xóa bạn ra khỏi nhóm nếu nhận thấy thông tin bạn cũng cấp sai lệch trước khi nhóm chuyển sang giai đoạn tìm người hướng dẫn và bắt đầu học.</p>
-          <form @submit.prevent="submit" v-if="statusShow === 1">
+          <p class="notice-success mb-2" v-if="statusShow === 2">
+            <span>Bạn đã đăng ký tham gia nhóm học!.</span>
+            Nhóm trưởng sẽ xem xét thông tin đăng ký của bạn và thêm bạn vào nhóm. Theo dõi email để cập nhật thông tin nhé!
+            <span class="pt-4 mb-0">Thông tin đăng ký của bạn:</span>
+          </p>
+          <form @submit.prevent="submit">
             <div role="group">
               <label for="">Bạn gặp khó khăn gì trong môn học này?</label>
               <BFormTextarea v-model="register_inform.difficult"
@@ -77,11 +79,16 @@
               </BFormCheckbox>
               <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin trên!</span>
             </div>
-
-            <div class="text-end">
-              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
-                :color="'rgb(63 88 120)'" />
-            </div>
+            <div class="text-end" v-if="statusShow === 1">
+                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
+                  :color="'rgb(63 88 120)'" />
+              </div>
+              <div class="text-end" v-if="statusShow === 2">
+                <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
+                  :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
+                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký'"
+                  :color="'rgb(255 57 57)'" @click.prevent="deletee" />
+              </div>
           </form>
         </div>
       </BCol>
@@ -99,7 +106,7 @@ definePageMeta({
 const route = useRoute();
 const isDisabledButton = ref(false);
 const showConfirmError = ref(false);
-const { errorAlert } = useAlert();
+const { errorAlert, successAlert } = useAlert();
 const statusShow = ref(0);
 const group = ref({
   id: '',
@@ -124,6 +131,7 @@ const register_inform = ref({
 })
 const validationErrorMessages = ref({
 });
+
 const {
   data: dataGetGroup,
   get: getGroup,
@@ -136,7 +144,20 @@ const {
   `groups/${route.params.id}`,
   { immediate: false },
 )
-
+// Lấy thông tin cv của user đk cho nhóm đó
+const {
+  data: dataCv,
+  get: getCv,
+  onFetchResponse: getCvRes,
+  onFetchError: getCvErr,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  `/groups/${route.params.id}/register-member`,
+  { immediate: false },
+)
+// đăng ký là Member
 const {
   data: dataMember,
   post: postMember,
@@ -149,52 +170,94 @@ const {
   `/groups/${route.params.id}/register`,
   { immediate: false },
 )
-
-// Lấy thông tin user
+// update Member
 const {
-  data: dataGetMe,
-  get: getMe,
-  onFetchResponse: getMeResponse,
-  onFetchError: getMeError,
+  data: dataMemberPut,
+  put: putMember,
+  onFetchResponse: putMemberRes,
+  onFetchError: putMemberErr,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/user',
-  {immediate: false},
-);
-
-getMeResponse(() => {
-  if(group.value.members.find(member => member.id === dataGetMe.value.data.id)) {
-    statusShow.value = 2;
-  } else {
-    statusShow.value = 1;
-  }
-});
-getMeError(() => {
-  // deleteToken();
-});
+  `/groups/${route.params.id}/register-member`,
+  { immediate: false },
+)
+// Xóa Member
+const {
+  data: dataMemberdel,
+  delete: delMember,
+  onFetchResponse: delMemberRes,
+  onFetchError: delMemberErr,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  `/groups/${route.params.id}/register-member`,
+  { immediate: false },
+)
 
 getGroup().json().execute();
 getGroupRes(() => {
   group.value = dataGetGroup.value.data.data
-  if(group.value.status === 1) {
-    getMe().json().execute();
+  // kiểm tra thực sự nhóm đang tìm Member k hay nhập bừa id
+  if (group.value.status === 1) {
+    getCv().json().execute();
   }
   else {
-    alert("Nhóm hiện không tìm thành viên!");
+    alert("Nhóm hiện không tìm sinh viên tham gia học!");
     navigateTo('/groups?type=all');
   }
 });
 
+// Đã đăng ký Member
+getCvRes(() => {
+  isDisabledButton.value = false;
+  statusShow.value = 2;
+  register_inform.value = dataCv.value.data;
+});
+// Chưa có đăng ký Member cho nhóm này
+getCvErr(() => {
+  isDisabledButton.value = false;
+  statusShow.value = 1;
+});
+
 postMemberRes(() => {
   isDisabledButton.value = false;
+  successAlert('Bạn đã đăng ký thành công!')
+  statusShow.value = 2;
   getGroup().json().execute();
 });
 postMemberErr(() => {
   isDisabledButton.value = false;
   errorAlert(dataMember.value.meta.error_message);
 })
+
+putMemberRes(() => {
+  isDisabledButton.value = false;
+  successAlert('Chỉnh sửa thông tin thành công!');
+  register_inform.value = dataMemberPut.value.data;
+})
+putMemberErr(() => {
+  isDisabledButton.value = false;
+  errorAlert(dataMemberPut.value.meta.error_message);
+})
+
+delMemberRes(() => {
+  isDisabledButton.value = false;
+  successAlert('Hủy đăng ký thành công!');
+  statusShow.value = 1;
+  register_inform.value.difficult = '';
+  register_inform.value.target = '';
+  register_inform.value.note = '';
+  register_inform.value.confirm = 'not_agreed';
+})
+delMemberErr(() => {
+  isDisabledButton.value = false;
+  errorAlert(dataMemberdel.value.meta.error_message)
+})
+
+
 const submit = () => {
   isDisabledButton.value = true;
   showConfirmError.value = false;
@@ -205,6 +268,104 @@ const submit = () => {
     postMember(register_inform.value).json().execute();
   }
 }
+const update = () => {
+  isDisabledButton.value = true;
+  showConfirmError.value = false;
+  if (register_inform.value.confirm !== 'agreed') {
+    showConfirmError.value = true;
+    isDisabledButton.value = false;
+  } else {
+    putMember(register_inform.value).json().execute();
+  }
+}
+const deletee = () => {
+  isDisabledButton.value = true;
+  showConfirmError.value = false;
+  delMember().json().execute();
+}
+
+
+// const {
+//   data: dataGetGroup,
+//   get: getGroup,
+//   onFetchResponse: getGroupRes,
+//   onFetchError: getGroupErr,
+// } = useFetchApi({
+//   requireAuth: true,
+//   disableHandleErrorUnauthorized: false,
+// })(
+//   `groups/${route.params.id}`,
+//   { immediate: false },
+// )
+
+// const {
+//   data: dataMember,
+//   post: postMember,
+//   onFetchResponse: postMemberRes,
+//   onFetchError: postMemberErr,
+// } = useFetchApi({
+//   requireAuth: true,
+//   disableHandleErrorUnauthorized: false,
+// })(
+//   `/groups/${route.params.id}/register`,
+//   { immediate: false },
+// )
+
+// // Lấy thông tin user
+// const {
+//   data: dataGetMe,
+//   get: getMe,
+//   onFetchResponse: getMeResponse,
+//   onFetchError: getMeError,
+// } = useFetchApi({
+//   requireAuth: true,
+//   disableHandleErrorUnauthorized: false,
+// })(
+//   '/user',
+//   {immediate: false},
+// );
+
+// getMeResponse(() => {
+//   if(group.value.members.find(member => member.id === dataGetMe.value.data.id)) {
+//     statusShow.value = 2;
+//   } else {
+//     statusShow.value = 1;
+//   }
+// });
+// getMeError(() => {
+//   // deleteToken();
+// });
+
+// getGroup().json().execute();
+// getGroupRes(() => {
+//   group.value = dataGetGroup.value.data.data
+//   if(group.value.status === 1) {
+//     getMe().json().execute();
+//   }
+//   else {
+//     alert("Nhóm hiện không tìm thành viên!");
+//     navigateTo('/groups?type=all');
+//   }
+// });
+
+// postMemberRes(() => {
+//   isDisabledButton.value = false;
+//   getGroup().json().execute();
+// });
+// postMemberErr(() => {
+//   isDisabledButton.value = false;
+//   errorAlert(dataMember.value.meta.error_message);
+// })
+// const submit = () => {
+//   isDisabledButton.value = true;
+//   showConfirmError.value = false;
+//   if (register_inform.value.confirm !== 'agreed') {
+//     showConfirmError.value = true;
+//     isDisabledButton.value = false;
+//   } else {
+//     postMember(register_inform.value).json().execute();
+//   }
+// }
 </script>
   
 <style scoped>
@@ -251,7 +412,9 @@ h5:last-child {
 .submit-button>>>button {
   width: 200px;
 }
-
+.submit-button {
+  display: inline-block;
+}
 form>div {
   margin-top: 10px;
 }
@@ -263,6 +426,12 @@ form>div {
 .notice-success span {
   font-weight: 600;
   color: green;
+}
+
+.notice-success span:last-child {
+  color: rgb(0, 0, 0);
+  display: block;
+  font-size: large;
 }
 </style>
   

@@ -201,7 +201,7 @@ const {
 );
 
 getFaculty().json().execute();
-getSubject().json().execute();
+// getSubject().json().execute();
 getFacultyResponse(() => {
   faculties.value = dataFaculty.value.data.data;
 })
@@ -245,7 +245,7 @@ delCreateGroupError(() => {
   errorAlert(dataDelCreateGroup.value.meta.error_message);
 })
 watch(faculty.value, () => {
-  getSubject().json().execute();
+  // getSubject().json().execute();
   data.value.faculty_id = faculty.value.faculty_id;
 });
 const update = () => {

@@ -340,7 +340,7 @@ const {
   get: getNotis,
   onFetchResponse: getNotisResponse,
 } = useFetchApi({
-  requireAuth: false,
+  requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
   url3,
@@ -353,7 +353,7 @@ const {
   get: getTopGroup,
   onFetchResponse: getTopGroupResponse
 } = useFetchApi({
-  requireAuth: false,
+  requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
   url2,
@@ -369,7 +369,7 @@ const {
   get: getGroupFindMentor,
   onFetchResponse: GetGroupFindMentorResponse
 } = useFetchApi({
-  requireAuth: false,
+  requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
   url4,

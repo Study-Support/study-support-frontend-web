@@ -3,8 +3,8 @@ const createGetResponse = () => ({
     data: [
       {
         id: '5',
-        subject: 'Giải tích 1',
-        img: 'g1.png',
+        subject: 'Giải tích 11',
+        img: '/assets/groups/g1.png',
         faculty: 'Hóa',
         quantity: '3',
         status: 1,
@@ -15,7 +15,7 @@ const createGetResponse = () => ({
       {
         id: '4',
         subject: 'Tin học đại cương',
-        img: 'g2.jpg',
+        img: '/assets/groups/g2.jpg',
         faculty: 'Công nghệ thông tin',
         quantity: '3',
         status: 2,
@@ -25,7 +25,7 @@ const createGetResponse = () => ({
       {
         id: '1',
         subject: 'Xác suất thống kê',
-        img: 'g3.jpg',
+        img: '/assets/groups/g3.jpg',
         faculty: 'Cơ khí giao thông',
         quantity: '1',
         status: 2,
@@ -35,7 +35,7 @@ const createGetResponse = () => ({
       {
         id: '2',
         subject: 'Vi điều khiển',
-        img: 'g4.jpg',
+        img: '/assets/groups/g4.jpg',
         faculty: 'Cơ khí giao thông',
         quantity: '3',
         status: 1,
@@ -46,7 +46,7 @@ const createGetResponse = () => ({
       {
         id: '3',
         subject: 'Khoa học dữ liệu',
-        img: 'g4.jpg',
+        img: '/assets/groups/g4.jpg',
         faculty: 'Công nghệ tiên tiến',
         quantity: '2',
         status: 1,
@@ -56,7 +56,7 @@ const createGetResponse = () => ({
       {
         id: '6',
         subject: 'Chuyên đề công nghệ Công nghệ thông tin',
-        img: 'g4.jpg',
+        img: '/assets/groups/g4.jpg',
         faculty: 'Công nghệ tiên tiến và xây dựng dân dụng',
         quantity: '2',
         status: 1,
@@ -66,7 +66,7 @@ const createGetResponse = () => ({
       {
         id: '7',
         subject: 'Giải tích 1',
-        img: 'g1.png',
+        img: '/assets/groups/g1.png',
         faculty: 'Hóa',
         quantity: '3',
         status: 1,
@@ -77,7 +77,7 @@ const createGetResponse = () => ({
       {
         id: '8',
         subject: 'Tin học đại cương',
-        img: 'g2.jpg',
+        img: '/assets/groups/g2.jpg',
         faculty: 'Công nghệ thông tin',
         quantity: '3',
         status: 1,
@@ -87,7 +87,7 @@ const createGetResponse = () => ({
       {
         id: '9',
         subject: 'Xác suất thống kê',
-        img: 'g3.jpg',
+        img: '/assets/groups/g3.jpg',
         faculty: 'Cơ khí giao thông',
         quantity: '1',
         status: 2,
@@ -97,7 +97,7 @@ const createGetResponse = () => ({
       {
         id: '10',
         subject: 'Vi điều khiển',
-        img: 'g4.jpg',
+        img: '/assets/groups/g4.jpg',
         faculty: 'Cơ khí giao thông',
         quantity: '3',
         status: 1,
@@ -108,7 +108,7 @@ const createGetResponse = () => ({
       {
         id: '11',
         subject: 'Khoa học dữ liệu',
-        img: 'g4.jpg',
+        img: '/assets/groups/g4.jpg',
         faculty: 'Công nghệ tiên tiến',
         quantity: '2',
         status: 2,
@@ -118,7 +118,7 @@ const createGetResponse = () => ({
       {
         id: '12',
         subject: 'Chuyên đề công nghệ Công nghệ thông tin',
-        img: 'g4.jpg',
+        img: '/assets/groups/g4.jpg',
         faculty: 'Công nghệ tiên tiến và xây dựng dân dụng',
         quantity: '2',
         status: 1,

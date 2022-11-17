@@ -108,6 +108,6 @@ const createGetResponse2 = () => ({
         }
         return createPostResponse();
       }
-      return createGetResponse2();
+      return createGetResponse1();
     });
     

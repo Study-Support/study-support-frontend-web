@@ -55,26 +55,27 @@ const { url: url1 } = useUrl({
     status: 1,
   },
 });
-// Tạo url lấy groups user đang tham gia học
+// Tạo url lấy groups user đang tham gia làm mentor của nhóm đang học
 const { url: url2 } = useUrl({
   path: 'user/groups',
   queryParams: {
-    is_mentor: 1,
-    status: 1
+    is_mentor: 1, 
+    is_active: 1
   },
 });
-// Tạo url lấy groups user đang tham gia học
+// Tạo url lấy groups user tạo nhu cầu đang đợi duyệt
 const { url: url3 } = useUrl({
   path: 'user/groups',
   queryParams: {
     status: 0,
   },
 });
-// Tạo url lấy groups user đang tham gia học
+// Tạo url lấy groups user đăng ký đang đợi duyệt làm mentor của nhóm 
 const { url: url4 } = useUrl({
   path: 'user/groups',
   queryParams: {
-    status: 0,
+    is_mentor: 1, 
+    is_active: 0
   },
 });
 
