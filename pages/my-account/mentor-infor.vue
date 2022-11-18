@@ -3,17 +3,24 @@
     <BContainer fluid>
       <div class="rating">
         <h5>Thông tin của bạn làm mentor</h5>
-        <div role="group">
+        <BRow role="group">
+
           <label for="">Tài khoản ngân hàng
           </label>
-          <BFormInput v-model="infor.smart_banking"
-            :state="validationErrorMessages.smart_banking === undefined ? null : false"
-            aria-describedby="input-live-help input-live-feedback" placeholder="Tài khoản ngân hàng" required
-            class="" />
-          <BFormInvalidFeedback>
-            <ValidationErrorMessage :messages="validationErrorMessages.smart_banking" />
-          </BFormInvalidFeedback>
-        </div>
+          <BCol>
+            <BFormInput v-model="infor.smart_banking"
+              :state="validationErrorMessages.smart_banking === undefined ? null : false"
+              aria-describedby="input-live-help input-live-feedback" placeholder="Tài khoản ngân hàng" required
+              class="" />
+            <BFormInvalidFeedback>
+              <ValidationErrorMessage :messages="validationErrorMessages.smart_banking" />
+            </BFormInvalidFeedback>
+          </BCol>
+
+          <span @click.prevent="updateSTK" class="col col-auto">
+            <BIconPencilSquare />
+          </span>
+        </BRow>
         <div class="accept mt-3">
           <label for="">Môn học bạn đã được duyệt làm mentor bởi nhà trường.
             <span>Bạn có thể đăng ký làm mentor cho các nhóm của môn học dưới mà không cần đăng ký lại và chờ duyệt
@@ -48,15 +55,17 @@
               </BFormInvalidFeedback>
               <BRow class="text-end">
                 <SubmitButton class="col col-auto mt-3 ms-auto submit-button" :isDisabled="isDisabledButton"
-                  :content="'Chỉnh sửa'" :color="'rgb(23 131 27)'" @click.prevent="update" />
+                  :content="'Chỉnh sửa'" :color="'rgb(23 131 27)'" @click.prevent="updateCVLink" />
               </BRow>
             </div>
           </div>
           <div v-for="(request, index) in infor.requests" :key="request.id">
-            <p>{{index + 1 }}.{{request.subject}}</p>
-            <p>{{request.faculty}}</p>
-            <a :href="{ path: `${request.cv_link}` }">Link thành tích</a> 
-            <span @click.prevent="update(request)"><BIconPencilSquare/></span>
+            <p>{{ index + 1 }}.{{ request.subject }}</p>
+            <p>{{ request.faculty }}</p>
+            <a :href="{ path: `${request.cv_link}` }">Link thành tích</a>
+            <span @click.prevent="update(request)">
+              <BIconPencilSquare />
+            </span>
           </div>
         </div>
       </div>
@@ -66,6 +75,7 @@
     
 <script setup>
 import { BIconX, BIconPencilSquare } from 'bootstrap-icons-vue';
+const { errorAlert, successAlert } = useAlert();
 
 definePageMeta({
   layout: 'logout-page',
@@ -103,17 +113,43 @@ const {
   '/user/mentor-infor',
   { immediate: false },
 );
+// Update cv_link
+const {
+  data: dataPutCVLink,
+  put: putCVLink,
+  onFetchResponse: putCVLinkResponse,
+  onFetchError: putCVLinkError,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  '/user/mentor-infor',
+  { immediate: false },
+);
+
 getMentorInfor().json().execute();
 getMentorInforResponse(() => {
   infor.value = dataMentorInfor.value.data;
-  console.log(infor.value)
 })
+putCVLinkResponse(() => {
+  showUpdate.value = false;
+  successAlert('Chỉnh sửa thành công');
+  getMentorInfor().json().execute();
 
+})
+putCVLinkError(() => {
+  errorAlert(dataPutCVLink.value.meta.error_message);
+})
 const update = (a) => {
   showUpdate.value = true;
   update_cv.value = a;
 }
-
+const updateCVLink = () => {
+  putCVLink(update_cv.value).json().execute();
+}
+const updateSTK = () => {
+  
+}
 </script>
 <style scoped>
 .full {

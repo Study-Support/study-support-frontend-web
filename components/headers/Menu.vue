@@ -17,7 +17,7 @@
             </div>
             <div>
                 <p>
-                    <BIconChevronDown /> Yêu cầu đã được duyệt
+                    <BIconChevronDown /> Nhóm của tôi
                 </p>
                 <button class="i3" :class="`${route.path.substring(19,28)}`" @click="navigateTo('/my-account/groups/is-member')">
                     <BIconPeopleFill /> Nhóm là thành viên

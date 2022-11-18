@@ -52,21 +52,21 @@
                   <BCol>
                     <div role="group">
                       <label for="">Bạn gặp vấn đề gì với môn học này?</label>
-                      <BFormTextarea v-model="data.difficult"
-                        :state="validationErrorMessages.difficult === undefined ? null : false"
+                      <BFormTextarea v-model="data.information"
+                        :state="validationErrorMessages.information === undefined ? null : false"
                         aria-describedby="input-live-help input-live-feedback" placeholder="Khó khăn" trim required />
                       <BFormInvalidFeedback>
-                        <ValidationErrorMessage :messages="validationErrorMessages.difficult" />
+                        <ValidationErrorMessage :messages="validationErrorMessages.information" />
                       </BFormInvalidFeedback>
                     </div>
                     <div role="group">
                       <label for="">Thông tin cụ thể về những gì mà bạn muốn học, mục tiêu sau khi kết thúc khóa
                         học?</label>
-                      <BFormTextarea v-model="data.target"
-                        :state="validationErrorMessages.target === undefined ? null : false"
+                      <BFormTextarea v-model="data.topic"
+                        :state="validationErrorMessages.topic === undefined ? null : false"
                         aria-describedby="input-live-help input-live-feedback" placeholder="Khó khăn" trim required />
                       <BFormInvalidFeedback>
-                        <ValidationErrorMessage :messages="validationErrorMessages.target" />
+                        <ValidationErrorMessage :messages="validationErrorMessages.topic" />
                       </BFormInvalidFeedback>
                     </div>
                     <div role="group">
@@ -115,11 +115,13 @@
   const showConfirmError = ref(false);
   const isSuccess = ref(false);
   const data = ref({
-    difficult: '',
-    target: '',
+    information: '',
+    topic: '',
+    time_study: 'a',
+    location_study: 'a',
     note: '',
     confirm: 'not_agreed',
-    self_study: '',
+    self_study: true,
     faculty_id: '',
     subject_id: '',
   })
@@ -132,11 +134,6 @@
   const faculties = ref([]);
   const subjects = ref([]);
   
-  // Tạo url môn học theo khoa
-  const { url: url1 } = useUrl({
-    path: '/subjects',
-    queryParams: faculty.value,
-  });
   const {
     data: dataFaculty,
     get: getFaculty,
@@ -156,7 +153,7 @@
     requireAuth: true,
     disableHandleErrorUnauthorized: true,
   })(
-    url1,
+    `/faculties/2`,
     { immediate: false },
   );
   
@@ -196,7 +193,7 @@
     faculties.value = dataFaculty.value.data.data;
   })
   getSubjectResponse(() => {
-    subjects.value = dataSubject.value.data.data;
+    subjects.value = dataSubject.value.data.data.subjects;
   })
   // Xử lý tạo group
   postCreateGroupResponse(() => {

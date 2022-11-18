@@ -167,7 +167,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/register`,
+  `/groups/${route.params.id}/join`,
   { immediate: false },
 )
 // update Member
@@ -199,7 +199,7 @@ const {
 
 getGroup().json().execute();
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data.data
+  group.value = dataGetGroup.value.data
   // kiểm tra thực sự nhóm đang tìm Member k hay nhập bừa id
   if (group.value.status === 1) {
     getCv().json().execute();

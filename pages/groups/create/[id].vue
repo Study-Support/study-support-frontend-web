@@ -48,22 +48,22 @@
                 <BCol>
                   <div role="group">
                     <label for="">Bạn gặp vấn đề gì với môn học này?</label>
-                    <BFormTextarea v-model="data.difficult"
-                      :state="validationErrorMessages.difficult === undefined ? null : false"
+                    <BFormTextarea v-model="data.information"
+                      :state="validationErrorMessages.information === undefined ? null : false"
                       aria-describedby="input-live-help input-live-feedback" placeholder="Khó khăn" trim required />
                     <BFormInvalidFeedback>
-                      <ValidationErrorMessage :messages="validationErrorMessages.difficult" />
+                      <ValidationErrorMessage :messages="validationErrorMessages.information" />
                     </BFormInvalidFeedback>
                   </div>
                   <div role="group">
                     <label for="">Thông tin cụ thể về những gì mà bạn muốn học, mục tiêu sau khi kết
                       thúc khóa
                       học?</label>
-                    <BFormTextarea v-model="data.target"
-                      :state="validationErrorMessages.target === undefined ? null : false"
+                    <BFormTextarea v-model="data.topic"
+                      :state="validationErrorMessages.topic === undefined ? null : false"
                       aria-describedby="input-live-help input-live-feedback" placeholder="Khó khăn" trim required />
                     <BFormInvalidFeedback>
-                      <ValidationErrorMessage :messages="validationErrorMessages.target" />
+                      <ValidationErrorMessage :messages="validationErrorMessages.topic" />
                     </BFormInvalidFeedback>
                   </div>
                   <div role="group">
@@ -93,9 +93,9 @@
             </BCol>
             <div class="text-end">
               <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
-                  :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
-                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký nhu cầu'"
-                  :color="'rgb(255 57 57)'" @click.prevent="deletee" />
+                :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
+              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký nhu cầu'"
+                :color="'rgb(255 57 57)'" @click.prevent="deletee" />
             </div>
           </form>
         </BContainer>
@@ -116,13 +116,15 @@ const { errorAlert, successAlert } = useAlert();
 const isDisabledButton = ref(false);
 const showConfirmError = ref(false);
 const data = ref({
-  difficult: '',
-  target: '',
+  information: 'a',
+  topic: 'a',
+  time_study: 'a',
+  location_study: 'a',
   note: '',
   confirm: 'not_agreed',
-  self_study: '',
-  faculty_id: '',
-  subject_id: '',
+  self_study: true,
+  faculty_id: '1',
+  subject_id: '1',
 })
 const validationErrorMessages = ref({
 });
@@ -133,11 +135,6 @@ const faculty = ref({
 const faculties = ref([]);
 const subjects = ref([]);
 
-// Tạo url môn học theo khoa
-const { url: url1 } = useUrl({
-  path: '/subjects',
-  queryParams: faculty.value,
-});
 const {
   data: dataFaculty,
   get: getFaculty,
@@ -146,7 +143,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
 })(
-  '/faculties',
+  `/faculties/1`,
   { immediate: false },
 );
 const {
@@ -157,7 +154,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
 })(
-  url1,
+  `faculties`,
   { immediate: false },
 );
 // Lấy thông tin group
@@ -170,7 +167,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `groups/${route.params.id}/create`,
+  `groups/${route.params.id}`,
   { immediate: false },
 )
 // sửa thông tin
@@ -183,7 +180,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
 })(
-  '/groups',
+  `groups/${route.params.id}`,
   { immediate: false },
 );
 // sửa thông tin
@@ -196,7 +193,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
 })(
-  '/groups',
+  `groups/${route.params.id}`,
   { immediate: false },
 );
 
@@ -279,9 +276,11 @@ h4 {
   background-color: #ffffff;
   padding: 20px;
 }
+
 .submit-button {
   display: inline-block;
 }
+
 .submit-button>>>button {
   width: 200px;
 }

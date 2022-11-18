@@ -66,20 +66,6 @@
                   <ValidationErrorMessage :messages="validationErrorMessages.schedule" />
                 </BFormInvalidFeedback>
               </div>
-
-              <div role="group">
-                <label for="">3. Tài khoản ngân hàng?
-                  <span v-if="beforeShow === 0">Bao gồm số tài khoản và tên ngân hàng.</span>
-                  <span v-if="beforeShow === 1">Bạn đã lưu thông tin tài khoản ở lần đăng ký trước.</span>
-                </label>
-                <BFormTextarea v-model="register_inform.smart_banking"
-                  :state="validationErrorMessages.smart_banking === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback" placeholder="Tài khoản ngân hàng" trim required
-                  class="" />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.smart_banking" />
-                </BFormInvalidFeedback>
-              </div>
               <div role="group">
                 <label for="">4. Bạn có ý kiến gì không muốn gửi không?</label>
                 <BFormInput v-model="register_inform.note"
@@ -150,7 +136,6 @@ const group = ref({
 const register_inform = ref({
   cv_link: '',
   schedule: '',
-  smart_banking: '',
   note: '',
   confirm: 'not_agreed',
 })
@@ -191,7 +176,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/register`,
+  `/groups/${route.params.id}/join`,
   { immediate: false },
 )
 // update mentor
@@ -237,7 +222,7 @@ const {
 
 getGroup().json().execute();
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data.data
+  group.value = dataGetGroup.value.data
   // kiểm tra thực sự nhóm đang tìm mentor k hay nhập bừa id
   if (group.value.status === 2) {
     getCv().json().execute();

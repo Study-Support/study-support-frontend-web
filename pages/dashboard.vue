@@ -64,9 +64,6 @@
                     </div>
                     Xem trang cá nhân
                   </NuxtLink>
-                  <div class="p-2">
-                    <GroupMenu />
-                  </div>
                 </div>
               </BCol>
             </BRow>
