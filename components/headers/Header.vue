@@ -220,7 +220,6 @@ li a:hover {
   /* background-color: black; */
   margin: 10px;
   padding: 10px;
-  border: 1px solid rgb(146, 146, 146);
   border-radius: 5px;
 }
 

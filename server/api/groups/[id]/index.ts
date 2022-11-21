@@ -149,5 +149,5 @@ export default defineEventHandler(async (event) => {
     }
     return createPostResponse();
   }
-  return createGetResponse1();
+  return createGetResponse2();
 });

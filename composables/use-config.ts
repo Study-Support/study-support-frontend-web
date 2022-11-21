@@ -14,7 +14,8 @@ const CONFIG = {
       findMember: 1,
       selfStudy: 0,
       all: 'all',
-    }
+    },
+    API_BASE: 'http://localhost:3000/'
   }
 };
 const useConfig = () => {

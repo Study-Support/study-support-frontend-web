@@ -1,25 +1,27 @@
 <template>
   <div class="full">
-    <div class="img">
-      <img :src="`${mentor.image}`" alt="">
-    </div>
-    <div class="infor">
-      <h5 class="text-center">{{mentor.full_name}}</h5>
-      <p class="faculty text-center">Khoa {{mentor.faculty}}</p>
-      <div class="subjects">
-        <p v-for="sub in mentor.subjects" :key="sub.id">{{ sub.name }}</p>
+    <NuxtLink :to="{ path: `/mentors/${mentor.id}` }">
+      <div class="img">
+        <img :src="`${mentor.image}`" alt="">
       </div>
-      <div class="d-flex justify-content-between back">
-        <p class="rating">
-          <BIconPeopleFill />
-          {{ mentor.group_quantity }} nhóm
-        </p>
-        <p class="rating">
-          <BIconHeartFill />
-          {{ mentor.rating }} 
-        </p>
+      <div class="infor">
+        <h5 class="text-center">{{mentor.full_name}}</h5>
+        <p class="faculty text-center">Khoa {{mentor.faculty}}</p>
+        <div class="subjects">
+          <p v-for="sub in mentor.subjects" :key="sub.id">{{ sub.name }}</p>
+        </div>
+        <div class="d-flex justify-content-between back">
+          <p class="rating">
+            <BIconPeopleFill />
+            {{ mentor.group_quantity }} nhóm
+          </p>
+          <p class="rating">
+            <BIconHeartFill />
+            {{ mentor.rating }} 
+          </p>
+        </div>
       </div>
-    </div>
+    </NuxtLink>
   </div>
 </template>
 <script setup>
