@@ -33,12 +33,10 @@
                 </BCol>
                 <BFormGroup>
                   <label for="">Bạn muốn nhóm thuộc loại nào?</label>
-                  <BFormRadio v-model="data.self_study" :aria-describedby="ariaDescribedby" name="some-radios"
-                    value=false>
+                  <BFormRadio v-model="data.self_study" :aria-describedby="ariaDescribedby" name="some-radios" value=0>
                     Nhóm có người hướng dẫn
                   </BFormRadio>
-                  <BFormRadio v-model="data.self_study" :aria-describedby="ariaDescribedby" name="some-radios"
-                    value=true>
+                  <BFormRadio v-model="data.self_study" :aria-describedby="ariaDescribedby" name="some-radios" value=1>
                     Nhóm tự học
                   </BFormRadio>
                 </BFormGroup>
@@ -47,33 +45,57 @@
                 <label class="title">2. Thông tin nhóm học</label>
                 <BCol>
                   <div role="group">
-                    <label for="">Bạn gặp vấn đề gì với môn học này?</label>
-                    <BFormTextarea v-model="data.information"
-                      :state="validationErrorMessages.information === undefined ? null : false"
-                      aria-describedby="input-live-help input-live-feedback" placeholder="Khó khăn" trim required />
+                    <label for="">Mục đích tạo nhóm học?</label>
+                    <BFormInput v-model="data.topic" :state="validationErrorMessages.topic === undefined ? null : false"
+                      aria-describedby="input-live-help input-live-feedback" placeholder="Mục đích nhóm học" trim
+                      required class="" />
                     <BFormInvalidFeedback>
-                      <ValidationErrorMessage :messages="validationErrorMessages.information" />
+                      <ValidationErrorMessage :messages="validationErrorMessages.topic" />
                     </BFormInvalidFeedback>
                   </div>
                   <div role="group">
                     <label for="">Thông tin cụ thể về những gì mà bạn muốn học, mục tiêu sau khi kết
                       thúc khóa
                       học?</label>
-                    <BFormTextarea v-model="data.topic"
-                      :state="validationErrorMessages.topic === undefined ? null : false"
-                      aria-describedby="input-live-help input-live-feedback" placeholder="Khó khăn" trim required />
+                    <BFormTextarea v-model="data.information"
+                      :state="validationErrorMessages.information === undefined ? null : false"
+                      aria-describedby="input-live-help input-live-feedback" placeholder="Thông tin cụ thể" trim
+                      required />
                     <BFormInvalidFeedback>
-                      <ValidationErrorMessage :messages="validationErrorMessages.topic" />
+                      <ValidationErrorMessage :messages="validationErrorMessages.information" />
                     </BFormInvalidFeedback>
                   </div>
                   <div role="group">
-                    <label for="">Bạn có ý kiến gì không muốn gửi không?</label>
-                    <BFormInput v-model="data.note" :state="validationErrorMessages.note === undefined ? null : false"
-                      aria-describedby="input-live-help input-live-feedback" placeholder="Ý kiến cá nhân" trim required
-                      class="" />
+                    <label for="">Mô tả về thời gian học?</label>
+                    <BFormTextarea v-model="data.time_study"
+                      :state="validationErrorMessages.time_study === undefined ? null : false"
+                      aria-describedby="input-live-help input-live-feedback" placeholder="Thời gian" trim required />
                     <BFormInvalidFeedback>
-                      <ValidationErrorMessage :messages="validationErrorMessages.note" />
+                      <ValidationErrorMessage :messages="validationErrorMessages.time_study" />
                     </BFormInvalidFeedback>
+                  </div>
+                  <div role="group">
+                    <label for="">Mô tả về địa điểm học?</label>
+                    <BFormTextarea v-model="data.location_study"
+                      :state="validationErrorMessages.location_study === undefined ? null : false"
+                      aria-describedby="input-live-help input-live-feedback" placeholder="Địa điểm" trim required />
+                    <BFormInvalidFeedback>
+                      <ValidationErrorMessage :messages="validationErrorMessages.location_study" />
+                    </BFormInvalidFeedback>
+                  </div>
+
+                  <div class="survey_questions">
+                    <label for="">Tạo câu hỏi dùng để duyệt thành viên đăng ký tham gia vào
+                      nhóm:</label>
+                    <button @click.prevent="add_question">Thêm câu hỏi</button>
+                    <div v-for="(questions, index) in data.survey_questions" :key="questions.id" class="mt-3">
+                      Câu hỏi số {{ index + 1 }}: <button @click.prevent="del(index)">
+                        Xóa
+                      </button>
+                      <BFormInput v-model="questions.content" aria-describedby="input-live-help input-live-feedback"
+                        placeholder="câu hỏi" trim required class="" />
+
+                    </div>
                   </div>
 
                   <div role="group">
@@ -116,15 +138,14 @@ const { errorAlert, successAlert } = useAlert();
 const isDisabledButton = ref(false);
 const showConfirmError = ref(false);
 const data = ref({
-  information: 'a',
-  topic: 'a',
-  time_study: 'a',
-  location_study: 'a',
-  note: '',
+  information: '',
+  topic: '',
+  time_study: '',
+  location_study: '',
   confirm: 'not_agreed',
-  self_study: true,
-  faculty_id: '1',
-  subject_id: '1',
+  self_study: 0,
+  faculty_id: '',
+  subject_id: '',
 })
 const validationErrorMessages = ref({
 });
@@ -135,6 +156,11 @@ const faculty = ref({
 const faculties = ref([]);
 const subjects = ref([]);
 
+// Tạo url môn học theo khoa
+const { url: url1 } = useUrl({
+  path: '/subjects',
+  queryParams: faculty.value,
+});
 const {
   data: dataFaculty,
   get: getFaculty,
@@ -143,7 +169,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
 })(
-  `/faculties/1`,
+  '/faculties',
   { immediate: false },
 );
 const {
@@ -154,7 +180,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
 })(
-  `faculties`,
+  url1,
   { immediate: false },
 );
 // Lấy thông tin group
@@ -198,7 +224,6 @@ const {
 );
 
 getFaculty().json().execute();
-// getSubject().json().execute();
 getFacultyResponse(() => {
   faculties.value = dataFaculty.value.data.data;
 })
@@ -242,7 +267,7 @@ delCreateGroupError(() => {
   errorAlert(dataDelCreateGroup.value.meta.error_message);
 })
 watch(faculty.value, () => {
-  // getSubject().json().execute();
+  getSubject().json().execute();
   data.value.faculty_id = faculty.value.faculty_id;
 });
 const update = () => {
@@ -259,6 +284,15 @@ const deletee = () => {
   isDisabledButton.value = true;
   showConfirmError.value = false;
   delCreateGroup().json().execute();
+}
+const add_question = () => {
+  data.value.survey_questions.push({
+    id: 'null',
+    content: '',
+  });
+}
+const del = (index) => {
+  data.value.survey_questions.splice(index, 1);
 }
 </script>
   
@@ -319,7 +353,7 @@ form>div {
 
 label {
   font-size: 14px;
-  color: rgba(48, 48, 48, 0.886);
+  color: rgba(0, 123, 49, 0.886);
   padding-left: 2px;
   padding-bottom: 3px;
   margin-top: 15px;
@@ -329,6 +363,7 @@ label.title {
   font-weight: 600;
   font-size: 16px;
   margin-top: 10px;
+  color: black;
 }
 
 .confirm-error {
@@ -338,6 +373,12 @@ label.title {
 
 .success {
   color: rgb(0, 179, 0);
+}
+
+.survey_questions button {
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
 }
 </style>
   

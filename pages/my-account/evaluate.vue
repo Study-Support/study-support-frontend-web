@@ -2,7 +2,6 @@
   <div class="full">
     <BContainer fluid>
       <BRow class="rating">
-        <h5>Đánh giá mentor dành cho bạn</h5>
         <BTabs pills card align="end">
           <BTab title="Bạn là mentor" active>
             <div v-for="rating in ratings" :key="rating.name">
@@ -11,7 +10,10 @@
             </div>
           </BTab>
           <BTab title="Bạn là member">
-            thu nhu
+            <div v-for="rating in ratings" :key="rating.name">
+              <p class="name">{{ rating.name }}</p>
+              <p class="content">{{ rating.content }}</p>
+            </div>
           </BTab>
         </BTabs>
 
@@ -26,7 +28,6 @@ definePageMeta({
   middleware: 'authenticated',
 });
 const ratings = ref([]);
-const ratingsMentor = ref([]);
 
 
 // Lấy đánh giá của mình
@@ -39,31 +40,13 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/user/rating',
+  '/rate',
   { immediate: false },
 );
 getRating().json().execute();
 getRatingResponse(() => {
   ratings.value = dataRating.value.data;
 })
-// Lấy đánh giá của mình là mentor
-const {
-  data: dataRatingMentor,
-  get: getRatingMentor,
-  onFetchResponse: getRatingMentorResponse,
-  onFetchError: getRatingMentorError,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})(
-  '/user/rating',
-  { immediate: false },
-);
-getRatingMentor().json().execute();
-getRatingMentorResponse(() => {
-  ratingsMentor.value = dataRatingMentor.value.data;
-})
-// Lấy thông tin cá nhân
 
 </script>
 <style scoped>
@@ -86,12 +69,21 @@ h5 {
 
 div>>>button {
   color: rgb(0, 0, 0);
-  padding: 5px 20px !important;
-  transition: .5s ease;
+  padding: 7px 20px !important;
+  border-bottom: 2px solid #ededed !important;
+  border-radius: 0 !important;
 }
 
 div>>>button.active {
-  color: rgb(255, 255, 255) !important;
-  background-color: rgb(34, 29, 29) !important;
+  color: #465C71 !important;
+  border-bottom: 2px solid #465C71 !important;
+}
+div>>>button:hover {
+  color: #465C71 !important;
+}
+.rating {
+  position: fixed;
+  right: 50px;
+  top: 70px;
 }
 </style>

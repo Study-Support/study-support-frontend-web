@@ -2,16 +2,14 @@
   <div class="full">
     <BContainer fluid>
       <div class="rating">
-        <h5>Thông tin của bạn làm mentor</h5>
         <BRow role="group">
 
           <label for="">Tài khoản ngân hàng
           </label>
           <BCol>
-            <BFormInput v-model="infor.smart_banking"
+            <BFormTextarea v-model="infor.smart_banking"
               :state="validationErrorMessages.smart_banking === undefined ? null : false"
-              aria-describedby="input-live-help input-live-feedback" placeholder="Tài khoản ngân hàng" required
-              class="" />
+              aria-describedby="input-live-help input-live-feedback" placeholder="Thông tin ngân hàng và số tài khoản" trim required />
             <BFormInvalidFeedback>
               <ValidationErrorMessage :messages="validationErrorMessages.smart_banking" />
             </BFormInvalidFeedback>
@@ -110,7 +108,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/user/mentor-infor',
+  '/user/mentor',
   { immediate: false },
 );
 // Update cv_link
@@ -148,7 +146,7 @@ const updateCVLink = () => {
   putCVLink(update_cv.value).json().execute();
 }
 const updateSTK = () => {
-  
+
 }
 </script>
 <style scoped>

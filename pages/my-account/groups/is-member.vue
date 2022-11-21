@@ -2,13 +2,15 @@
   <div class="full">
     <BRow class="ms-1 me-1 mb-4">
       <BCol class="col-6 col-md-3 mt-4" v-for="group in groupsIsMember" :key="group.id">
-        <GroupCard :group="group" />
+        <GroupCard :group="group"  @click.prevent="detail(group)"/>
       </BCol>
     </BRow>
   </div>
 </template>
     
 <script setup>
+import consolaGlobalInstance from 'consola';
+
 definePageMeta({
   layout: 'logout-page',
   middleware: 'authenticated',
@@ -20,7 +22,7 @@ const { url: url1 } = useUrl({
   path: 'user/groups',
   queryParams: {
     is_mentor: 0,
-    status: 1,
+    accepted: 1,
   },
 });
 
@@ -42,6 +44,12 @@ getgroupsIsMember().json().execute();
 getgroupsIsMemberResponse(() => {
   groupsIsMember.value = dataGetgroupsIsMember.value.data.data;
 });
+const detail = (group) => {
+  console.log(group);
+  if(group.status === 2) {
+    navigateTo(`/my-account/groups/${group.id}/waiting-mentor`);
+  }
+}
 </script>
 <style scoped>
 

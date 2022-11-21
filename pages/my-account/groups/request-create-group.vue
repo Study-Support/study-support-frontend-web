@@ -20,6 +20,7 @@ const { url: url1 } = useUrl({
   path: 'user/groups',
   queryParams: {
     status: 0,
+    is_creator: 1,
   },
 });
 

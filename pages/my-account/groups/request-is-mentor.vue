@@ -2,7 +2,7 @@
   <div class="full">
     <BRow class="ms-1 me-1 mb-4">
       <BCol class="col-6 col-md-3 mt-4" v-for="group in groupsIsMember" :key="group.id">
-        <GroupCard :group="group" />
+        <GroupCard :group="group" @click="navigateTo(`/groups/${group.id}/register-is-mentor`)"/>
       </BCol>
     </BRow>
   </div>
@@ -20,7 +20,7 @@ const { url: url1 } = useUrl({
   path: 'user/groups',
   queryParams: {
     is_mentor: 1, 
-    is_active: 0
+    accepted: 0
   },
 });
 

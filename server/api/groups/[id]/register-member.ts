@@ -1,10 +1,23 @@
 const createGetResponse = () => ({
   data: {
-    difficult: 'a',
-    target: 'a',
-    note: 'a',
-    confirm: 'agreed',
-    }
+    survey_questions: [
+      {
+        id: 1,
+        content: 'Bạn có làm việc nhóm tốt không?',
+        answer: 'Có'
+      },
+      {
+        id: 2,
+        content: 'Bạn có nhiều thời gian rảnh không?',
+        answer: 'Rảnh nhiều vào buổi tối'
+      },
+      {
+        id: 3,
+        content: 'Bạn có đọc hiểu tài liệu tiếng anh tốt không?',
+        answer: 'Đọc hiểu cơ bản nội dung'
+      },
+    ],
+  }
 });
 
 const createPostResponse = () => ({
@@ -12,11 +25,24 @@ const createPostResponse = () => ({
 });
 const createPutResponse = () => ({
   data: {
-    difficult: 'aa',
-    target: 'a',
-    note: 'a',
-    confirm: 'agreed',
-    }
+    survey_questions: [
+      {
+        id: 1,
+        content: 'Bạn có làm việc nhóm tốt không?',
+        answer: 'Có'
+      },
+      {
+        id: 2,
+        content: 'Bạn có nhiều thời gian rảnh không?',
+        answer: 'Rảnh nhiều vào buổi tối'
+      },
+      {
+        id: 3,
+        content: 'Bạn có đọc hiểu tài liệu tiếng anh tốt không?',
+        answer: 'Đọc hiểu cơ bản nội dung và có thể dùng translate để hỗ trợ'
+      },
+    ],
+  }
 });
 const createDelResponse = () => ({
 
@@ -51,5 +77,7 @@ export default defineEventHandler(async (event) => {
     // return ValidationErrorResponses();
     return createDelResponse();
   }
+  // event.res.statusCode = 422;
+  // return ValidationErrorResponses();
   return createGetResponse();
 });

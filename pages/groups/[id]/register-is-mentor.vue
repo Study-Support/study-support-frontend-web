@@ -163,7 +163,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/register-mentor`,
+  `/groups/${route.params.id} `,
   { immediate: false },
 )
 // đăng ký là mentor

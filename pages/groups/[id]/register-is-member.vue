@@ -18,7 +18,7 @@
           <span>
             Tóm tắt thông tin:
           </span>
-          {{ group.title }}
+          {{ group.topic }}
         </p>
         <span>Thông tin chi tiết</span>
         <p class="information">
@@ -36,38 +36,17 @@
           <h5 class="text-center pb-3" for="">Thông tin kiểm duyệt đăng ký thành viên</h5>
           <p class="notice-success mb-2" v-if="statusShow === 2">
             <span>Bạn đã đăng ký tham gia nhóm học!.</span>
-            Nhóm trưởng sẽ xem xét thông tin đăng ký của bạn và thêm bạn vào nhóm. Theo dõi email để cập nhật thông tin nhé!
+            Nhóm trưởng sẽ xem xét thông tin đăng ký của bạn và thêm bạn vào nhóm. Theo dõi email để cập nhật thông tin
+            nhé!
             <span class="pt-4 mb-0">Thông tin đăng ký của bạn:</span>
           </p>
           <form @submit.prevent="submit">
-            <div role="group">
-              <label for="">Bạn gặp khó khăn gì trong môn học này?</label>
-              <BFormTextarea v-model="register_inform.difficult"
-                :state="validationErrorMessages.difficult === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback" placeholder="Khó khăn" trim required class="" />
-              <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorMessages.difficult" />
-              </BFormInvalidFeedback>
-            </div>
-
-            <div role="group">
-              <label for="">Bạn mong muốn đạt được gì khi tham gia nhóm học?</label>
-              <BFormTextarea v-model="register_inform.target"
-                :state="validationErrorMessages.target === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback" placeholder="Mong muốn" trim required class="" />
-              <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorMessages.target" />
-              </BFormInvalidFeedback>
-            </div>
-            <div role="group">
-              <label for="">Bạn có ý kiến gì không muốn gửi không?</label>
-              <BFormInput v-model="register_inform.note"
-                :state="validationErrorMessages.note === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback" placeholder="Ý kiến cá nhân" trim required
-                class="" />
-              <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorMessages.note" />
-              </BFormInvalidFeedback>
+            <div class="survey_questions">
+              <div v-for="(questions, index) in group.survey_questions" :key="questions.id">
+                Câu hỏi số {{ index + 1 }}: {{ questions.content }}
+                <BFormInput v-model="questions.answer"
+                  aria-describedby="input-live-help input-live-feedback" placeholder="Câu trả lời" trim required class="" />
+              </div>
             </div>
 
             <div role="group">
@@ -80,15 +59,15 @@
               <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin trên!</span>
             </div>
             <div class="text-end" v-if="statusShow === 1">
-                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
-                  :color="'rgb(63 88 120)'" />
-              </div>
-              <div class="text-end" v-if="statusShow === 2">
-                <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
-                  :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
-                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký'"
-                  :color="'rgb(255 57 57)'" @click.prevent="deletee" />
-              </div>
+              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
+                :color="'rgb(63 88 120)'" />
+            </div>
+            <div class="text-end" v-if="statusShow === 2">
+              <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
+                :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
+              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký'"
+                :color="'rgb(255 57 57)'" @click.prevent="deletee" />
+            </div>
           </form>
         </div>
       </BCol>
@@ -112,7 +91,7 @@ const group = ref({
   id: '',
   faculty: '',
   subject: '',
-  title: '',
+  topic: '',
   information: '',
   quantity: '',
   status: '',
@@ -121,12 +100,11 @@ const group = ref({
       full_name: '',
       faculty: '',
     }
+  ],
+  survey_questions: [
   ]
 });
 const register_inform = ref({
-  difficult: '',
-  target: '',
-  note: '',
   confirm: 'not_agreed',
 })
 const validationErrorMessages = ref({
@@ -199,7 +177,10 @@ const {
 
 getGroup().json().execute();
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data
+  group.value = dataGetGroup.value.data;
+  group.value.survey_questions.map(item => {
+    item.answer = '';
+  });
   // kiểm tra thực sự nhóm đang tìm Member k hay nhập bừa id
   if (group.value.status === 1) {
     getCv().json().execute();
@@ -214,7 +195,7 @@ getGroupRes(() => {
 getCvRes(() => {
   isDisabledButton.value = false;
   statusShow.value = 2;
-  register_inform.value = dataCv.value.data;
+  group.value.survey_questions = dataCv.value.data.survey_questions;
 });
 // Chưa có đăng ký Member cho nhóm này
 getCvErr(() => {
@@ -236,7 +217,8 @@ postMemberErr(() => {
 putMemberRes(() => {
   isDisabledButton.value = false;
   successAlert('Chỉnh sửa thông tin thành công!');
-  register_inform.value = dataMemberPut.value.data;
+  group.value.survey_questions = dataMemberPut.value.data.survey_questions;
+  console.log(group.value.survey_questions)
 })
 putMemberErr(() => {
   isDisabledButton.value = false;
@@ -265,7 +247,9 @@ const submit = () => {
     showConfirmError.value = true;
     isDisabledButton.value = false;
   } else {
-    postMember(register_inform.value).json().execute();
+    postMember({
+      survey_questions: group.value.survey_questions
+    }).json().execute();
   }
 }
 const update = () => {
@@ -392,6 +376,7 @@ h5:first-child {
   font-size: 23px;
   color: rgb(0, 85, 119);
 }
+
 h5:last-child {
   font-size: 18px;
   color: rgb(0, 85, 119);
@@ -412,9 +397,11 @@ h5:last-child {
 .submit-button>>>button {
   width: 200px;
 }
+
 .submit-button {
   display: inline-block;
 }
+
 form>div {
   margin-top: 10px;
 }
@@ -423,6 +410,7 @@ form>div {
   color: red;
   font-size: 13px;
 }
+
 .notice-success span {
   font-weight: 600;
   color: green;

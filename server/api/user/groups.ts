@@ -21,7 +21,7 @@ const createGetResponse = () => ({
         self_study: 'false',
         faculty: 'Công nghệ thông tin',
         quantity: '3',
-        status: 0,
+        status: 2,
         is_mentor: false,
         is_creator: false,
         created_at: '2022-08-05T16:04:43.967Z',

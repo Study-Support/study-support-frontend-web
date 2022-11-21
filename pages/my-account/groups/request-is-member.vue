@@ -20,7 +20,7 @@ const { url: url1 } = useUrl({
   path: 'user/groups',
   queryParams: {
     is_mentor: 0,
-    status: 1,
+    accepted: 0,
   },
 });
 
