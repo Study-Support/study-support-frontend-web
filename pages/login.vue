@@ -93,7 +93,7 @@ const {
   {immediate: false},
 );
 onFetchResponse(() => {
-  setToken(data.value.token);
+  setToken(data.value.data.token.access_token);
   $toast('Đăng nhập thành công','success', 1500);
   return navigateTo({name: 'dashboard'});
 });

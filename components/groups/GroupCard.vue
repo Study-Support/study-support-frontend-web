@@ -1,12 +1,13 @@
 <template>
-    <NuxtLink :to="{ path: `/groups/${group.id}` }" class="full">
+    <NuxtLink :to="{ path: `/groups/${group.id}` }" class="fulls">
         <div class="image">
-            <img :src="`assets/groups/${group.img}`" alt="">
+            <img :src="`${group.img}`" alt="">
+            <span v-if="group.self_study === true" class="tag">Tự học</span>
         </div>
         <div class="content m-3">
             <p class="">Khoa {{group.faculty}}</p>
-            <h5>{{group.name}}</h5>
-            <p class="quatity"> {{group.quatity}} Thành viên</p>
+            <h5>{{group.subject}}</h5>
+            <p class="quantity"> {{group.quantity}} Thành viên</p>
         </div>
     </NuxtLink>
 </template>
@@ -21,9 +22,9 @@ const props = defineProps({
 * {
     color: black;
 }
-.full {
+.fulls {
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0 5px 8px 0 rgb(0 0 0 / 10%);
     overflow: hidden;
     display: block;
@@ -31,17 +32,25 @@ const props = defineProps({
     padding-bottom: 40px;
     position: relative;
 }
-.full:hover img {
+.fulls:hover img {
     transform: scale(1.05);
     border-radius: 10px 10px 0 0;
 }
 .image {
     height: 200px;
     overflow: hidden;
+    position: relative;
+}
+.tag {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgb(113, 196, 255);
+    padding: 4px 5px 4px 5px;
+    font-size: 14px;
 }
 .image img{
     width: 100%;
-    border-radius: 10px 10px 0 0;
     transition: .3s ease;
     height: 100%;
 }
@@ -55,7 +64,7 @@ const props = defineProps({
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.quatity {
+.quantity {
     padding: 8px 0 0;
     margin-right: 15px;
     border-top: 1px solid #e0e0e0;

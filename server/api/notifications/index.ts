@@ -74,7 +74,7 @@ const ValidationErrorResponses = () => ({
     'Tên đăng nhập đã tồn tại',
     'Tên đăng nhập đã tồn tại',
   ],
-  quatity: [
+  quantity: [
     'Tên đăng nhập đã tồn tại',
     'Tên đăng nhập đã tồn tại',
   ],
