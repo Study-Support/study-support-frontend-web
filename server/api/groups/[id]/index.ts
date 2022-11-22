@@ -13,6 +13,7 @@ const createGetResponse0 = () => ({
     topic: 'Cải thiện, hiểu rõ hơn về cách viết code theo đối tượng',
     information: 'Mình chưa hiểu rõ các tính chất cơ bản của lập trình hướng đối tượng, muốn có thêm nhiều lần thực hành để thuần thạo hơn. Bên cạnh đó học thêm kiến thức nâng cao hơn, ứng dụng vào dự án thực tế để sau này biết cách áp dụng',
     status: 0,
+    is_creator: 1,
     survey_questions: [
       {
         id: '1',
@@ -41,6 +42,7 @@ const createGetResponse1 = () => ({
     topic: 'Cải thiện, hiểu rõ hơn về cách viết code theo đối tượng',
     information: 'Mình chưa hiểu rõ các tính chất cơ bản của lập trình hướng đối tượng, muốn có thêm nhiều lần thực hành để thuần thạo hơn. Bên cạnh đó học thêm kiến thức nâng cao hơn, ứng dụng vào dự án thực tế để sau này biết cách áp dụng',
     status: 1,
+    is_creator: 1,
     members: [
       {
         id: '1',
@@ -86,6 +88,7 @@ const createGetResponse2 = () => ({
     title: 'Cải thiện, hiểu rõ hơn về cách viết code theo đối tượng',
     information: 'Mình chưa hiểu rõ các tính chất cơ bản của lập trình hướng đối tượng, muốn có thêm nhiều lần thực hành để thuần thạo hơn. Bên cạnh đó học thêm kiến thức nâng cao hơn, ứng dụng vào dự án thực tế để sau này biết cách áp dụng',
     status: 2,
+    is_creator: 1,
     members: [
       {
         id: '1',

@@ -49,6 +49,9 @@ const detail = (group) => {
   if(group.status === 2) {
     navigateTo(`/my-account/groups/${group.id}/waiting-mentor`);
   }
+  if(group.status === 1) {
+    navigateTo(`/my-account/groups/${group.id}/waiting-member`);
+  }
 }
 </script>
 <style scoped>

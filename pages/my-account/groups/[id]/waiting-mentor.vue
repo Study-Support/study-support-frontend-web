@@ -89,10 +89,7 @@ getGroup().json().execute();
 getGroupRes(() => {
     group.value = dataGetGroup.value.data
     // kiểm tra thực sự nhóm đang tìm mentor k hay nhập bừa id
-    if (group.value.status === 2) {
-        getCv().json().execute();
-    }
-    else {
+    if (group.value.status !== 2) {
         alert("Truy cập nhóm không đúng!");
         navigateTo('/groups?type=all');
     }
