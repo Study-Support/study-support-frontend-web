@@ -31,9 +31,6 @@
     </BRow>
     <BRow class="mt-3" v-if="group.is_creator === 1">
       <BCol>
-        {{ acceptMember }}
-        {{ allSelected }}
-
         <div>
           <table>
             <tr>
@@ -42,9 +39,10 @@
             </tr>
             <tr v-for="(member, index) in group.members" :key="member.id">
               <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
-              <td><input type="checkbox" v-model="acceptMember" @click="select" :value="member.id"></td>
+              <td><input type="checkbox" v-model="acceptMember" @change="select" :value="member.id"></td>
             </tr>
           </table>
+          <button @click="accept">Duyệt thành viên</button>
         </div>
       </BCol>
     </BRow>
@@ -71,25 +69,6 @@ const { $toast } = useNuxtApp();
 const { getConfig } = useConfig();
 const acceptMember = ref([]);
 const allSelected = ref(false);
-
-
-const selectAll = () => {
-  acceptMember.value = [];
-  if (!allSelected.value) {
-    console.log('vo');
-    group.value.members.forEach(function (member) {
-      acceptMember.value.push(member.id);
-    });
-  }
-}
-const select = () => {
-  if(acceptMember.value.length === group.value.members) {
-    allSelected.value = true;
-  } else {
-    allSelected.value = false;
-  }
-}
-
 const group = ref({
   id: '',
   faculty: '',
@@ -119,6 +98,23 @@ const {
   `groups/${route.params.id}`,
   { immediate: false },
 )
+
+const { url: url1 } = useUrl({
+  path: `groups/${route.params.id}`,
+  queryParams: acceptMember.value,
+});
+const {
+  data: dataAcceptMember,
+  put: gutAcceptMember,
+  onFetchResponse: putAcceptMemberRes,
+  onFetchError: putAcceptMemberErr,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  `groups/${route.params.id}`,
+  { immediate: false },
+)
 getGroup().json().execute();
 getGroupRes(() => {
   group.value = dataGetGroup.value.data
@@ -129,6 +125,21 @@ getGroupRes(() => {
   }
 });
 
+
+const selectAll = () => {
+  acceptMember.value = [];
+  if (!allSelected.value) {
+    group.value.members.forEach(function (member) {
+      acceptMember.value.push(member.id);
+    });
+  }
+}
+const select = () => {
+  allSelected.value = false;
+}
+const accept = () => {
+  putAcceptMemberRes().json().execute();
+}
 </script>
     
 <style scoped>

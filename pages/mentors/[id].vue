@@ -302,7 +302,7 @@ img {
 }
 
 .update-infor {
-  background-color: rgb(151, 181, 189);
+  background-color: rgb(182 209 218);
   width: 400px;
   padding: 10px;
   padding-top: 30px;
