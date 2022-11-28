@@ -88,7 +88,7 @@
                     <label for="">Tạo câu hỏi dùng để duyệt thành viên đăng ký tham gia vào
                       nhóm:</label>
                     <button @click.prevent="add_question">Thêm câu hỏi</button>
-                    <div v-for="(questions, index) in data.survey_questions" :key="questions.id" class="mt-3">
+                    <div v-for="(questions, index) in data.surveyQuestions" :key="questions.id" class="mt-3">
                       Câu hỏi số {{ index + 1 }}: <button @click.prevent="del(index)">
                         Xóa
                       </button>
@@ -286,13 +286,13 @@ const deletee = () => {
   delCreateGroup().json().execute();
 }
 const add_question = () => {
-  data.value.survey_questions.push({
+  data.value.surveyQuestions.push({
     id: 'null',
     content: '',
   });
 }
 const del = (index) => {
-  data.value.survey_questions.splice(index, 1);
+  data.value.surveyQuestions.splice(index, 1);
 }
 </script>
   
@@ -375,7 +375,7 @@ label.title {
   color: rgb(0, 179, 0);
 }
 
-.survey_questions button {
+.surveyQuestions button {
   border: none;
   background-color: transparent;
   text-decoration: underline;

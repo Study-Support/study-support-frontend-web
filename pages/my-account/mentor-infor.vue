@@ -133,7 +133,8 @@ const isDisabledButton = ref(false);
 const infor = ref({
   smart_banking: '',
   accepts: [],
-  requests: []
+  requests: [],
+  subject_list: [],
 })
 const update_cv = ref({
   subject_id: '',
@@ -165,7 +166,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/user/mentor',
+  '/mentor',
   { immediate: false },
 );
 // Update cv_link
@@ -191,7 +192,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/user/mentor-infor',
+  '/mentor',
   { immediate: false },
 );
 // Update smartBanking
@@ -253,7 +254,14 @@ const {
 
 getMentorInfor().json().execute();
 getMentorInforResponse(() => {
-  infor.value = dataMentorInfor.value.data;
+  infor.value.subject_list = dataMentorInfor.value.data.data.subject_list;
+  infor.value.subject_list.map(subject => {
+    if(subject.status === 1) {
+      infor.value.accepts.push(subject);
+    } else {
+      infor.value.requests.push(subject);
+    }
+  });
 })
 putCVLinkResponse(() => {
   isDisabledButton.value = false;

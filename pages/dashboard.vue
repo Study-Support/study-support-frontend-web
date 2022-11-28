@@ -224,12 +224,13 @@
           <h2>Tham gia các nhóm tự học để nâng cao kiến thức</h2>
           <p>Đây là các nhóm không có người hướng dẫn, có thể là nhóm nghiên cứu khoa học, học nhóm... tìm thành viên để
             cùng nhau học tập, nghiên cứu.</p>
-          <div class="pt-5">
+          <ThunhuButton color="#3075a9" path="groups" type="0" ></ThunhuButton>
+          <!-- <div class="pt-5">
             <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.selfStudy') } }"
               class="more">
               Xem chi tiết
             </NuxtLink>
-          </div>
+          </div> -->
         </BCol>
       </BRow>
     </BContainer>
@@ -918,11 +919,6 @@ img.laptop {
   font-size: 18px;
   line-height: 32px;
   color: #848484;
-}
-
-.self-study .content .more {
-  border-color: black;
-  color: black;
 }
 
 .self-study .content .more {

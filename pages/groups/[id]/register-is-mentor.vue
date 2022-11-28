@@ -176,7 +176,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/join`,
+  `/group/${route.params.id}/join`,
   { immediate: false },
 )
 // update mentor

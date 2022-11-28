@@ -27,7 +27,10 @@ definePageMeta({
   layout: 'logout-page',
   middleware: 'authenticated',
 });
-const ratings = ref([]);
+const ratings = ref({
+  mentorRatings: [],
+  userRatings: [],
+});
 
 
 // Lấy đánh giá của mình

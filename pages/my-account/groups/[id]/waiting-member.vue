@@ -29,7 +29,11 @@
         </p>
       </BCol>
     </BRow>
-    <BRow class="mt-3" v-if="group.is_creator === 1">
+    <!-- v-if="group.is_creator === 1" -->
+    <BRow
+      class="mt-3"
+      
+      >
       <BCol>
         <div>
           <table>
@@ -105,24 +109,24 @@ const { url: url1 } = useUrl({
 });
 const {
   data: dataAcceptMember,
-  put: gutAcceptMember,
+  put: putAcceptMember,
   onFetchResponse: putAcceptMemberRes,
   onFetchError: putAcceptMemberErr,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `groups/${route.params.id}`,
+  `user/groups/${route.params.id}/acceptMember`,
   { immediate: false },
 )
 getGroup().json().execute();
 getGroupRes(() => {
   group.value = dataGetGroup.value.data
   // kiểm tra thực sự nhóm đang tìm mentor k hay nhập bừa id
-  if (group.value.status === 1) {
-    alert("Truy cập nhóm không đúng!");
-    navigateTo('/groups?type=all');
-  }
+  // if (group.value.status === 1) {
+  //   alert("Truy cập nhóm không đúng!");
+  //   navigateTo('/groups?type=all');
+  // }
 });
 
 
@@ -138,7 +142,10 @@ const select = () => {
   allSelected.value = false;
 }
 const accept = () => {
-  putAcceptMemberRes().json().execute();
+  putAcceptMember({
+    account_id: acceptMember.value,
+    accept: false
+  }).json().execute();
 }
 </script>
     

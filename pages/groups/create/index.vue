@@ -225,7 +225,7 @@ getFacultyResponse(() => {
   faculties.value = dataFaculty.value.data.data;
 })
 getSubjectResponse(() => {
-  subjects.value = dataSubject.value.data.data;
+  subjects.value = dataSubject.value.data;
 })
 // Xử lý tạo group
 postCreateGroupResponse(() => {

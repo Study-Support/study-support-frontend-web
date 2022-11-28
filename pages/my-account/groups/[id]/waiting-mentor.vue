@@ -40,7 +40,7 @@
                         Sao chép liên kết để mời người hướng dẫn:
                     </span>
                     <button @click="a">Sao chép liên kết</button>
-                    <button @click="navigateTo('/mentors')">Mời người hướng dẫn</button>
+                    <!-- <button @click="navigateTo('/mentors')">Mời người hướng dẫn</button> -->
                 </p>
             </BCol>
         </BRow>

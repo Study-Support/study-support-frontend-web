@@ -42,7 +42,7 @@
           </p>
           <form @submit.prevent="submit">
             <div class="survey_questions">
-              <div v-for="(questions, index) in group.survey_questions" :key="questions.id">
+              <div v-for="(questions, index) in group.surveyQuestions" :key="questions.id">
                 Câu hỏi số {{ index + 1 }}: {{ questions.content }}
                 <BFormInput v-model="questions.answer"
                   aria-describedby="input-live-help input-live-feedback" placeholder="Câu trả lời" trim required class="" />
@@ -101,7 +101,7 @@ const group = ref({
       faculty: '',
     }
   ],
-  survey_questions: [
+  surveyQuestions: [
   ]
 });
 const register_inform = ref({
@@ -145,7 +145,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/join`,
+  `/group/${route.params.id}/join`,
   { immediate: false },
 )
 // update Member
@@ -178,7 +178,7 @@ const {
 getGroup().json().execute();
 getGroupRes(() => {
   group.value = dataGetGroup.value.data;
-  group.value.survey_questions.map(item => {
+  group.value.surveyQuestions.map(item => {
     item.answer = '';
   });
   // kiểm tra thực sự nhóm đang tìm Member k hay nhập bừa id
@@ -195,7 +195,7 @@ getGroupRes(() => {
 getCvRes(() => {
   isDisabledButton.value = false;
   statusShow.value = 2;
-  group.value.survey_questions = dataCv.value.data.survey_questions;
+  group.value.surveyQuestions = dataCv.value.data.surveyQuestions;
 });
 // Chưa có đăng ký Member cho nhóm này
 getCvErr(() => {
@@ -217,8 +217,8 @@ postMemberErr(() => {
 putMemberRes(() => {
   isDisabledButton.value = false;
   successAlert('Chỉnh sửa thông tin thành công!');
-  group.value.survey_questions = dataMemberPut.value.data.survey_questions;
-  console.log(group.value.survey_questions)
+  group.value.surveyQuestions = dataMemberPut.value.data.surveyQuestions;
+  console.log(group.value.surveyQuestions)
 })
 putMemberErr(() => {
   isDisabledButton.value = false;
@@ -248,7 +248,7 @@ const submit = () => {
     isDisabledButton.value = false;
   } else {
     postMember({
-      survey_questions: group.value.survey_questions
+      survey_answers: group.value.surveyQuestions
     }).json().execute();
   }
 }

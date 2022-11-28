@@ -1,37 +1,45 @@
 <template>
   <div>
-    THU NHU
-    <button @click="a">nhan</button>
+    thunhu
+    <!-- <ThunhuButton color="#3075a9" path="/dashboard">CLICK</ThunhuButton> -->
+    thunhu
   </div>
-  <div v-for="data in result" :key="data">
+  <!-- <div v-for="data in result" :key="data">
     {{data.username}}
     {{data.mess}}
-  </div>
+  </div> -->
 </template>
-<script setup>
-
+<!-- <script setup>
 definePageMeta({
-  layout: false,
+  layout: false
 });
-const {database, ref, push, onValue} = useFirebase();
-const result = reactive([]);
+
+// const {
+//   database: databaseFirebase,
+//   ref: firebaseRef,
+//   push,
+//   onValue
+// } = useFirebase();
+// let result = ref([]);
 const a = () => {
-  push(ref(database, "colen"), {
-    username: 'thunhu',
-    mess: 'co len',
-  });
+  // push(firebaseRef(databaseFirebase, "aaaaa"), {
+  //   username: 'thunhu',
+  //   mess: 'aaaaa',
+  // });
+  // thunhulog();
 };
-const b = () => {
-  result = [];
-  onValue(ref(database, "colen"), (data) => {
-    data.forEach((d) => {
-      result.push(d.val());
-    });
-  })
-};
-onMounted(() => {
-  b();
-});
+// const bb = () => {
+//   result.value = [];
+//   console.log(result.value);
+//   onValue(firebaseRef(databaseFirebase, "aaaaa"), (data) => {
+//     data.forEach((d) => {
+//       result.value.push(d.val());
+//     });
+//   })
+// };
+// onMounted(() => {
+//   bb();
+// })
 </script>
 <style scoped>
 * {
@@ -43,4 +51,4 @@ onMounted(() => {
   margin: auto;
   padding-top: 100px;
 }
-</style>
+</style> -->
