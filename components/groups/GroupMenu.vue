@@ -18,7 +18,7 @@
     <h5 class="pt-3">Yêu cầu chờ duyệt</h5>
     <button class="mt-2" @click="choose===3?choose=0:choose=3">Tạo nhóm học</button>
     <div class="group3" :class="`s${choose}`">
-      <button v-for="group in groupsIsRequireMentor" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
+      <button v-for="group in groupsIsRequireMentor" :key="group.id" class="d-block" @click="navigateTo(`/groups/create/${group.id}`)">
         <BIconPeopleFill class="me-2" />
         <span style="background-color: transparent" class="subject">
           {{ group.subject }}
@@ -26,9 +26,9 @@
       </button>
     </div>
 
-    <button class="mt-2" @click="choose===4?choose=0:choose=4">Là người hướng dẫn</button>
+    <button class="mt-2" @click="choose===4?choose=0:choose=4">Bạn là người hướng dẫn</button>
     <div class="group4" :class="`s${choose}`">
-      <button v-for="group in groupsIsRequireGroup" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}`)">
+      <button v-for="group in groupsIsRequireGroup" :key="group.id" class="d-block" @click="navigateTo(`/groups/${group.id}/register-is-mentor`)">
         <BIconPeopleFill class="me-2" />
         <span style="background-color: transparent" class="subject">
           {{ group.subject }}
@@ -55,26 +55,27 @@ const { url: url1 } = useUrl({
     status: 1,
   },
 });
-// Tạo url lấy groups user đang tham gia học
+// Tạo url lấy groups user đang tham gia làm mentor của nhóm đang học
 const { url: url2 } = useUrl({
   path: 'user/groups',
   queryParams: {
-    is_mentor: 1,
-    status: 1
+    is_mentor: 1, 
+    is_active: 1
   },
 });
-// Tạo url lấy groups user đang tham gia học
+// Tạo url lấy groups user tạo nhu cầu đang đợi duyệt
 const { url: url3 } = useUrl({
   path: 'user/groups',
   queryParams: {
     status: 0,
   },
 });
-// Tạo url lấy groups user đang tham gia học
+// Tạo url lấy groups user đăng ký đang đợi duyệt làm mentor của nhóm 
 const { url: url4 } = useUrl({
   path: 'user/groups',
   queryParams: {
-    status: 0,
+    is_mentor: 1, 
+    is_active: 0
   },
 });
 
