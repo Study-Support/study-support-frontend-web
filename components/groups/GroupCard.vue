@@ -1,8 +1,7 @@
 <template>
-    <NuxtLink :to="{ path: `/groups/${group.id}` }" class="fulls">
+    <NuxtLink :to="{ path: `/groups/${group.id}` }" class="full">
         <div class="image">
-            <img :src="`${group.img}`" alt="">
-            <span v-if="group.self_study === true" class="tag">Tự học</span>
+            <img :src="`assets/groups/${group.img}`" alt="">
         </div>
         <div class="content m-3">
             <p class="">Khoa {{group.faculty}}</p>
@@ -22,7 +21,7 @@ const props = defineProps({
 * {
     color: black;
 }
-.fulls {
+.full {
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 5px 8px 0 rgb(0 0 0 / 10%);
@@ -32,22 +31,13 @@ const props = defineProps({
     padding-bottom: 40px;
     position: relative;
 }
-.fulls:hover img {
+.full:hover img {
     transform: scale(1.05);
     border-radius: 10px 10px 0 0;
 }
 .image {
     height: 200px;
     overflow: hidden;
-    position: relative;
-}
-.tag {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: rgb(113, 196, 255);
-    padding: 4px 5px 4px 5px;
-    font-size: 14px;
 }
 .image img{
     width: 100%;

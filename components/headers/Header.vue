@@ -20,12 +20,12 @@
               </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink :to="{ path: '/groups', query: { type: getConfig('constants.typeOfGroup.findMentor') } }">
+              <NuxtLink to="/dashboard">
                 TÌM HƯỚNG DẪN
               </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink to="/mentors">
+              <NuxtLink to="/dashboard">
                 NGƯỜI HƯỚNG DẪN
               </NuxtLink>
             </li>
@@ -48,6 +48,9 @@
             </div>
             Xem trang cá nhân
           </NuxtLink>
+          <div class="p-2">
+            <GroupMenu />
+          </div>
         </div>
       </BContainer>
     </BContainer>
@@ -125,7 +128,6 @@ a {
 
 .menu-top {
   background-color: #465C71;
-  z-index: 100;
 }
 
 h5 {
@@ -220,6 +222,7 @@ li a:hover {
   /* background-color: black; */
   margin: 10px;
   padding: 10px;
+  border: 1px solid rgb(146, 146, 146);
   border-radius: 5px;
 }
 

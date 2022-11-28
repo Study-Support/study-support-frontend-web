@@ -33,47 +33,27 @@ const createGetResponse = () => ({
 const createPostResponse = () => ({
   
 });
-const createDelResponse = () => ({
-  
-});
-const createPutResponse = () => ({
-  data: {
-    cv_link: 'ab',
-    schedule: 'a',
-    smart_banking: 'a',
-    note: 'a',
-    confirm: 'agreed',
-  }
-});
 
 const ValidationErrorResponses = () => ({
-  meta: {
-    error_message: 'Lỗi đăng ký!'
-  }
+  name: [
+    'Tên đăng nhập đã tồn tại',
+    'Tên đăng nhập đã tồn tại',
+  ],
+  quantity: [
+    'Tên đăng nhập đã tồn tại',
+    'Tên đăng nhập đã tồn tại',
+  ],
 });
 export default defineEventHandler(async (event) => {
   if (isMethod(event.req, 'POST')) {
-    const body = await useBody(event.req);
-    if (body.note === 'a') {
-      // eslint-disable-next-line no-param-reassign
-      event.res.statusCode = 422;
-      return ValidationErrorResponses();
-    }
+    // const body = await useBody(event.req);
+    // if (body.name === 'a') {
+    //   // eslint-disable-next-line no-param-reassign
+    //   event.res.statusCode = 422;
+    //   return ValidationErrorResponses();
+    // }
     return createPostResponse();
   }
-  if (isMethod(event.req, 'PUT')) {
-    const body = await useBody(event.req);
-    if (body.cv_link === 'a') {
-      // eslint-disable-next-line no-param-reassign
-      event.res.statusCode = 422;
-      return ValidationErrorResponses();
-    }
-    return createPutResponse();
-  }
-  if (isMethod(event.req, 'DELETE')) {
-    event.res.statusCode = 422;
-    return ValidationErrorResponses();
-    return createDelResponse();
-  }
+
   return createGetResponse();
 });
