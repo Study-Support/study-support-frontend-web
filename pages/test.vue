@@ -1,45 +1,48 @@
 <template>
   <div>
-    thunhu
-    <!-- <ThunhuButton color="#3075a9" path="/dashboard">CLICK</ThunhuButton> -->
-    thunhu
+    <button @click="a">click</button>
+    <div v-for="data in result" :key="data">
+      {{ data.username }}
+      {{ data.mess }}
+    </div>
   </div>
-  <!-- <div v-for="data in result" :key="data">
-    {{data.username}}
-    {{data.mess}}
-  </div> -->
 </template>
-<!-- <script setup>
+<script setup>
+import { v4 as uuidv4 } from 'uuid';
 definePageMeta({
   layout: false
 });
-
-// const {
-//   database: databaseFirebase,
-//   ref: firebaseRef,
-//   push,
-//   onValue
-// } = useFirebase();
-// let result = ref([]);
+const {
+  database: databaseFirebase,
+  ref: firebaseRef,
+  push,
+  onValue
+} = useFirebase();
+let result = ref([]);
 const a = () => {
-  // push(firebaseRef(databaseFirebase, "aaaaa"), {
-  //   username: 'thunhu',
-  //   mess: 'aaaaa',
-  // });
-  // thunhulog();
+  result.value = [];
+  push(firebaseRef(databaseFirebase, "aaaaa"), {
+    username: 'thunhu',
+    mess: 'aaaaa',
+  });
 };
-// const bb = () => {
-//   result.value = [];
-//   console.log(result.value);
-//   onValue(firebaseRef(databaseFirebase, "aaaaa"), (data) => {
-//     data.forEach((d) => {
-//       result.value.push(d.val());
-//     });
-//   })
-// };
-// onMounted(() => {
-//   bb();
-// })
+const bb = () => {
+  result.value = [];
+  console.log(result.value);
+  onValue(firebaseRef(databaseFirebase, "aaaaa"), (data) => {
+    result.value = [];
+    data.forEach((d) => {
+      result.value.push(d.val());
+    });
+  })
+};
+onMounted(() => {
+  bb();
+  let userId = uuidv4();
+  console.log(userId);
+  userId = uuidv4();
+  console.log(userId);
+})
 </script>
 <style scoped>
 * {
@@ -51,4 +54,4 @@ const a = () => {
   margin: auto;
   padding-top: 100px;
 }
-</style> -->
+</style>

@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, push, onValue } from "firebase/database"
+import { getDatabase, ref, push, onValue, set } from "firebase/database"
 const useFirebase = () => {
   const firebaseConfig = {
     apiKey: "AIzaSyA30lrrzH9gZAnFd67obXZuh1Z5Z7ikMZY",
@@ -12,6 +12,6 @@ const useFirebase = () => {
   };
   const app = initializeApp(firebaseConfig);
   const database = getDatabase(app);
-  return { database, ref, push, onValue };
+  return { database, ref, push, onValue, set };
 }
 export default useFirebase;
