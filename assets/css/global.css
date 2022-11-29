@@ -8,11 +8,12 @@ a {
 }
 
 input {
-    border: 0px solid #ced4da !important;
-    border-radius: 2px !important;
+    border: 0px solid #ced4da;
+    border-radius: 2px;
     height: 35px;
 }
 
+textarea::placeholder,
 input::placeholder {
     font-weight: 500;
     opacity: .5;
@@ -26,5 +27,5 @@ input::placeholder {
 
 .menu-top {
     width: 100%;
-    background-color: rgb(10, 103, 175);
+    background-color: white;
 }

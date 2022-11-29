@@ -144,7 +144,7 @@
                     required
                   >
                     <option value="" disabled selected>Khoa của bạn</option>
-                    <option v-for="faculty in dataFaculty" :key="faculty.id" :value="faculty.id">
+                    <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id">
                       {{ faculty.name }}
                     </option>
                   </select>
@@ -180,6 +180,7 @@ definePageMeta({
 const {$toast} = useNuxtApp();
 const {setToken} = useToken();
 const {getConfig} = useConfig();
+const faculties = ref([]);
 const isDisabledButton = ref(false);
 const registerData = reactive({
   full_name: '',
@@ -195,6 +196,7 @@ const validationErrorMessages = ref({});
 const {
   data: dataFaculty,
   get: getFaculty,
+  onFetchResponse: getFacultyResponse,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
@@ -220,6 +222,10 @@ const isPasswordMatched = computed(
   () => (registerData.confirm_password === '' ? null : registerData.confirm_password === registerData.password),
 );
 getFaculty().json().execute();
+getFacultyResponse(() => {
+  faculties.value = dataFaculty.value.data.data;
+})
+
 onFetchResponse(() => {
   setToken(data.value.api_token);
   isDisabledButton.value = false;
@@ -227,7 +233,6 @@ onFetchResponse(() => {
   navigateTo({name: 'login'});
 });
 onFetchError(() => {
-  console.log(data.value.meta.error_message);
   isDisabledButton.value = false;
   if (statusCode.value === getConfig('constants.statusCodes.validation')) {
     validationErrorMessages.value = data.value.meta.error_message;

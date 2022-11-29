@@ -24,23 +24,24 @@
         </BRow>
       </BCol>
     </BRow>
-    <BRow class="back-header" />
   </BContainer>
 </template>
 
 <script setup>
 import {BIconBoxArrowLeft} from 'bootstrap-icons-vue';
+import "@fontsource/love-ya-like-a-sister";
+
 const {$toast} = useNuxtApp();
 
 const {deleteToken} = useToken();
 const {
   onFetchResponse,
-  get,
+  post,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/users/logout',
+  '/logout',
   {immediate: false},
 );
 onFetchResponse(() => {
@@ -49,13 +50,13 @@ onFetchResponse(() => {
   return navigateTo({name: 'dashboard'});
 });
 const logout = () => {
-  get().json().execute();
+  post().json().execute();
 };
 </script>
 
 <style scoped>
 * {
-  color: white;
+  color: rgb(0, 0, 0);
 }
 button {
   background-color: transparent;
@@ -73,4 +74,10 @@ p {
   display: block;
   min-width: 20px;
 }
+.menu-top {
+  background-color: #e1e8f0;
+    box-shadow: -4px 2px 0px 0px rgb(0 0 0 / 5%);
+    z-index: 1;
+}
+
 </style>

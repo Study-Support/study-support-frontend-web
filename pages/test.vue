@@ -1,54 +1,57 @@
 <template>
-    <div>
- 
-</div>
+  <div>
+    <button @click="a">click</button>
+    <div v-for="data in result" :key="data">
+      {{ data.username }}
+      {{ data.mess }}
+    </div>
+  </div>
 </template>
 <script setup>
-const toast = () => {
-    const {$toast} = useNuxtApp();
-    $toast('HELOOOOOOOOOOO','success', 2000);
-}
+import { v4 as uuidv4 } from 'uuid';
+definePageMeta({
+  layout: false
+});
 const {
-  data: dataGetMentors,
-  get: getMentors,
-  onFetchResponse: getMentorsResponse,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})(
-  '/notification',
-  {immediate: false},
-);
-getMentors().json().execute();
-getMentorsResponse(() => {
-    console.log(dataGetMentors.value);
+  database: databaseFirebase,
+  ref: firebaseRef,
+  push,
+  onValue
+} = useFirebase();
+let result = ref([]);
+const a = () => {
+  result.value = [];
+  push(firebaseRef(databaseFirebase, "aaaaa"), {
+    username: 'thunhu',
+    mess: 'aaaaa',
+  });
+};
+const bb = () => {
+  result.value = [];
+  console.log(result.value);
+  onValue(firebaseRef(databaseFirebase, "aaaaa"), (data) => {
+    result.value = [];
+    data.forEach((d) => {
+      result.value.push(d.val());
+    });
+  })
+};
+onMounted(() => {
+  bb();
+  let userId = uuidv4();
+  console.log(userId);
+  userId = uuidv4();
+  console.log(userId);
 })
 </script>
 <style scoped>
-.mentor {
-    display: block;
-    height: 200px;
-    width: 300px;
-    background-color: red;
-    overflow: hidden;
+* {
+  color: black;
 }
-a {
-    display: block;
-    height: 100%;
-    width: 100%;
-}
-.infor {
-    /* display: none; */
-}
-img {
-    width: 100%;
-    /* height: 100%; */
-}
-/* :src="`assets/mentor/${mentor.img}`"
-    <NuxtLink :to="{path:`mentors/${mentor.id}`}">
 
-*/
-button {
-    color: red;
+.a {
+  width: 900px;
+  margin: auto;
+  padding-top: 100px;
 }
 </style>

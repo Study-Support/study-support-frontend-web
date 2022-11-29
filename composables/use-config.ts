@@ -9,6 +9,13 @@ const CONFIG = {
       notFound: 404,
     },
     pagination: 10,
+    typeOfGroup: {
+      findMentor: 2,
+      findMember: 1,
+      selfStudy: 0,
+      all: 'all',
+    },
+    API_BASE: 'http://localhost:3000/'
   }
 };
 const useConfig = () => {
