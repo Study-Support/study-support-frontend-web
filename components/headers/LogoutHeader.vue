@@ -24,7 +24,6 @@
         </BRow>
       </BCol>
     </BRow>
-    <BRow class="back-header" />
   </BContainer>
 </template>
 
@@ -57,7 +56,7 @@ const logout = () => {
 
 <style scoped>
 * {
-  color: white;
+  color: rgb(0, 0, 0);
 }
 button {
   background-color: transparent;
@@ -76,6 +75,9 @@ p {
   min-width: 20px;
 }
 .menu-top {
-  background-color: rgb(10, 103, 175);
+  background-color: #e1e8f0;
+    box-shadow: -4px 2px 0px 0px rgb(0 0 0 / 5%);
+    z-index: 1;
 }
+
 </style>

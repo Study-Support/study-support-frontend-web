@@ -48,14 +48,5 @@ const validationErrorResponses = () => ({
 });
 
 export default defineEventHandler(async (event) => {
-  if (isMethod(event.req, 'PUT')) {
-    const body = await useBody(event.req);
-    if (body.full_name === 'a') {
-      // eslint-disable-next-line no-param-reassign
-      event.res.statusCode = 422;
-      return validationErrorResponses();
-    }
-    return createPutResponse();
-  }
   return createGetResponse();
 });
