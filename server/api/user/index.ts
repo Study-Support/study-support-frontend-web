@@ -3,7 +3,7 @@ import crypto from 'crypto';
 const createGetResponse = () => ({
   data: {
     id: '1s',
-    full_name: 'Hoàng Thị Thu Như',
+    full_name: 'Trần Thị Thảo',
     password: 'abcxyz',
     email: 'email@example.com',
     phone_number: '0866776059',
