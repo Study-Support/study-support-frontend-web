@@ -314,7 +314,7 @@ const {
   '/user/rating',
   {immediate: false},
 );
-getRating().json().execute();
+// getRating().json().execute();
 getRatingResponse(() => {
   ratings.value = dataRating.value.data;
 })

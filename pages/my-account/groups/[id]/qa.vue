@@ -30,8 +30,7 @@
                 </BCol>
               </BRow>
             </div>
-            <button @click="showReplyMess !== data.id ? showReplyMess = data.id : showReplyMess = 0" class="arrow-reply"
-              v-if="data.id !== showReplyMess">
+            <button @click="repClick(data)" class="arrow-reply" v-if="data.id !== showReplyMess">
               <BIconArrowReturnLeft /> Trả lời
             </button>
             <BRow class="replyMess" :class="`${data.id === showReplyMess}`">
@@ -99,27 +98,31 @@ getMeResponse(() => {
 })
 
 const sendNewMess = () => {
-  allChat.value = [];
-  const time = (new Date()).getTime();
-  set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${time}`), {
-    id: time,
-    name: username.value,
-    message: newMess.value,
-    time: (new Date()).toLocaleString()
-  });
-  newMess.value = '';
+  if (newMess.value !== '') {
+    allChat.value = [];
+    const time = (new Date()).getTime();
+    set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${time}`), {
+      id: time,
+      name: username.value,
+      message: newMess.value,
+      time: (new Date()).toLocaleString()
+    });
+    newMess.value = '';
+  }
 };
 const sendReplyMess = (id) => {
-  allChat.value = [];
-  const time = (new Date()).getTime();
-  set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${id}/replies/${time}`), {
-    id: time,
-    name: 'Như Hoàng',
-    message: replyMess.value,
-    time: (new Date()).toLocaleString()
-  });
-  replyMess.value = '';
-  showReplyMess.value = 0;
+  if (replyMess.value !== '') {
+    allChat.value = [];
+    const time = (new Date()).getTime();
+    set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${id}/replies/${time}`), {
+      id: time,
+      name: 'Như Hoàng',
+      message: replyMess.value,
+      time: (new Date()).toLocaleString()
+    });
+    replyMess.value = '';
+    showReplyMess.value = 0;
+  }
 }
 const bb = () => {
   allChat.value = [];
@@ -132,6 +135,14 @@ const bb = () => {
     console.log(data.value)
   })
 };
+const repClick = (data) => {
+  replyMess.value = '';
+  if (showReplyMess.value !== data.id) {
+    showReplyMess.value = data.id
+  } else {
+    showReplyMess.value = 0;
+  }
+}
 onMounted(() => {
   bb();
 })
@@ -148,17 +159,21 @@ onMounted(() => {
   position: relative;
   padding-bottom: 70px !important;
 }
+
 .replyMess {
   padding: 0 0 0 40px;
 }
-.replyMess button{
+
+.replyMess button {
   display: inline-block;
   width: auto;
 }
+
 .replyMess input {
   display: inline-block;
   width: 88%;
 }
+
 .qa>div>p {
   color: rgb(1, 1, 118);
 }

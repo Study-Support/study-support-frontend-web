@@ -3,6 +3,9 @@
         <div class="image">
             <img :src="`${group.img}`" alt="">
             <span v-if="group.self_study === true" class="tag">Tự học</span>
+            <span v-if="(group.status === 1 && showStatus)" class="statusTag">Tuyển thành viên</span>
+            <span v-if="(group.status === 2 && showStatus)" class="statusTag">Tuyển mentor</span>
+            <span v-if="(group.status === 3 && showStatus)" class="statusTag">Đang học</span>
         </div>
         <div class="content m-3">
             <p class="">Khoa {{group.faculty}}</p>
@@ -15,6 +18,9 @@
 const props = defineProps({
   group: {
     type: Object,
+  },
+  showStatus: {
+    type: Boolean,
   }
 });
 </script>
@@ -45,6 +51,14 @@ const props = defineProps({
     position: absolute;
     top: 0;
     left: 0;
+    background-color: rgb(113, 196, 255);
+    padding: 4px 5px 4px 5px;
+    font-size: 14px;
+}
+.statusTag {
+    position: absolute;
+    top: 0;
+    right: 0;
     background-color: rgb(113, 196, 255);
     padding: 4px 5px 4px 5px;
     font-size: 14px;

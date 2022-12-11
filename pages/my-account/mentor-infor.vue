@@ -134,7 +134,7 @@ const infor = ref({
   smart_banking: '',
   accepts: [],
   requests: [],
-  subject_list: [],
+  subjects: [],
 })
 const update_cv = ref({
   subject_id: '',
@@ -179,15 +179,28 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/user/mentor-infor',
+  '/mentor/subjects',
   { immediate: false },
 );
-// Update cv_link
+// del cv_link
 const {
   data: dataDelCVLink,
   delete: delCVLink,
   onFetchResponse: delCVLinkResponse,
   onFetchError: delCVLinkError,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})(
+  '/mentor/subjects',
+  { immediate: false },
+);
+// Create cv
+const {
+  data: dataPostCV,
+  post: postCV,
+  onFetchResponse: postCVResponse,
+  onFetchError: postCVError,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
@@ -205,23 +218,9 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  '/user/mentor-infor',
+  '/mentor/bank',
   { immediate: false },
 );
-// Create cv
-const {
-  data: dataPostCV,
-  post: postCV,
-  onFetchResponse: postCVResponse,
-  onFetchError: postCVError,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})(
-  '/user/mentor-infor',
-  { immediate: false },
-);
-
 // Tạo url môn học theo khoa
 const { url: url1 } = useUrl({
   path: '/subjects',
@@ -254,9 +253,10 @@ const {
 
 getMentorInfor().json().execute();
 getMentorInforResponse(() => {
-  infor.value.subject_list = dataMentorInfor.value.data.data.subject_list;
-  infor.value.subject_list.map(subject => {
-    if(subject.status === 1) {
+  infor.value.smart_banking = dataMentorInfor.value.data.data.smart_banking
+  infor.value.subjects = dataMentorInfor.value.data.data.subjects;
+  infor.value.subjects.map(subject => {
+    if(subject.active === 1) {
       infor.value.accepts.push(subject);
     } else {
       infor.value.requests.push(subject);
@@ -308,7 +308,7 @@ getFacultyResponse(() => {
   faculties.value = dataFaculty.value.data.data;
 })
 getSubjectResponse(() => {
-  subjects.value = dataSubject.value.data.data;
+  subjects.value = dataSubject.value.data;
 })
 watch(faculty.value, () => {
   getSubject().json().execute();
@@ -350,7 +350,7 @@ const updateCVLink = () => {
 }
 const updateSB = () => {
   putSB({
-    cv_link: update_cv.value.cv_link
+    smart_banking: infor.value.smart_banking
   }).json().execute();
 }
 const create_cv = () => {

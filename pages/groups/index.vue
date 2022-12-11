@@ -1,14 +1,16 @@
 <template>
   <BContainer fluid>
-    <BRow>
-      <BCol class="filter col-12 col-md-3 pt-3">
+    <BRow class="filter">
+      <BCol class="pt-3">
         <label for="search"> Tìm kiếm tên môn học </label>
         <div class="input-group search" id="search">
           <input v-model="filter.a.search" class="form-control border" type="search" placeholder="Môn học">
         </div>
+      </BCol>
+      <BCol>
         <div class="mt-3">
           <label for="type">Chọn loại nhóm học</label>
-          <select v-model="filter.a.type" class="form-select mt-1" id="type">
+          <select v-model="filter.a.type" class="form-select" id="type">
             <option :value="getConfig('constants.typeOfGroup.all')">
               Tất cả
             </option>
@@ -23,31 +25,31 @@
             </option>
           </select>
         </div>
+      </BCol>
+      <BCol>
         <div class="mt-3">
           <label>Chọn khoa</label>
-          <select v-model="filter.a.faculty" class="form-select mt-1" required>
+          <select v-model="filter.a.faculty" class="form-select" required>
             <option value="" disabled selected>Chọn khoa</option>
             <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id">
               {{ faculty.name }}
             </option>
           </select>
         </div>
+      </BCol>
+      <BCol class="col-2 pt-3">
         <SubmitButton class="mt-3" :isDisabled="isDisabledButton" :content="'Tìm kiếm'" :color="'rgb(63 88 120)'"
           @click.prevent="search" />
       </BCol>
-      <BCol class="pt-3">
-        <BRow class="text-end">
-          <BCol class="register">
-            <button @click="navigateTo('/groups/create')">Đăng ký nhu cầu tạo nhóm</button>
-          </BCol>
-        </BRow>
-        <BRow>
-          <BCol class="result pt-2">
+    </BRow>
+    <BRow class="filter-result">
+      <BCol class="result pt-3">
             <table>
               <tr class="title">
                 <th>STT</th>
                 <th>Khoa</th>
                 <th>Môn học</th>
+                <th>Mục đích</th>
                 <th>Thành viên hiện tại</th>
                 <th>Tham gia nhóm</th>
               </tr>
@@ -55,6 +57,7 @@
                 <td>{{ index }}</td>
                 <td>{{ group.faculty }}</td>
                 <td>{{ group.subject }}</td>
+                <td>{{ group.topic}}</td>
                 <td>{{ group.quantity }}</td>
                 <td>
                   <button @click="join(group)">
@@ -67,8 +70,6 @@
               <InfiniteLoading v-if="loading" class="loading" @infinite="load" />
             </div>
           </BCol>
-        </BRow>
-      </BCol>
     </BRow>
   </BContainer>
 </template>
@@ -78,7 +79,7 @@ import InfiniteLoading from 'v3-infinite-loading';
 import 'v3-infinite-loading/lib/style.css';
 
 definePageMeta({
-  layout: 'page',
+  layout: 'group-page',
   middleware: 'authenticated',
 });
 
@@ -151,9 +152,11 @@ const search = () => {
   filter.value.a.page = 0;
   groupsResult.value = [];
   isDisabledButton.value = true;
+  loading.value = true;
 }
 // Lấy dữ liệu groups kèm đk theo paginate
 const load = () => {
+  console.log('load');
   setTimeout(() => {
     getFilterGroups().json().execute();
     filter.value.a.page += 0;
@@ -169,6 +172,12 @@ const join = (group) => {
 }
 </script>
 <style scoped>
+.container-fluid {
+  padding: 20px;
+}
+.filter-result {
+  padding-top: 60px;
+}
 label {
   color: rgb(0, 0, 0);
   font-size: 14.5px;
@@ -191,17 +200,20 @@ span {
   color: rgb(220, 201, 0);
 }
 
-.filter,
-.result {
-  min-height: calc(100vh - 100px);
-}
-
 .filter {
-  background-color: #F6F8FC;
+  background-color: #bac0cc;
+  position: fixed;
+  top: 35px;
+  left: 10px;
+  width: 100%;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .filter label {
   font-weight: 600;
+  font-size: 12px;
 }
 
 .filter select {
@@ -220,7 +232,7 @@ th:nth-child(1),
   width: 5%;
 }
 
-th:nth-child(2),
+/* th:nth-child(2),
 .td:nth-child(1) {
   width: 30%;
 }
@@ -228,7 +240,7 @@ th:nth-child(2),
 th:nth-child(3),
 .td:nth-child(2) {
   width: 30%;
-}
+} */
 
 .th:nth-child(4),
 .td:nth-child(3) {
@@ -265,8 +277,8 @@ th {
 }
 
 td:nth-child(1),
-td:nth-child(4),
-td:nth-child(5) {
+td:nth-child(5),
+td:nth-child(6) {
   text-align: center;
 }
 
