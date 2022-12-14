@@ -303,8 +303,6 @@
     <p>ádfasdfasdf</p>
     <p>ádfasdfasdf</p>
     <p>ádfasdfasdf</p>
-    <p>ádfasdfasdf</p>
-    <p>ádfasdfasdf</p>
   </div>
 </template>
 <script setup>
