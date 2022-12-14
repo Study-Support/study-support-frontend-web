@@ -12,6 +12,7 @@ module.exports = {
 
     "rules": {
         "vue/multi-word-component-names": 0,
+        "array-callback-return": "off",
         // "vue/no-multiple-template-root": 0,
         "prettier/prettier": ["error", { "singleQuote": true, "semi": false }]
     }
