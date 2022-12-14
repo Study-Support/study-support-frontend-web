@@ -4,7 +4,7 @@
       <BCol class="pb-4">
         <h5>
           <BIconChevronRight />
-          <BIconChevronRight /> Nhóm đang đợi tìm kiếm người hướng dẫn
+          <BIconChevronRight /> Nhóm đang đợi tìm kiếm người tham gia
         </h5>
       </BCol>
     </BRow>
@@ -47,6 +47,7 @@
                 <th>STT</th>
                 <th>Name</th>
                 <th>Khoa</th>
+                <!-- <th>Câu trả lời</th> -->
                 <th>Select All<input type="checkbox" @click="selectAll" v-model="allSelected"></th>
                 
               </tr>
@@ -54,6 +55,11 @@
                 <td>{{ index }}</td>
                 <td>{{ member.full_name }}</td>
                 <td>{{ member.faculty }}</td>
+                <!-- <td>
+                  <p v-for="t in group.answers" :key="t">
+                    
+                  </p>
+                </td> -->
                 <td>
                   <input type="checkbox" v-model="acceptMember" @change="select" :value="member.id">
                 </td>
@@ -89,8 +95,8 @@ const group = ref({
   membersAccepted: [
   ],
   membersWaiting: [
-
   ],
+  answers: [],
   is_creator: '',
 });
 const validationErrorMessages = ref({
@@ -132,13 +138,15 @@ getGroupRes(() => {
   //   alert("Truy cập nhóm không đúng!");
   //   navigateTo('/groups?type=all');
   // }
+  let temp1 = dataGetGroup.value.data.group.answers.length/dataGetGroup.value.data.group.membersWaiting.length
+  console.log(temp1);
 });
 
 
 const selectAll = () => {
   acceptMember.value = [];
   if (!allSelected.value) {
-    group.value.members.forEach(function (member) {
+    group.value.membersWaiting.forEach(function (member) {
       acceptMember.value.push(member.id);
     });
   }
