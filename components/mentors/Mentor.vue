@@ -19,7 +19,7 @@
 </template>
 <script setup>
 import { BIconHeartFill } from 'bootstrap-icons-vue'
-props = defineProps({
+const props = defineProps({
   mentor: {
     type: Object,
   },

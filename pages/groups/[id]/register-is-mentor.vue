@@ -207,7 +207,6 @@ const {
   disableHandleErrorUnauthorized: false,
 })('/mentor', { immediate: false })
 const a = () => {
-  console.log('asdf')
   getGroup().json().execute()
 }
 a()
@@ -221,7 +220,6 @@ getGroupRes(() => {
   } else {
     statusShow.value = 1
     // Chưa đk môn này thì kiểm tra coi có dk môn này chưa
-    console.log('ad')
     getMentorInfor().json().execute()
   }
   // if (group.value.status === 2) {
