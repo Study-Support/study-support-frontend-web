@@ -1,57 +1,27 @@
 <template>
-  <div>
-    <button @click="a">click</button>
-    <div v-for="data in result" :key="data">
-      {{ data.username }}
-      {{ data.mess }}
+    <div class="full">
+        <label for="imageFile">ádfasd</label>
+        <input type="file" name="" id="imageFile" hidden  @change="chooseFile" accept="image/gif, image/jpg, image/png">
     </div>
-  </div>
 </template>
+  
 <script setup>
-import { v4 as uuidv4 } from 'uuid';
-definePageMeta({
-  layout: false
-});
-const {
-  database: databaseFirebase,
-  ref: firebaseRef,
-  push,
-  onValue
-} = useFirebase();
-let result = ref([]);
-const a = () => {
-  result.value = [];
-  push(firebaseRef(databaseFirebase, "aaaaa"), {
-    username: 'thunhu',
-    mess: 'aaaaa',
-  });
-};
-const bb = () => {
-  result.value = [];
-  console.log(result.value);
-  onValue(firebaseRef(databaseFirebase, "aaaaa"), (data) => {
-    result.value = [];
-    data.forEach((d) => {
-      result.value.push(d.val());
-    });
-  })
-};
-onMounted(() => {
-  bb();
-  let userId = uuidv4();
-  console.log(userId);
-  userId = uuidv4();
-  console.log(userId);
-})
-</script>
-<style scoped>
-* {
-  color: black;
+const chooseFile = () => {
+    const file = document.querySelector('input[type=file]').files[0]
+    if (file) {
+        var reader = new FileReader();
+        let rawImg = null
+        reader.onload = () => {
+            rawImg = reader.result;
+            console.log('aad')
+            console.log(rawImg);
+        }
+        reader.readAsDataURL(file);
+    }
 }
 
-.a {
-  width: 900px;
-  margin: auto;
-  padding-top: 100px;
-}
+</script>
+<style scoped>
+
 </style>
+  

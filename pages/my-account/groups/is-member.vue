@@ -2,12 +2,13 @@
   <div class="full">
     <BRow class="ms-1 me-1 mb-4">
       <BCol class="col-6 col-md-3 mt-4" v-for="group in groupsIsMember" :key="group.id">
-        <GroupCard :group="group"  @click.prevent="detail(group)"/>
+        <GroupCard :group="group"
+          :showStatus="true"
+          @click.prevent="detail(group)"/>
       </BCol>
     </BRow>
   </div>
 </template>
-    
 <script setup>
 import consolaGlobalInstance from 'consola';
 

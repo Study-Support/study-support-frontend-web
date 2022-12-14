@@ -29,7 +29,7 @@
     <BRow class="mt-3">
       <BCol>
         <p><span>Thành viên hiện có:</span> {{ group.quantity }} thành viên</p>
-        <div v-for="(member, index) in group.members" :key="member.id">
+        <div v-for="(member, index) in group.membersAccepted" :key="member.id">
           <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
         </div>
         <div class="mt-5 register">
@@ -41,11 +41,18 @@
             <span class="pt-4 mb-0">Thông tin đăng ký của bạn:</span>
           </p>
           <form @submit.prevent="submit">
-            <div class="survey_questions">
-              <div v-for="(questions, index) in group.surveyQuestions" :key="questions.id">
+            <div class="survey_questions" v-if="(statusShow === 1)">
+              <div v-for="(questions, index) in group.survey_questions" :key="questions.id">
                 Câu hỏi số {{ index + 1 }}: {{ questions.content }}
-                <BFormInput v-model="questions.answer"
-                  aria-describedby="input-live-help input-live-feedback" placeholder="Câu trả lời" trim required class="" />
+                <BFormInput v-model="questions.answer" aria-describedby="input-live-help input-live-feedback"
+                  placeholder="Câu trả lời" trim required class="" />
+              </div>
+            </div>
+            <div class="survey_questions" v-if="(statusShow === 2)">
+              <div v-for="(questions, index) in myAnswers" :key="questions.id">
+                Câu hỏi số {{ index + 1 }}: {{ questions.question }}
+                <BFormInput v-model="questions.content" aria-describedby="input-live-help input-live-feedback"
+                  placeholder="Câu trả lời" trim required class="" />
               </div>
             </div>
 
@@ -62,7 +69,7 @@
               <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
                 :color="'rgb(63 88 120)'" />
             </div>
-            <div class="text-end" v-if="statusShow === 2">
+            <div class="text-end" v-if="(statusShow === 2)">
               <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
                 :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
               <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký'"
@@ -87,6 +94,7 @@ const isDisabledButton = ref(false);
 const showConfirmError = ref(false);
 const { errorAlert, successAlert } = useAlert();
 const statusShow = ref(0);
+const myAnswers = ref();
 const group = ref({
   id: '',
   faculty: '',
@@ -101,7 +109,7 @@ const group = ref({
       faculty: '',
     }
   ],
-  surveyQuestions: [
+  survey_questions: [
   ]
 });
 const register_inform = ref({
@@ -122,19 +130,7 @@ const {
   `groups/${route.params.id}`,
   { immediate: false },
 )
-// Lấy thông tin cv của user đk cho nhóm đó
-const {
-  data: dataCv,
-  get: getCv,
-  onFetchResponse: getCvRes,
-  onFetchError: getCvErr,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})(
-  `/groups/${route.params.id}/register-member`,
-  { immediate: false },
-)
+
 // đăng ký là Member
 const {
   data: dataMember,
@@ -145,7 +141,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/group/${route.params.id}/join`,
+  `/groups/${route.params.id}/join`,
   { immediate: false },
 )
 // update Member
@@ -158,7 +154,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/register-member`,
+  `/groups/${route.params.id}/join`,
   { immediate: false },
 )
 // Xóa Member
@@ -171,36 +167,30 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/register-member`,
+  `/groups/${route.params.id}/join`,
   { immediate: false },
 )
 
 getGroup().json().execute();
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data;
-  group.value.surveyQuestions.map(item => {
+  group.value = dataGetGroup.value.data.group;
+  group.value.survey_questions.map(item => {
     item.answer = '';
   });
+  myAnswers.value = dataGetGroup.value.data.myAnswers;
   // kiểm tra thực sự nhóm đang tìm Member k hay nhập bừa id
   if (group.value.status === 1) {
-    getCv().json().execute();
+    console.log(myAnswers.value)
+    if (myAnswers.value.length !== 0) {
+      statusShow.value = 2;
+    } else {
+      statusShow.value = 1;
+    }
   }
   else {
     alert("Nhóm hiện không tìm sinh viên tham gia học!");
     navigateTo('/groups?type=all');
   }
-});
-
-// Đã đăng ký Member
-getCvRes(() => {
-  isDisabledButton.value = false;
-  statusShow.value = 2;
-  group.value.surveyQuestions = dataCv.value.data.surveyQuestions;
-});
-// Chưa có đăng ký Member cho nhóm này
-getCvErr(() => {
-  isDisabledButton.value = false;
-  statusShow.value = 1;
 });
 
 postMemberRes(() => {
@@ -217,8 +207,8 @@ postMemberErr(() => {
 putMemberRes(() => {
   isDisabledButton.value = false;
   successAlert('Chỉnh sửa thông tin thành công!');
-  group.value.surveyQuestions = dataMemberPut.value.data.surveyQuestions;
-  console.log(group.value.surveyQuestions)
+  group.value.survey_questions = dataMemberPut.value.data.survey_questions;
+  console.log(group.value.survey_questions)
 })
 putMemberErr(() => {
   isDisabledButton.value = false;
@@ -248,7 +238,7 @@ const submit = () => {
     isDisabledButton.value = false;
   } else {
     postMember({
-      survey_answers: group.value.surveyQuestions
+      answers: group.value.survey_questions
     }).json().execute();
   }
 }
@@ -259,7 +249,10 @@ const update = () => {
     showConfirmError.value = true;
     isDisabledButton.value = false;
   } else {
-    putMember(register_inform.value).json().execute();
+    console.log(myAnswers.value)
+    putMember({
+      answers: myAnswers.value
+    }).json().execute();
   }
 }
 const deletee = () => {
@@ -267,89 +260,6 @@ const deletee = () => {
   showConfirmError.value = false;
   delMember().json().execute();
 }
-
-
-// const {
-//   data: dataGetGroup,
-//   get: getGroup,
-//   onFetchResponse: getGroupRes,
-//   onFetchError: getGroupErr,
-// } = useFetchApi({
-//   requireAuth: true,
-//   disableHandleErrorUnauthorized: false,
-// })(
-//   `groups/${route.params.id}`,
-//   { immediate: false },
-// )
-
-// const {
-//   data: dataMember,
-//   post: postMember,
-//   onFetchResponse: postMemberRes,
-//   onFetchError: postMemberErr,
-// } = useFetchApi({
-//   requireAuth: true,
-//   disableHandleErrorUnauthorized: false,
-// })(
-//   `/groups/${route.params.id}/register`,
-//   { immediate: false },
-// )
-
-// // Lấy thông tin user
-// const {
-//   data: dataGetMe,
-//   get: getMe,
-//   onFetchResponse: getMeResponse,
-//   onFetchError: getMeError,
-// } = useFetchApi({
-//   requireAuth: true,
-//   disableHandleErrorUnauthorized: false,
-// })(
-//   '/user',
-//   {immediate: false},
-// );
-
-// getMeResponse(() => {
-//   if(group.value.members.find(member => member.id === dataGetMe.value.data.id)) {
-//     statusShow.value = 2;
-//   } else {
-//     statusShow.value = 1;
-//   }
-// });
-// getMeError(() => {
-//   // deleteToken();
-// });
-
-// getGroup().json().execute();
-// getGroupRes(() => {
-//   group.value = dataGetGroup.value.data.data
-//   if(group.value.status === 1) {
-//     getMe().json().execute();
-//   }
-//   else {
-//     alert("Nhóm hiện không tìm thành viên!");
-//     navigateTo('/groups?type=all');
-//   }
-// });
-
-// postMemberRes(() => {
-//   isDisabledButton.value = false;
-//   getGroup().json().execute();
-// });
-// postMemberErr(() => {
-//   isDisabledButton.value = false;
-//   errorAlert(dataMember.value.meta.error_message);
-// })
-// const submit = () => {
-//   isDisabledButton.value = true;
-//   showConfirmError.value = false;
-//   if (register_inform.value.confirm !== 'agreed') {
-//     showConfirmError.value = true;
-//     isDisabledButton.value = false;
-//   } else {
-//     postMember(register_inform.value).json().execute();
-//   }
-// }
 </script>
   
 <style scoped>

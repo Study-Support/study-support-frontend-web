@@ -88,7 +88,7 @@
                     <label for="">Tạo câu hỏi dùng để duyệt thành viên đăng ký tham gia vào
                       nhóm:</label>
                     <button @click.prevent="add_question">Thêm câu hỏi</button>
-                    <div v-for="(questions, index) in data.surveyQuestions" :key="questions.id" class="mt-3">
+                    <div v-for="(questions, index) in data.survey_questions" :key="questions.id" class="mt-3">
                       Câu hỏi số {{ index + 1 }}: <button @click.prevent="del(index)">
                         Xóa
                       </button>
@@ -235,14 +235,16 @@ getGroup().json().execute();
 // xử lý thông tin nhóm 
 getGroupRes(() => {
   // kiểm tra thực sự nhóm đang đợi duyệt không.
-  if (dataGetGroup.value.data.status === 0) {
-    data.value = dataGetGroup.value.data;
-    faculty.value.faculty_id = data.value.faculty_id;
-  }
-  else {
-    alert("Nhóm hiện không đợi duyệt!");
-    navigateTo('/dashboard');
-  }
+  data.value = dataGetGroup.value.data.group;
+  faculty.value.faculty_id = data.value.faculty_id;
+  // if (dataGetGroup.value.data.status === 0) {
+  //   data.value = dataGetGroup.value.data;
+  //   faculty.value.faculty_id = data.value.faculty_id;
+  // }
+  // else {
+  //   alert("Nhóm hiện không đợi duyệt!");
+  //   navigateTo('/dashboard');
+  // }
 })
 
 // Xử lý sửa group
@@ -286,13 +288,13 @@ const deletee = () => {
   delCreateGroup().json().execute();
 }
 const add_question = () => {
-  data.value.surveyQuestions.push({
-    id: 'null',
+  data.value.survey_questions.push({
+    id: null,
     content: '',
   });
 }
 const del = (index) => {
-  data.value.surveyQuestions.splice(index, 1);
+  data.value.survey_questions.splice(index, 1);
 }
 </script>
   
@@ -375,7 +377,7 @@ label.title {
   color: rgb(0, 179, 0);
 }
 
-.surveyQuestions button {
+.survey_questions button {
   border: none;
   background-color: transparent;
   text-decoration: underline;

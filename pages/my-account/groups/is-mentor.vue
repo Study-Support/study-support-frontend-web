@@ -15,7 +15,7 @@ definePageMeta({
 });
 const groupsIsMember = ref([]);
 
-// Tạo url lấy groups user đang tham gia học
+// Tạo url lấy groups user đang là mentor
 const { url: url1 } = useUrl({
   path: 'user/groups',
   queryParams: {

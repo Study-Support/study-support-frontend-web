@@ -4,7 +4,7 @@
       <BCol class="pb-4">
         <h5>
           <BIconChevronRight />
-          <BIconChevronRight /> Nhóm đang đợi tìm kiếm người hướng dẫn
+          <BIconChevronRight /> Nhóm đang đợi tìm kiếm người tham gia
         </h5>
       </BCol>
     </BRow>
@@ -17,11 +17,11 @@
       <BCol class="group-infor">
         <h4 class="pt-3 pb-4"> {{ group.subject }}</h4>
         <p> <span>Khoa:</span> {{ group.faculty }} </p>
-        <p class="title">
+        <p class="topic">
           <span>
             Tóm tắt thông tin:
           </span>
-          {{ group.title }}
+          {{ group.topic }}
         </p>
         <span>Thông tin chi tiết</span>
         <p class="information">
@@ -29,32 +29,44 @@
         </p>
       </BCol>
     </BRow>
-    <!-- v-if="group.is_creator === 1" -->
-    <BRow
-      class="mt-3"
-      
-      >
+    <BRow class="mt-3">
       <BCol>
-        <div>
-          <table>
-            <tr>
-              <th>Name</th>
-              <th>Select All<input type="checkbox" @click="selectAll" v-model="allSelected"></th>
-            </tr>
-            <tr v-for="(member, index) in group.members" :key="member.id">
-              <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
-              <td><input type="checkbox" v-model="acceptMember" @change="select" :value="member.id"></td>
-            </tr>
-          </table>
-          <button @click="accept">Duyệt thành viên</button>
+        <p class="quantity"><span>Thành viên:</span> {{ group.quantity }} thành viên</p>
+        <div v-for="(member, index) in group.membersAccepted" :key="member.id">
+          <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
         </div>
       </BCol>
     </BRow>
-    <BRow class="mt-3" v-if="group.is_creator === 0">
+    <!-- v-if="group.is_creator === 1" -->
+    <BRow class="mt-3" v-if="group.is_creator">
       <BCol>
-        <p class="quantity"><span>Thành viên:</span> {{ group.quantity }} thành viên</p>
-        <div v-for="(member, index) in group.members" :key="member.id">
-          <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
+        <div>
+          Thành viên đợi duyệt
+          <table>
+              <tr class="title">
+                <th>STT</th>
+                <th>Name</th>
+                <th>Khoa</th>
+                <!-- <th>Câu trả lời</th> -->
+                <th>Select All<input type="checkbox" @click="selectAll" v-model="allSelected"></th>
+                
+              </tr>
+              <tr v-for="(member, index) in group.membersWaiting" :key="member.id">
+                <td>{{ index }}</td>
+                <td>{{ member.full_name }}</td>
+                <td>{{ member.faculty }}</td>
+                <!-- <td>
+                  <p v-for="t in group.answers" :key="t">
+                    
+                  </p>
+                </td> -->
+                <td>
+                  <input type="checkbox" v-model="acceptMember" @change="select" :value="member.id">
+                </td>
+              </tr>
+            </table>
+          <button @click="accept">Duyệt thành viên</button>
+          <button @click="deleteWaiting">Xóa thành viên</button>
         </div>
       </BCol>
     </BRow>
@@ -77,15 +89,14 @@ const group = ref({
   id: '',
   faculty: '',
   subject: '',
-  title: '',
+  topic: '',
   information: '',
   quantity: '',
-  members: [
-    {
-      full_name: '',
-      faculty: '',
-    }
+  membersAccepted: [
   ],
+  membersWaiting: [
+  ],
+  answers: [],
   is_creator: '',
 });
 const validationErrorMessages = ref({
@@ -121,19 +132,21 @@ const {
 )
 getGroup().json().execute();
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data
+  group.value = dataGetGroup.value.data.group;
   // kiểm tra thực sự nhóm đang tìm mentor k hay nhập bừa id
   // if (group.value.status === 1) {
   //   alert("Truy cập nhóm không đúng!");
   //   navigateTo('/groups?type=all');
   // }
+  let temp1 = dataGetGroup.value.data.group.answers.length/dataGetGroup.value.data.group.membersWaiting.length
+  console.log(temp1);
 });
 
 
 const selectAll = () => {
   acceptMember.value = [];
   if (!allSelected.value) {
-    group.value.members.forEach(function (member) {
+    group.value.membersWaiting.forEach(function (member) {
       acceptMember.value.push(member.id);
     });
   }
@@ -144,12 +157,40 @@ const select = () => {
 const accept = () => {
   putAcceptMember({
     account_id: acceptMember.value,
+    accept: true
+  }).json().execute();
+}
+const deleteWaiting = () => {
+  putAcceptMember({
+    account_id: acceptMember.value,
     accept: false
   }).json().execute();
 }
 </script>
     
 <style scoped>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* .title {
+  position: fixed;
+  right: 0;
+  top: 60px;
+} */
+td,
+th {
+  border: 1px solid #dbdada;
+  text-align: left;
+}
+
+th {
+  text-align: center;
+  color: white;
+  background-color: #083253;
+}
 .img {
   /* background-color: red; */
   height: 250px;

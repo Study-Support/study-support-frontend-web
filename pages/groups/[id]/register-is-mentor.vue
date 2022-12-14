@@ -2,7 +2,10 @@
   <BContainer class="pt-3">
     <BRow>
       <BCol class="pb-4">
-        <h5><BIconChevronRight /><BIconChevronRight /> Đăng ký là người hướng dẫn của nhóm</h5>
+        <h5>
+          <BIconChevronRight />
+          <BIconChevronRight /> Đăng ký là người hướng dẫn của nhóm
+        </h5>
       </BCol>
     </BRow>
     <BRow>
@@ -14,11 +17,11 @@
       <BCol class="group-infor">
         <h4 class="pt-3 pb-4"> {{ group.subject }}</h4>
         <p> <span>Khoa:</span> {{ group.faculty }} </p>
-        <p class="title">
+        <p class="topic">
           <span>
             Tóm tắt thông tin:
           </span>
-          {{ group.title }}
+          {{ group.topic }}
         </p>
         <span>Thông tin chi tiết</span>
         <p class="information">
@@ -29,84 +32,55 @@
     <BRow class="mt-3">
       <BCol>
         <p class="quantity"><span>Thành viên:</span> {{ group.quantity }} thành viên</p>
-        <div v-for="(member, index) in group.members" :key="member.id">
+        <div v-for="(member, index) in group.membersAccepted" :key="member.id">
           <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
         </div>
         <div class="mt-5 register">
           <h5 class="text-center mb-3" for="">Thông tin kiểm duyệt đăng ký là người hướng dẫn:</h5>
-          <p class="notice-success mb-2" v-if="statusShow === 2">
-            <span>Bạn đã đăng ký làm người hướng dẫn của nhóm!.</span>
-            Nhà trường sẽ xem xét thông tin bạn đăng ký, theo dõi email để cập nhật thông tin nhé.
-            <span class="pt-4 mb-0">Thông tin của bạn:</span>
-          </p>
-          <div>
-            <label for="" class="mb-3">Tôi đã tìm hiểu kỹ về Thông báo tuyển chọn sinh viên tham gia hướng dẫn, hỗ
-              trợ học tập (Mentor) của Trường. Tôi nhận thấy bản thân đáp ứng các tiêu chuẩn của Mentor và đăng ký làm
-              Mentor cho học phần {{ group.subject }}</label>
-              <form @submit.prevent="submit">
-              <div role="group">
-                <label>1. Thành tích bạn đạt được ở môn học này.
-                  <span v-if="beforeShow === 0">Bỏ hết vào một thư mục và chia sẻ link đường dẫn ở chế độ xem public.</span>
-                  <span v-if="beforeShow === 1">Bạn đã lưu thông tin thành tích cho môn học {{group.subject}} ở lần đăng ký trước.</span>
-                </label>
-                <BFormInput v-model="register_inform.cv_link"
-                  :state="validationErrorMessages.cv_link === undefined ? null : false" placeholder="Link thành tích"
-                  trim required class="" />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.cv_link" />
-                </BFormInvalidFeedback>
+          <span class="beforeSubjectShow">Bạn đã đăng ký là người hướng dẫn cho môn học này</span>
+          <form @submit.prevent="submit">
+            <div class="" v-if="(statusShow === 1)">
+              <div v-for="(questions, index) in register_inform.data" :key="questions.id">
+                Câu hỏi số {{ index + 1 }}: {{ questions.question }}
+                <BFormInput v-model="questions.content" aria-describedby="input-live-help input-live-feedback"
+                  placeholder="Câu trả lời" trim required class="" />
               </div>
-              <div role="group">
-                <label>2. Kế hoạch công việc dự kiến:</label>
-                <BFormTextarea v-model="register_inform.schedule"
-                  :state="validationErrorMessages.schedule === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback" placeholder="Kế hoạch dự kiến" trim required
-                  class="" />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.schedule" />
-                </BFormInvalidFeedback>
+            </div>
+            <div class="" v-if="(statusShow === 2)">
+              <div v-for="(questions, index) in register_inform.myAnswers" :key="questions.id">
+                Câu hỏi số {{ index + 1 }}: {{ questions.question }}
+                <BFormInput v-model="questions.content" aria-describedby="input-live-help input-live-feedback"
+                  placeholder="Câu trả lời" trim required class="" />
               </div>
-              <div role="group">
-                <label for="">4. Bạn có ý kiến gì không muốn gửi không?</label>
-                <BFormInput v-model="register_inform.note"
-                  :state="validationErrorMessages.note === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback" placeholder="Ý kiến cá nhân" trim required
-                  class="" />
-                <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.note" />
-                </BFormInvalidFeedback>
-              </div>
+            </div>
+            <div role="group">
+              <label for="">5. Bạn có đảm bảo sẽ hướng dẫn nghiêm túc, hết sức mình không? Nếu đánh giá không tốt về
+                thái độ trong quá trình hướng dẫn, nhà trường sẽ đánh giá rèn luyện vì thái độ học tập</label>
+              <BFormCheckbox id="checkbox-1" v-model="register_inform.confirm" name="checkbox-1" value="agreed"
+                unchecked-value="not_agreed">
+                Tôi đảm bảo
+              </BFormCheckbox>
+              <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin trên!</span>
+            </div>
 
-              <div role="group">
-                <label for="">5. Bạn có đảm bảo sẽ hướng dẫn nghiêm túc, hết sức mình không? Nếu đánh giá không tốt về
-                  thái độ trong quá trình hướng dẫn, nhà trường sẽ đánh giá rèn luyện vì thái độ học tập</label>
-                <BFormCheckbox id="checkbox-1" v-model="register_inform.confirm" name="checkbox-1" value="agreed"
-                  unchecked-value="not_agreed">
-                  Tôi đảm bảo
-                </BFormCheckbox>
-                <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin trên!</span>
-              </div>
-
-              <div class="text-end" v-if="statusShow === 1">
-                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
-                  :color="'rgb(63 88 120)'" />
-              </div>
-              <div class="text-end" v-if="statusShow === 2">
-                <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
-                  :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
-                <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký'"
-                  :color="'rgb(255 57 57)'" @click.prevent="deletee" />
-              </div>
-            </form>
-          </div>
+            <div class="text-end" v-if="statusShow === 1">
+              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
+                :color="'rgb(63 88 120)'" />
+            </div>
+            <div class="text-end" v-if="statusShow === 2">
+              <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
+                :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
+              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký'"
+                :color="'rgb(255 57 57)'" @click.prevent="deletee" />
+            </div>
+          </form>
         </div>
       </BCol>
     </BRow>
   </BContainer>
 </template>
-  
 <script setup>
-import {BIconChevronRight} from 'bootstrap-icons-vue';
+import { BIconChevronRight } from 'bootstrap-icons-vue';
 
 definePageMeta({
   layout: 'page',
@@ -117,26 +91,27 @@ const isDisabledButton = ref(false);
 const showConfirmError = ref(false);
 const { errorAlert, successAlert } = useAlert();
 const statusShow = ref(0);
-const beforeShow = ref(0);
-
+const beforeSubjectShow = ref(0);
+const myAnswers = ref([]);
 const group = ref({
   id: '',
   faculty: '',
   subject: '',
-  title: '',
+  topic: '',
   information: '',
   quantity: '',
-  members: [
+  membersAccepted: [
     {
       full_name: '',
       faculty: '',
     }
+  ],
+  data: [
+
   ]
 });
 const register_inform = ref({
-  cv_link: '',
-  schedule: '',
-  note: '',
+
   confirm: 'not_agreed',
 })
 const validationErrorMessages = ref({
@@ -153,19 +128,6 @@ const {
   `groups/${route.params.id}`,
   { immediate: false },
 )
-// Lấy thông tin cv của user đk cho nhóm đó
-const {
-  data: dataCv,
-  get: getCv,
-  onFetchResponse: getCvRes,
-  onFetchError: getCvErr,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})(
-  `/groups/${route.params.id} `,
-  { immediate: false },
-)
 // đăng ký là mentor
 const {
   data: dataMentor,
@@ -176,7 +138,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/group/${route.params.id}/join`,
+  `/groups/${route.params.id}/join`,
   { immediate: false },
 )
 // update mentor
@@ -189,7 +151,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/register`,
+  `/groups/${route.params.id}/join`,
   { immediate: false },
 )
 // Xóa mentor
@@ -202,51 +164,73 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/groups/${route.params.id}/register`,
+  `/groups/${route.params.id}/join`,
   { immediate: false },
 )
-
-// Lấy thông tin cv của user với môn đó
+// Lấy mentor_infor
 const {
-  data: dataCvSubject,
-  get: getCvSubject,
-  onFetchResponse: getCvSubjectRes,
-  onFetchError: getCvSubjectErr,
+  data: dataMentorInfor,
+  get: getMentorInfor,
+  onFetchResponse: getMentorInforResponse,
+  onFetchError: getMentorInforError,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(
-  `/mentor-information/${route.params.id}`,
+  '/mentor',
   { immediate: false },
-)
-
-getGroup().json().execute();
+);
+const a = () => {
+  console.log('asdf')
+  getGroup().json().execute();
+}
+a();
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data
-  // kiểm tra thực sự nhóm đang tìm mentor k hay nhập bừa id
-  if (group.value.status === 2) {
-    getCv().json().execute();
-  }
-  else {
-    alert("Nhóm hiện không tìm người hướng dẫn!");
-    navigateTo('/groups?type=all');
-  }
-});
+  group.value = dataGetGroup.value.data.group;
+  myAnswers.value = dataGetGroup.value.data.myAnswers;
 
-// Đã đăng ký mentor
-getCvRes(() => {
-  isDisabledButton.value = false;
-  statusShow.value = 2;
-  register_inform.value = dataCv.value.data;
+  // Kiểm tra đăng ký là mentor cho nhóm này chưa
+  if (myAnswers.value.length !== 0) {
+    statusShow.value = 2;
+  } else {
+    statusShow.value = 1;
+    // Chưa đk môn này thì kiểm tra coi có dk môn này chưa
+    console.log('ad')
+    getMentorInfor().json().execute();
+  }
+  // if (group.value.status === 2) {
+  // }
+  // else {
+  //   alert("Nhóm hiện không tìm người hướng dẫn!");
+  //   navigateTo('/groups?type=all');
+  // }
 });
-// Chưa có đăng ký mentor cho nhóm này
-getCvErr(() => {
-  isDisabledButton.value = false;
-  statusShow.value = 1;
-  // Lấy cv đăng ký mentor cho môn này chưa
-  getCvSubject().json().execute();
-});
+getMentorInforResponse(() => {
+  dataMentorInfor.value.data.data.subjects.map(subject => {
+    if (subject.id === group.value.subject_id) {
+      if (subject.active === 1) {
+        // Đã đk môn này r đc accept r
+        beforeSubjectShow.value = 1;
+      } else {
+        // Đã đk đang đợi duyệt
+        beforeSubjectShow.value = 2
+      }
+    } else {
+      // Đã đk đang đợi duyệt
+      beforeSubjectShow.value = 3
+    }
+  });
+  if (beforeSubjectShow.value === 2) {
+    errorAlert('Đăng ký là người hướng dẫn cho môn học này đang đợi duyệt', () => {
+      navigateTo('/my-account/mentor-infor')
+    })
+  } else if (beforeSubjectShow.value === 3) {
+    errorAlert('Bạn chưa đăng ký là người hướng dẫn cho môn học này', () => {
+      navigateTo('/my-account/mentor-infor?request=create');
+    })
+  }
 
+})
 postMentorRes(() => {
   isDisabledButton.value = false;
   successAlert('Bạn đã đăng ký thành công!')
@@ -272,25 +256,14 @@ delMentorRes(() => {
   isDisabledButton.value = false;
   successAlert('Hủy đăng ký thành công!');
   statusShow.value = 1;
-  register_inform.value.cv_link = '';
-  register_inform.value.schedule = '';
-  register_inform.value.smart_banking = '';
-  register_inform.value.note = '';
   register_inform.value.confirm = 'not_agreed';
-
-  getCvSubject().json().execute();
+  // getGroup().json().execute();
 })
 delMentorErr(() => {
   isDisabledButton.value = false;
   errorAlert(dataMentordel.value.meta.error_message)
 })
-// Đã đăng ký 
-getCvSubjectRes(() => {
-  isDisabledButton.value = false;
-  beforeShow.value = 1;
-  register_inform.value.cv_link = dataCvSubject.value.data.cv_link;
-  register_inform.value.smart_banking = dataCvSubject.value.data.smart_banking;
-});
+
 
 const submit = () => {
   isDisabledButton.value = true;
@@ -299,7 +272,13 @@ const submit = () => {
     showConfirmError.value = true;
     isDisabledButton.value = false;
   } else {
-    postMentor(register_inform.value).json().execute();
+    postMentor({
+      // answers: group.value.data
+      answers: [
+        { id: 47, content: "a", answer: 'aa' },
+        { id: 48, content: "b", answer: 'aa' }
+      ]
+    }).json().execute();
   }
 }
 const update = () => {
@@ -309,7 +288,13 @@ const update = () => {
     showConfirmError.value = true;
     isDisabledButton.value = false;
   } else {
-    putMentor(register_inform.value).json().execute();
+    putMentor({
+      // answers: group.value.myAnswer
+      answer: [
+      { id: 7, content: "a", answer: 'aa' },
+      { id: 8, content: "b", answer: 'aa' }
+      ]
+    }).json().execute();
   }
 }
 const deletee = () => {
@@ -318,7 +303,6 @@ const deletee = () => {
   delMentor().json().execute();
 }
 </script>
-  
 <style scoped>
 .img {
   /* background-color: red; */
@@ -344,6 +328,7 @@ h5 {
   color: rgb(6, 101, 138);
   font-weight: 600;
 }
+
 h5:last-child {
   font-size: 20px;
   color: rgb(6, 101, 138);
@@ -399,7 +384,8 @@ label span {
 .quantity span {
   font-weight: 600;
 }
-.beforeShow {
+
+.beforeSubjectShow {
   display: block;
   font-size: 13px;
   padding-bottom: 10px;
