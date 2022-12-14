@@ -8,23 +8,9 @@ const createGetResponse = () => ({
     self_study: 'false',
     faculty_id: '1',
     subject_id: '1',
-  }
-});
+  },
+})
 
-const createPostResponse = () => ({
-  api_token: 'beareAuthApiToken',
-});
-
-const ValidationErrorResponses = () => ({
-  name: [
-    'Tên đăng nhập đã tồn tại',
-    'Tên đăng nhập đã tồn tại',
-  ],
-  quantity: [
-    'Tên đăng nhập đã tồn tại',
-    'Tên đăng nhập đã tồn tại',
-  ],
-});
 export default defineEventHandler(async (event) => {
   // if (isMethod(event.req, 'PUT')) {
   //   const body = await useBody(event.req);
@@ -35,5 +21,5 @@ export default defineEventHandler(async (event) => {
   //   }
   //   return createPutResponse();
   // }
-  return createGetResponse();
-});
+  return createGetResponse()
+})

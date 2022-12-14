@@ -8,16 +8,14 @@
     <BRow>
       <BCol class="col-4">
         <div class="img">
-          <img src="/assets/groups/g1.png" alt="">
+          <img src="/assets/groups/g1.png" alt="" />
         </div>
       </BCol>
       <BCol class="group-infor">
-        <h4 class="pt-3 pb-4"> {{ group.subject }}</h4>
-        <p> <span>Khoa:</span> {{ group.faculty }} </p>
+        <h4 class="pt-3 pb-4">{{ group.subject }}</h4>
+        <p><span>Khoa:</span> {{ group.faculty }}</p>
         <p class="title">
-          <span>
-            Tóm tắt thông tin:
-          </span>
+          <span> Tóm tắt thông tin: </span>
           {{ group.topic }}
         </p>
         <span>Thông tin chi tiết</span>
@@ -30,50 +28,93 @@
       <BCol>
         <p><span>Thành viên hiện có:</span> {{ group.quantity }} thành viên</p>
         <div v-for="(member, index) in group.membersAccepted" :key="member.id">
-          <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
+          <p class="mb-0">
+            {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}
+          </p>
         </div>
         <div class="mt-5 register">
-          <h5 class="text-center pb-3" for="">Thông tin kiểm duyệt đăng ký thành viên</h5>
-          <p class="notice-success mb-2" v-if="statusShow === 2">
+          <h5 class="text-center pb-3" for="">
+            Thông tin kiểm duyệt đăng ký thành viên
+          </h5>
+          <p v-if="statusShow === 2" class="notice-success mb-2">
             <span>Bạn đã đăng ký tham gia nhóm học!.</span>
-            Nhóm trưởng sẽ xem xét thông tin đăng ký của bạn và thêm bạn vào nhóm. Theo dõi email để cập nhật thông tin
-            nhé!
+            Nhóm trưởng sẽ xem xét thông tin đăng ký của bạn và thêm bạn vào
+            nhóm. Theo dõi email để cập nhật thông tin nhé!
             <span class="pt-4 mb-0">Thông tin đăng ký của bạn:</span>
           </p>
           <form @submit.prevent="submit">
-            <div class="survey_questions" v-if="(statusShow === 1)">
-              <div v-for="(questions, index) in group.survey_questions" :key="questions.id">
+            <div v-if="statusShow === 1" class="survey_questions">
+              <div
+                v-for="(questions, index) in group.survey_questions"
+                :key="questions.id"
+              >
                 Câu hỏi số {{ index + 1 }}: {{ questions.content }}
-                <BFormInput v-model="questions.answer" aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Câu trả lời" trim required class="" />
+                <BFormInput
+                  v-model="questions.answer"
+                  aria-describedby="input-live-help input-live-feedback"
+                  placeholder="Câu trả lời"
+                  trim
+                  required
+                  class=""
+                />
               </div>
             </div>
-            <div class="survey_questions" v-if="(statusShow === 2)">
+            <div v-if="statusShow === 2" class="survey_questions">
               <div v-for="(questions, index) in myAnswers" :key="questions.id">
                 Câu hỏi số {{ index + 1 }}: {{ questions.question }}
-                <BFormInput v-model="questions.content" aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Câu trả lời" trim required class="" />
+                <BFormInput
+                  v-model="questions.content"
+                  aria-describedby="input-live-help input-live-feedback"
+                  placeholder="Câu trả lời"
+                  trim
+                  required
+                  class=""
+                />
               </div>
             </div>
 
             <div role="group">
-              <label for="">Bạn có đảm bảo sẽ học tập chăm chỉ, nghiêm túc không? Nếu đánh giá không tốt về thái độ
-                trong quá trình học, nhà trường sẽ đánh giá rèn luyện vì thái độ học tập</label>
-              <BFormCheckbox id="checkbox-1" v-model="register_inform.confirm" name="checkbox-1" value="agreed"
-                unchecked-value="not_agreed">
+              <label for=""
+                >Bạn có đảm bảo sẽ học tập chăm chỉ, nghiêm túc không? Nếu đánh
+                giá không tốt về thái độ trong quá trình học, nhà trường sẽ đánh
+                giá rèn luyện vì thái độ học tập</label
+              >
+              <BFormCheckbox
+                id="checkbox-1"
+                v-model="registerInform.confirm"
+                name="checkbox-1"
+                value="agreed"
+                unchecked-value="not_agreed"
+              >
                 Tôi đảm bảo
               </BFormCheckbox>
-              <span class="confirm-error" v-if="showConfirmError">Bạn phải đảm bảo thông tin trên!</span>
+              <span v-if="showConfirmError" class="confirm-error"
+                >Bạn phải đảm bảo thông tin trên!</span
+              >
             </div>
-            <div class="text-end" v-if="statusShow === 1">
-              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Đăng ký tham gia'"
-                :color="'rgb(63 88 120)'" />
+            <div v-if="statusShow === 1" class="text-end">
+              <SubmitButton
+                class="mt-3 submit-button"
+                :is-disabled="isDisabledButton"
+                :content="'Đăng ký tham gia'"
+                :color="'rgb(63 88 120)'"
+              />
             </div>
-            <div class="text-end" v-if="(statusShow === 2)">
-              <SubmitButton class="mt-3 me-3 submit-button" :isDisabled="isDisabledButton"
-                :content="'Chỉnh sửa thông tin'" :color="'rgb(23 131 27)'" @click.prevent="update" />
-              <SubmitButton class="mt-3 submit-button" :isDisabled="isDisabledButton" :content="'Hủy đăng ký'"
-                :color="'rgb(255 57 57)'" @click.prevent="deletee" />
+            <div v-if="statusShow === 2" class="text-end">
+              <SubmitButton
+                class="mt-3 me-3 submit-button"
+                :is-disabled="isDisabledButton"
+                :content="'Chỉnh sửa thông tin'"
+                :color="'rgb(23 131 27)'"
+                @click.prevent="update"
+              />
+              <SubmitButton
+                class="mt-3 submit-button"
+                :is-disabled="isDisabledButton"
+                :content="'Hủy đăng ký'"
+                :color="'rgb(255 57 57)'"
+                @click.prevent="deletee"
+              />
             </div>
           </form>
         </div>
@@ -81,20 +122,20 @@
     </BRow>
   </BContainer>
 </template>
-  
+
 <script setup>
 // link đã kiểm tra liệu người dùng đã đăng ký nhóm chưa (Kiểm tra trong list member có user k)
 // link đã kiểm tra liệu id nhóm ở link đúng là status là 1_tìm member k
 definePageMeta({
   layout: 'page',
   middleware: 'authenticated',
-});
-const route = useRoute();
-const isDisabledButton = ref(false);
-const showConfirmError = ref(false);
-const { errorAlert, successAlert } = useAlert();
-const statusShow = ref(0);
-const myAnswers = ref();
+})
+const route = useRoute()
+const isDisabledButton = ref(false)
+const showConfirmError = ref(false)
+const { errorAlert, successAlert } = useAlert()
+const statusShow = ref(0)
+const myAnswers = ref()
 const group = ref({
   id: '',
   faculty: '',
@@ -107,16 +148,14 @@ const group = ref({
     {
       full_name: '',
       faculty: '',
-    }
+    },
   ],
-  survey_questions: [
-  ]
-});
-const register_inform = ref({
+  survey_questions: [],
+})
+const registerInform = ref({
   confirm: 'not_agreed',
 })
-const validationErrorMessages = ref({
-});
+const validationErrorMessages = ref({})
 
 const {
   data: dataGetGroup,
@@ -126,10 +165,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  `groups/${route.params.id}`,
-  { immediate: false },
-)
+})(`groups/${route.params.id}`, { immediate: false })
 
 // đăng ký là Member
 const {
@@ -140,10 +176,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  `/groups/${route.params.id}/join`,
-  { immediate: false },
-)
+})(`/groups/${route.params.id}/join`, { immediate: false })
 // update Member
 const {
   data: dataMemberPut,
@@ -153,10 +186,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  `/groups/${route.params.id}/join`,
-  { immediate: false },
-)
+})(`/groups/${route.params.id}/join`, { immediate: false })
 // Xóa Member
 const {
   data: dataMemberdel,
@@ -166,102 +196,101 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  `/groups/${route.params.id}/join`,
-  { immediate: false },
-)
+})(`/groups/${route.params.id}/join`, { immediate: false })
 
-getGroup().json().execute();
+getGroup().json().execute()
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data.group;
-  group.value.survey_questions.map(item => {
-    item.answer = '';
-  });
-  myAnswers.value = dataGetGroup.value.data.myAnswers;
+  group.value = dataGetGroup.value.data.group
+  group.value.survey_questions.map((item) => {
+    item.answer = ''
+  })
+  myAnswers.value = dataGetGroup.value.data.myAnswers
   // kiểm tra thực sự nhóm đang tìm Member k hay nhập bừa id
   if (group.value.status === 1) {
     console.log(myAnswers.value)
     if (myAnswers.value.length !== 0) {
-      statusShow.value = 2;
+      statusShow.value = 2
     } else {
-      statusShow.value = 1;
+      statusShow.value = 1
     }
+  } else {
+    alert('Nhóm hiện không tìm sinh viên tham gia học!')
+    navigateTo('/groups?type=all')
   }
-  else {
-    alert("Nhóm hiện không tìm sinh viên tham gia học!");
-    navigateTo('/groups?type=all');
-  }
-});
+})
 
 postMemberRes(() => {
-  isDisabledButton.value = false;
+  isDisabledButton.value = false
   successAlert('Bạn đã đăng ký thành công!')
-  statusShow.value = 2;
-  getGroup().json().execute();
-});
+  statusShow.value = 2
+  getGroup().json().execute()
+})
 postMemberErr(() => {
-  isDisabledButton.value = false;
-  errorAlert(dataMember.value.meta.error_message);
+  isDisabledButton.value = false
+  errorAlert(dataMember.value.meta.error_message)
 })
 
 putMemberRes(() => {
-  isDisabledButton.value = false;
-  successAlert('Chỉnh sửa thông tin thành công!');
-  group.value.survey_questions = dataMemberPut.value.data.survey_questions;
+  isDisabledButton.value = false
+  successAlert('Chỉnh sửa thông tin thành công!')
+  group.value.survey_questions = dataMemberPut.value.data.survey_questions
   console.log(group.value.survey_questions)
 })
 putMemberErr(() => {
-  isDisabledButton.value = false;
-  errorAlert(dataMemberPut.value.meta.error_message);
+  isDisabledButton.value = false
+  errorAlert(dataMemberPut.value.meta.error_message)
 })
 
 delMemberRes(() => {
-  isDisabledButton.value = false;
-  successAlert('Hủy đăng ký thành công!');
-  statusShow.value = 1;
-  register_inform.value.difficult = '';
-  register_inform.value.target = '';
-  register_inform.value.note = '';
-  register_inform.value.confirm = 'not_agreed';
+  isDisabledButton.value = false
+  successAlert('Hủy đăng ký thành công!')
+  statusShow.value = 1
+  registerInform.value.difficult = ''
+  registerInform.value.target = ''
+  registerInform.value.note = ''
+  registerInform.value.confirm = 'not_agreed'
 })
 delMemberErr(() => {
-  isDisabledButton.value = false;
+  isDisabledButton.value = false
   errorAlert(dataMemberdel.value.meta.error_message)
 })
 
-
 const submit = () => {
-  isDisabledButton.value = true;
-  showConfirmError.value = false;
-  if (register_inform.value.confirm !== 'agreed') {
-    showConfirmError.value = true;
-    isDisabledButton.value = false;
+  isDisabledButton.value = true
+  showConfirmError.value = false
+  if (registerInform.value.confirm !== 'agreed') {
+    showConfirmError.value = true
+    isDisabledButton.value = false
   } else {
     postMember({
-      answers: group.value.survey_questions
-    }).json().execute();
+      answers: group.value.survey_questions,
+    })
+      .json()
+      .execute()
   }
 }
 const update = () => {
-  isDisabledButton.value = true;
-  showConfirmError.value = false;
-  if (register_inform.value.confirm !== 'agreed') {
-    showConfirmError.value = true;
-    isDisabledButton.value = false;
+  isDisabledButton.value = true
+  showConfirmError.value = false
+  if (registerInform.value.confirm !== 'agreed') {
+    showConfirmError.value = true
+    isDisabledButton.value = false
   } else {
     console.log(myAnswers.value)
     putMember({
-      answers: myAnswers.value
-    }).json().execute();
+      answers: myAnswers.value,
+    })
+      .json()
+      .execute()
   }
 }
 const deletee = () => {
-  isDisabledButton.value = true;
-  showConfirmError.value = false;
-  delMember().json().execute();
+  isDisabledButton.value = true
+  showConfirmError.value = false
+  delMember().json().execute()
 }
 </script>
-  
+
 <style scoped>
 .img {
   /* background-color: red; */
@@ -304,7 +333,7 @@ h5:last-child {
   padding: 20px;
 }
 
-.submit-button>>>button {
+.submit-button >>> button {
   width: 200px;
 }
 
@@ -312,7 +341,7 @@ h5:last-child {
   display: inline-block;
 }
 
-form>div {
+form > div {
   margin-top: 10px;
 }
 
@@ -332,4 +361,3 @@ form>div {
   font-size: large;
 }
 </style>
-  

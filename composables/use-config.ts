@@ -1,4 +1,4 @@
-import {get} from 'lodash';
+import { get } from 'lodash'
 
 const CONFIG = {
   constants: {
@@ -15,15 +15,13 @@ const CONFIG = {
       selfStudy: 0,
       all: 'all',
     },
-    API_BASE: 'http://localhost:3000/'
-  }
-};
+    API_BASE: 'http://localhost:3000/',
+  },
+}
 const useConfig = () => {
-  const getConfig = (
-    keyPath: string,
-    defaultValue?: any,
-  ): any => get(CONFIG, keyPath, defaultValue);
-  return {getConfig};
-};
+  const getConfig = (keyPath: string, defaultValue?: any): any =>
+    get(CONFIG, keyPath, defaultValue)
+  return { getConfig }
+}
 
-export default useConfig;
+export default useConfig

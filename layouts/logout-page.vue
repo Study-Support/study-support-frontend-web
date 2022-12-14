@@ -14,7 +14,7 @@
 <style scoped>
 .sidebar {
   width: 21% !important;
-  background-color: #F6F8FC;
+  background-color: #f6f8fc;
   display: inline-block;
   height: 100vh;
   padding-top: 50px;

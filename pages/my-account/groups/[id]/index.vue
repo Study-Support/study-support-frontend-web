@@ -3,16 +3,14 @@
     <BRow class="">
       <BCol class="col-4">
         <div class="img">
-          <img src="/assets/groups/g1.png" alt="">
+          <img src="/assets/groups/g1.png" alt="" />
         </div>
       </BCol>
       <BCol class="group-infor">
-        <h4 class="pt-3 pb-4"> {{ group.subject }}</h4>
-        <p> <span>Khoa:</span> {{ group.faculty }} </p>
+        <h4 class="pt-3 pb-4">{{ group.subject }}</h4>
+        <p><span>Khoa:</span> {{ group.faculty }}</p>
         <p class="title">
-          <span>
-            Tóm tắt thông tin:
-          </span>
+          <span> Tóm tắt thông tin: </span>
           {{ group.title }}
         </p>
         <span>Thông tin chi tiết</span>
@@ -23,24 +21,25 @@
     </BRow>
     <BRow class="mt-3">
       <BCol>
-        <p class="quantity"><span>Thành viên:</span> {{ group.quantity }} thành viên</p>
+        <p class="quantity">
+          <span>Thành viên:</span> {{ group.quantity }} thành viên
+        </p>
         <div v-for="(member, index) in group.members" :key="member.id">
-          <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
+          <p class="mb-0">
+            {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}
+          </p>
         </div>
       </BCol>
     </BRow>
   </div>
 </template>
-    
-<script setup>
 
+<script setup>
 definePageMeta({
   layout: 'my-group',
   middleware: 'authenticated',
-});
-const route = useRoute();
-const { $toast } = useNuxtApp();
-const { getConfig } = useConfig();
+})
+const route = useRoute()
 const group = ref({
   id: '',
   faculty: '',
@@ -52,34 +51,28 @@ const group = ref({
     {
       full_name: '',
       faculty: '',
-    }
-  ]
-});
-const validationErrorMessages = ref({
-});
+    },
+  ],
+})
 const {
   data: dataGetGroup,
   get: getGroup,
   onFetchResponse: getGroupRes,
-  onFetchError: getGroupErr,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  `groups/${route.params.id}`,
-  { immediate: false },
-)
-getGroup().json().execute();
+})(`groups/${route.params.id}`, { immediate: false })
+getGroup().json().execute()
 getGroupRes(() => {
   group.value = dataGetGroup.value.data
   // kiểm tra thực sự nhóm đang tìm mentor k hay nhập bừa id
   if (group.value.status !== 2) {
-    alert("Truy cập nhóm không đúng!");
-    navigateTo('/groups?type=all');
+    alert('Truy cập nhóm không đúng!')
+    navigateTo('/groups?type=all')
   }
-});
+})
 </script>
-    
+
 <style scoped>
 .img {
   /* background-color: red; */
@@ -127,11 +120,11 @@ h5:last-child {
   display: inline-block;
 }
 
-.submit-button>>>button {
+.submit-button >>> button {
   width: 200px;
 }
 
-form>div {
+form > div {
   margin-top: 10px;
 }
 
@@ -175,5 +168,3 @@ label span {
   color: rgb(0, 0, 0);
 }
 </style>
-    
-  

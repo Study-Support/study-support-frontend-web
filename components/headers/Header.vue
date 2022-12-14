@@ -10,29 +10,40 @@
           </BCol>
           <ul class="col col-auto d-flex menu mb-1">
             <li class="text-decoration-none d-block">
-              <NuxtLink to="/dashboard">
-                TRANG CHỦ
-              </NuxtLink>
+              <NuxtLink to="/dashboard"> TRANG CHỦ </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink :to="{ path: '/groups', query: { type: getConfig('constants.typeOfGroup.all') } }">
+              <NuxtLink
+                :to="{
+                  path: '/groups',
+                  query: { type: getConfig('constants.typeOfGroup.all') },
+                }"
+              >
                 NHÓM HỌC
               </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink :to="{ path: '/groups', query: { type: getConfig('constants.typeOfGroup.findMentor') } }">
+              <NuxtLink
+                :to="{
+                  path: '/groups',
+                  query: {
+                    type: getConfig('constants.typeOfGroup.findMentor'),
+                  },
+                }"
+              >
                 TÌM HƯỚNG DẪN
               </NuxtLink>
             </li>
             <li class="text-decoration-none d-block">
-              <NuxtLink to="/mentors">
-                NGƯỜI HƯỚNG DẪN
-              </NuxtLink>
+              <NuxtLink to="/mentors"> NGƯỜI HƯỚNG DẪN </NuxtLink>
             </li>
-            <li @click="sidebarShow = !sidebarShow" class="text-decoration-none d-block">
+            <li
+              class="text-decoration-none d-block"
+              @click="sidebarShow = !sidebarShow"
+            >
               <a href="#" class="user">
                 <div class="avatar">
-                  <img src="/assets/user.png" alt="">
+                  <img src="/assets/user.png" alt="" />
                 </div>
               </a>
             </li>
@@ -44,7 +55,7 @@
           </button>
           <NuxtLink to="/my-account" class="mt-2 mb-4 user-infor d-block">
             <div class="user-image">
-              <img src="assets/user.png" alt="">
+              <img src="assets/user.png" alt="" />
             </div>
             Xem trang cá nhân
           </NuxtLink>
@@ -54,27 +65,26 @@
     <div class="back-header" />
   </div>
 </template>
-  
-<script setup>
-import { BIconBoxArrowLeft, BIconX, BIconPeopleFill } from 'bootstrap-icons-vue';
-import "@fontsource/love-ya-like-a-sister";
 
-const { getConfig } = useConfig();
-const { token, deleteToken } = useToken();
-const sidebarShow = ref(false);
+<script setup>
+import { BIconBoxArrowLeft, BIconX, BIconPeopleFill } from 'bootstrap-icons-vue'
+import '@fontsource/love-ya-like-a-sister'
+
+const { getConfig } = useConfig()
+const sidebarShow = ref(false)
 const user = ref({
   id: '',
   full_name: '',
-});
+})
 const userId = ref({
   user_id: '',
-});
-const myGroups = ref([]);
+})
+const myGroups = ref([])
 // Tạo url lấy user theo id
 const { url: url1 } = useUrl({
   path: '/groups',
   queryParams: userId.value,
-});
+})
 // Lấy thông tin user
 const {
   data: dataGetMe,
@@ -84,10 +94,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/user',
-  { immediate: false },
-);
+})('/user', { immediate: false })
 // Lấy groups của user đang đăng nhập
 const {
   data: dataGetMyGroups,
@@ -97,24 +104,20 @@ const {
 } = useFetchApi({
   requireAuth: false,
   disableHandleErrorUnauthorized: false,
-})(
-  url1,
-  { immediate: false },
-);
+})(url1, { immediate: false })
 
 getGroupsResponse(() => {
-  myGroups.value = dataGetMyGroups.value.data.data;
-});
-getMe().json().execute();
+  myGroups.value = dataGetMyGroups.value.data.data
+})
+getMe().json().execute()
 getMeResponse(() => {
-  user.value = dataGetMe.value.data.data;
-  userId.value.user_id = user.value.id;
-  getGroups().json().execute();
-});
+  user.value = dataGetMe.value.data.data
+  userId.value.user_id = user.value.id
+  getGroups().json().execute()
+})
 getMeError(() => {
   // deleteToken();
-});
-
+})
 </script>
 
 <style scoped>
@@ -124,7 +127,7 @@ a {
 }
 
 .menu-top {
-  background-color: #465C71;
+  background-color: #465c71;
   z-index: 100;
 }
 
@@ -134,11 +137,10 @@ h5 {
 
 .container-fluid {
   border-bottom: 1px solid black;
-
 }
 
 h2 {
-  font-family: "Love Ya Like A Sister";
+  font-family: 'Love Ya Like A Sister';
   display: block;
   min-width: 20px;
 }

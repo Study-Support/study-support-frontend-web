@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+import crypto from 'crypto'
 
 const createGetResponse = () => ({
   data: {
@@ -13,8 +13,8 @@ const createGetResponse = () => ({
     faculty_id: '1',
     created_at: '2022-08-05T16:04:43.967Z',
     updated_at: '2022-08-05T16:04:43.967Z',
-  }
-});
+  },
+})
 const createPutResponse = () => ({
   data: {
     data: {
@@ -30,8 +30,8 @@ const createPutResponse = () => ({
       created_at: '2022-08-05T16:04:43.967Z',
       updated_at: '2022-08-05T16:04:43.967Z',
     },
-  }
-});
+  },
+})
 const validationErrorResponses = () => ({
   meta: {
     error_message: {
@@ -39,14 +39,11 @@ const validationErrorResponses = () => ({
         'Họ và tên không được để trống',
         'Họ và tên không được để trống',
       ],
-      email: [
-        'Mã nhóm không được đổi',
-        'Mã nhóm không được đổi',
-      ],
-    }
-  }
-});
+      email: ['Mã nhóm không được đổi', 'Mã nhóm không được đổi'],
+    },
+  },
+})
 
 export default defineEventHandler(async (event) => {
-  return createGetResponse();
-});
+  return createGetResponse()
+})

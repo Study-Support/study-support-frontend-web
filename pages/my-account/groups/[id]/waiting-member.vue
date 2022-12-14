@@ -11,16 +11,14 @@
     <BRow>
       <BCol class="col-4">
         <div class="img">
-          <img src="/assets/groups/g1.png" alt="">
+          <img src="/assets/groups/g1.png" alt="" />
         </div>
       </BCol>
       <BCol class="group-infor">
-        <h4 class="pt-3 pb-4"> {{ group.subject }}</h4>
-        <p> <span>Khoa:</span> {{ group.faculty }} </p>
+        <h4 class="pt-3 pb-4">{{ group.subject }}</h4>
+        <p><span>Khoa:</span> {{ group.faculty }}</p>
         <p class="topic">
-          <span>
-            Tóm tắt thông tin:
-          </span>
+          <span> Tóm tắt thông tin: </span>
           {{ group.topic }}
         </p>
         <span>Thông tin chi tiết</span>
@@ -31,40 +29,57 @@
     </BRow>
     <BRow class="mt-3">
       <BCol>
-        <p class="quantity"><span>Thành viên:</span> {{ group.quantity }} thành viên</p>
+        <p class="quantity">
+          <span>Thành viên:</span> {{ group.quantity }} thành viên
+        </p>
         <div v-for="(member, index) in group.membersAccepted" :key="member.id">
-          <p class="mb-0"> {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}</p>
+          <p class="mb-0">
+            {{ index + 1 }}. {{ member.full_name }} _ Khoa: {{ member.faculty }}
+          </p>
         </div>
       </BCol>
     </BRow>
     <!-- v-if="group.is_creator === 1" -->
-    <BRow class="mt-3" v-if="group.is_creator">
+    <BRow v-if="group.is_creator" class="mt-3">
       <BCol>
         <div>
           Thành viên đợi duyệt
           <table>
-              <tr class="title">
-                <th>STT</th>
-                <th>Name</th>
-                <th>Khoa</th>
-                <!-- <th>Câu trả lời</th> -->
-                <th>Select All<input type="checkbox" @click="selectAll" v-model="allSelected"></th>
-                
-              </tr>
-              <tr v-for="(member, index) in group.membersWaiting" :key="member.id">
-                <td>{{ index }}</td>
-                <td>{{ member.full_name }}</td>
-                <td>{{ member.faculty }}</td>
-                <!-- <td>
+            <tr class="title">
+              <th>STT</th>
+              <th>Name</th>
+              <th>Khoa</th>
+              <!-- <th>Câu trả lời</th> -->
+              <th>
+                Select All<input
+                  v-model="allSelected"
+                  type="checkbox"
+                  @click="selectAll"
+                />
+              </th>
+            </tr>
+            <tr
+              v-for="(member, index) in group.membersWaiting"
+              :key="member.id"
+            >
+              <td>{{ index }}</td>
+              <td>{{ member.full_name }}</td>
+              <td>{{ member.faculty }}</td>
+              <!-- <td>
                   <p v-for="t in group.answers" :key="t">
                     
                   </p>
                 </td> -->
-                <td>
-                  <input type="checkbox" v-model="acceptMember" @change="select" :value="member.id">
-                </td>
-              </tr>
-            </table>
+              <td>
+                <input
+                  v-model="acceptMember"
+                  type="checkbox"
+                  :value="member.id"
+                  @change="select"
+                />
+              </td>
+            </tr>
+          </table>
           <button @click="accept">Duyệt thành viên</button>
           <button @click="deleteWaiting">Xóa thành viên</button>
         </div>
@@ -72,19 +87,19 @@
     </BRow>
   </BContainer>
 </template>
-    
+
 <script setup>
-import { BIconChevronRight } from 'bootstrap-icons-vue';
+import { BIconChevronRight } from 'bootstrap-icons-vue'
 
 definePageMeta({
   layout: 'page',
   middleware: 'authenticated',
-});
-const route = useRoute();
-const { $toast } = useNuxtApp();
-const { getConfig } = useConfig();
-const acceptMember = ref([]);
-const allSelected = ref(false);
+})
+const route = useRoute()
+const { $toast } = useNuxtApp()
+const { getConfig } = useConfig()
+const acceptMember = ref([])
+const allSelected = ref(false)
 const group = ref({
   id: '',
   faculty: '',
@@ -92,82 +107,68 @@ const group = ref({
   topic: '',
   information: '',
   quantity: '',
-  membersAccepted: [
-  ],
-  membersWaiting: [
-  ],
+  membersAccepted: [],
+  membersWaiting: [],
   answers: [],
   is_creator: '',
-});
-const validationErrorMessages = ref({
-});
+})
 const {
   data: dataGetGroup,
   get: getGroup,
   onFetchResponse: getGroupRes,
-  onFetchError: getGroupErr,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  `groups/${route.params.id}`,
-  { immediate: false },
-)
-
-const { url: url1 } = useUrl({
-  path: `groups/${route.params.id}`,
-  queryParams: acceptMember.value,
-});
+})(`groups/${route.params.id}`, { immediate: false })
 const {
-  data: dataAcceptMember,
   put: putAcceptMember,
-  onFetchResponse: putAcceptMemberRes,
-  onFetchError: putAcceptMemberErr,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  `user/groups/${route.params.id}/acceptMember`,
-  { immediate: false },
-)
-getGroup().json().execute();
+})(`user/groups/${route.params.id}/acceptMember`, { immediate: false })
+getGroup().json().execute()
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data.group;
+  group.value = dataGetGroup.value.data.group
   // kiểm tra thực sự nhóm đang tìm mentor k hay nhập bừa id
   // if (group.value.status === 1) {
   //   alert("Truy cập nhóm không đúng!");
   //   navigateTo('/groups?type=all');
   // }
-  let temp1 = dataGetGroup.value.data.group.answers.length/dataGetGroup.value.data.group.membersWaiting.length
-  console.log(temp1);
-});
-
+  const temp1 =
+    dataGetGroup.value.data.group.answers.length /
+    dataGetGroup.value.data.group.membersWaiting.length
+  console.log(temp1)
+})
 
 const selectAll = () => {
-  acceptMember.value = [];
+  acceptMember.value = []
   if (!allSelected.value) {
     group.value.membersWaiting.forEach(function (member) {
-      acceptMember.value.push(member.id);
-    });
+      acceptMember.value.push(member.id)
+    })
   }
 }
 const select = () => {
-  allSelected.value = false;
+  allSelected.value = false
 }
 const accept = () => {
   putAcceptMember({
     account_id: acceptMember.value,
-    accept: true
-  }).json().execute();
+    accept: true,
+  })
+    .json()
+    .execute()
 }
 const deleteWaiting = () => {
   putAcceptMember({
     account_id: acceptMember.value,
-    accept: false
-  }).json().execute();
+    accept: false,
+  })
+    .json()
+    .execute()
 }
 </script>
-    
+
 <style scoped>
 table {
   font-family: arial, sans-serif;
@@ -237,11 +238,11 @@ h5:last-child {
   display: inline-block;
 }
 
-.submit-button>>>button {
+.submit-button >>> button {
   width: 200px;
 }
 
-form>div {
+form > div {
   margin-top: 10px;
 }
 
@@ -285,4 +286,3 @@ label span {
   color: rgb(0, 0, 0);
 }
 </style>
-    

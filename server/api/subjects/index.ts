@@ -17,10 +17,9 @@ const createGetResponse = () => ({
         id: '4',
         name: 'Kinh tế chính trị',
       },
-    ]
-  }
-}
-);
+    ],
+  },
+})
 const createGetResponseO = () => ({
   data: {
     data: [
@@ -40,16 +39,15 @@ const createGetResponseO = () => ({
         id: '4',
         name: 'Kiểm thử phần mềm',
       },
-    ]
-  }
-}
-);
+    ],
+  },
+})
 
 export default defineEventHandler(async (event) => {
-  const query = await useQuery(event.req);
-  if(query.faculty_id === '1') {
-    return createGetResponse();
+  const query = await useQuery(event.req)
+  if (query.faculty_id === '1') {
+    return createGetResponse()
   } else {
-    return createGetResponseO();
+    return createGetResponseO()
   }
-});
+})
