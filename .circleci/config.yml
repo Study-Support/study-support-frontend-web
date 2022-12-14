@@ -9,8 +9,8 @@ jobs:
       - image: cimg/node:16.10
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      # - node/install-packages:
+      #     pkg-manager: yarn
       - run:
           name: Lint
           command: yarn lint
