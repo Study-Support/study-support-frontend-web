@@ -46,12 +46,14 @@ getgroupsIsMemberResponse(() => {
   groupsIsMember.value = dataGetgroupsIsMember.value.data.data
 })
 const detail = (group) => {
-  console.log(group)
   if (group.status === 2) {
     navigateTo(`/my-account/groups/${group.id}/waiting-mentor`)
   }
   if (group.status === 1) {
     navigateTo(`/my-account/groups/${group.id}/waiting-member`)
+  }
+  if (group.status === 3) {
+    navigateTo(`/my-account/groups/${group.id}`)
   }
 }
 </script>

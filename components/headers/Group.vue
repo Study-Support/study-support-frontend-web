@@ -16,13 +16,13 @@
             </li>
             <li
               class="text-decoration-none d-block"
-              @click="sidebarShow = !sidebarShow"
+              
             >
-              <a href="#" class="user">
-                <div class="avatar">
+            <NuxtLink to="/my-account">
+              <div class="avatar">
                   <img src="/assets/user.png" alt="" />
                 </div>
-              </a>
+            </NuxtLink>
             </li>
           </ul>
         </BRow>

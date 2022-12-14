@@ -73,13 +73,19 @@
                 </li>
               </ul>
               <BCol v-else class="col-auto">
-                <div @click="sidebarShow = !sidebarShow">
+                <div @click="navigateTo('/my-account')">
                   <div class="avatar">
                     <img src="assets/user.png" alt="" />
                   </div>
-                  <a href="#" class="user">{{ user.full_name }}</a>
+                  <!-- <a href="#" class="user">{{ user.full_name }}</a> -->
+                  <NuxtLink
+                    to="/my-account"
+                    class="user"
+                  >
+                  {{ user.full_name }}
+                  </NuxtLink>
                 </div>
-                <div class="sidebar" :class="{ sidebarShow: !sidebarShow }">
+                <!-- <div class="sidebar" :class="{ sidebarShow: !sidebarShow }">
                   <button @click="sidebarShow = false">
                     <BIconX class="close" />
                   </button>
@@ -92,7 +98,7 @@
                     </div>
                     Xem trang cá nhân
                   </NuxtLink>
-                </div>
+                </div> -->
               </BCol>
             </BRow>
             <BRow class="mt-3 d-flex justify-content-between">
@@ -300,9 +306,7 @@
         </BCol>
       </BRow>
     </BContainer>
-    <p>ádfasdfasdf</p>
-    <p>ádfasdfasdf</p>
-    <p>ádfasdfasdf</p>
+    <p class="p-5"></p>
   </div>
 </template>
 <script setup>

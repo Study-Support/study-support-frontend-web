@@ -2,22 +2,22 @@
   <BContainer fluid>
     <BRow class="filter">
       <BCol class="pt-3">
-        <label for="search"> Tìm kiếm tên môn học </label>
+        <!-- <label for="search"> Tìm kiếm tên môn học </label> -->
         <div id="search" class="input-group search">
           <input
             v-model="filter.a.search"
             class="form-control border"
             type="search"
-            placeholder="Môn học"
+            placeholder="Tìm kiếm theo tên môn học"
           />
         </div>
       </BCol>
       <BCol>
         <div class="mt-3">
-          <label for="type">Chọn loại nhóm học</label>
+          <!-- <label for="type">Chọn loại nhóm học</label> -->
           <select id="type" v-model="filter.a.type" class="form-select">
             <option :value="getConfig('constants.typeOfGroup.all')">
-              Tất cả
+              Tất cả các loại nhóm
             </option>
             <option :value="getConfig('constants.typeOfGroup.findMentor')">
               Nhóm tìm người hướng dẫn
@@ -33,9 +33,9 @@
       </BCol>
       <BCol>
         <div class="mt-3">
-          <label>Chọn khoa</label>
+          <!-- <label>Chọn khoa</label> -->
           <select v-model="filter.a.faculty" class="form-select" required>
-            <option value="" disabled selected>Chọn khoa</option>
+            <option value="" disabled selected>Lọc theo khoa</option>
             <option
               v-for="faculty in faculties"
               :key="faculty.id"
@@ -46,9 +46,9 @@
           </select>
         </div>
       </BCol>
-      <BCol class="col-2 pt-3">
+      <BCol class="col-2">
         <SubmitButton
-          class="mt-3"
+          class="mt-2"
           :is-disabled="isDisabledButton"
           :content="'Tìm kiếm'"
           :color="'rgb(63 88 120)'"
@@ -181,9 +181,10 @@ const join = (group) => {
 <style scoped>
 .container-fluid {
   padding: 20px;
+  padding-bottom: 0;
 }
 .filter-result {
-  padding-top: 60px;
+  padding-top: 40px;
 }
 label {
   color: rgb(0, 0, 0);
@@ -213,9 +214,10 @@ span {
   top: 35px;
   left: 10px;
   width: 100%;
-  padding-bottom: 10px;
+  padding-bottom: 15px;
   padding-left: 10px;
   padding-right: 10px;
+  padding-top: 15px;
 }
 
 .filter label {

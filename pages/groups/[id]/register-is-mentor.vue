@@ -47,12 +47,12 @@
           <form @submit.prevent="submit">
             <div v-if="statusShow === 1" class="">
               <div
-                v-for="(questions, index) in registerInform.data"
+                v-for="(questions, index) in registerInform.answers"
                 :key="questions.id"
               >
-                Câu hỏi số {{ index + 1 }}: {{ questions.question }}
+                Câu hỏi số {{ index + 1 }}: {{ questions.content }}
                 <BFormInput
-                  v-model="questions.content"
+                  v-model="questions.answer"
                   aria-describedby="input-live-help input-live-feedback"
                   placeholder="Câu trả lời"
                   trim
@@ -158,6 +158,9 @@ const group = ref({
 })
 const registerInform = ref({
   confirm: 'not_agreed',
+  answers: [
+
+  ]
 })
 const {
   data: dataGetGroup,
@@ -197,6 +200,15 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(`/groups/${route.params.id}/join`, { immediate: false })
+// Lấy câu hỏi cho mentor
+const {
+  data: dataMentorQuestion,
+  get: getMentorQuestion,
+  onFetchResponse: getMentorQuestionResponse,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})('/mentor-questions', { immediate: false })
 // Lấy mentor_infor
 const {
   data: dataMentorInfor,
@@ -229,12 +241,20 @@ getGroupRes(() => {
   //   navigateTo('/groups?type=all');
   // }
 })
+getMentorQuestionResponse(() => {
+  registerInform.value.answers = dataMentorQuestion.value.data.data
+  registerInform.value.answers.map((item) => {
+    item.answer = ''
+  })
+})
 getMentorInforResponse(() => {
   dataMentorInfor.value.data.data.subjects.map((subject) => {
-    if (subject.id === group.value.subject_id) {
+    if (subject.subject_id === group.value.subject_id) {
       if (subject.active === 1) {
         // Đã đk môn này r đc accept r
         beforeSubjectShow.value = 1
+        // lấy câu hỏi cho mentor đăng ký
+        getMentorQuestion().json().execute();
       } else {
         // Đã đk đang đợi duyệt
         beforeSubjectShow.value = 2
@@ -299,10 +319,7 @@ const submit = () => {
   } else {
     postMentor({
       // answers: group.value.data
-      answers: [
-        { id: 47, content: 'a', answer: 'aa' },
-        { id: 48, content: 'b', answer: 'aa' },
-      ],
+      answers: registerInform.value.answers
     })
       .json()
       .execute()

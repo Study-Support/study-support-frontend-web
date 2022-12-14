@@ -39,8 +39,7 @@
             >
           </label>
           <div v-for="(accept, index) in infor.accepts" :key="accept.id">
-            <p>{{ index + 1 }}. {{ accept.subject }}</p>
-            <p>{{ accept.faculty }}</p>
+            <p>{{ index + 1 }}. {{ accept.name }}</p>
             <a :href="{ path: `${accept.cv_link}` }">Link thành tích</a>
           </div>
         </div>
@@ -114,7 +113,7 @@
                     <BCol>
                       <label for="">Chọn môn học</label>
                       <select
-                        v-model="dataCreate.subject_id"
+                        v-model="infor.subject_id"
                         class="form-select col"
                         required
                       >
@@ -131,7 +130,7 @@
                   </BRow>
                   <label for="">Link thành tích</label>
                   <BFormInput
-                    v-model="dataCreate.cv_link"
+                    v-model="infor.cv_link"
                     :state="
                       validationErrorMessages.cv_link === undefined
                         ? null
@@ -160,8 +159,7 @@
             </div>
           </div>
           <div v-for="(request, index) in infor.requests" :key="request.id">
-            <p>{{ index + 1 }}.{{ request.subject }}</p>
-            <p>{{ request.faculty }}</p>
+            <p>{{ index + 1 }}.{{ request.name }}</p>
             <a :href="{ path: `${request.cv_link}` }">Link thành tích</a>
             <span @click.prevent="update(request)">
               <BIconPencilSquare />
@@ -199,6 +197,9 @@ const infor = ref({
   accepts: [],
   requests: [],
   subjects: [],
+  faculty_id: '',
+  subject_id: '',
+  cv_link: '',
 })
 const updateCv = ref({
   subject_id: '',
@@ -207,11 +208,7 @@ const updateCv = ref({
   faculty: 'Công nghệ thông tin',
   cv_link: '',
 })
-const dataCreate = ref({
-  faculty_id: '',
-  subject_id: '',
-  cv_link: '',
-})
+
 const faculty = ref({
   faculty_id: '',
 })
@@ -292,7 +289,9 @@ const {
 
 getMentorInfor().json().execute()
 getMentorInforResponse(() => {
-  infor.value.smart_banking = dataMentorInfor.value.data.data.smart_banking
+  infor.value.accepts = [];
+  infor.value.requests = [];
+  infor.value.smart_banking = dataMentorInfor.value.data.data.bank
   infor.value.subjects = dataMentorInfor.value.data.data.subjects
   infor.value.subjects.map((subject) => {
     if (subject.active === 1) {
@@ -324,9 +323,9 @@ postCVResponse(() => {
   showUpdate.value = false
   successAlert('Tạo đăng ký thành công')
   getMentorInfor().json().execute()
-  dataCreate.value.faculty_id = ''
-  dataCreate.value.subject_id = ''
-  dataCreate.value.cv_link = ''
+  infor.value.faculty_id = ''
+  infor.value.subject_id = ''
+  infor.value.cv_link = ''
 })
 postCVError(() => {
   isDisabledButton.value = false
@@ -350,7 +349,7 @@ getSubjectResponse(() => {
 })
 watch(faculty.value, () => {
   getSubject().json().execute()
-  dataCreate.value.faculty_id = faculty.value.faculty_id
+  infor.value.faculty_id = faculty.value.faculty_id
 })
 onMounted(() => {
   if (route.query.request === 'create') {
@@ -399,7 +398,7 @@ const updateSB = () => {
 const createCv = () => {
   validationErrorMessages.value = {}
   isDisabledButton.value = true
-  postCV(dataCreate.value).json().execute()
+  postCV(infor.value).json().execute()
 }
 </script>
 <style scoped>

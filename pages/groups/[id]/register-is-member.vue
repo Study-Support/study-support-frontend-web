@@ -232,7 +232,6 @@ putMemberRes(() => {
   isDisabledButton.value = false
   successAlert('Chỉnh sửa thông tin thành công!')
   group.value.survey_questions = dataMemberPut.value.data.survey_questions
-  console.log(group.value.survey_questions)
 })
 putMemberErr(() => {
   isDisabledButton.value = false

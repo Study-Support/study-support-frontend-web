@@ -49,7 +49,7 @@
               <th>STT</th>
               <th>Name</th>
               <th>Khoa</th>
-              <!-- <th>Câu trả lời</th> -->
+              <th>Câu trả lời</th>
               <th>
                 Select All<input
                   v-model="allSelected"
@@ -65,11 +65,13 @@
               <td>{{ index }}</td>
               <td>{{ member.full_name }}</td>
               <td>{{ member.faculty }}</td>
-              <!-- <td>
-                  <p v-for="t in group.answers" :key="t">
-                    
-                  </p>
-                </td> -->
+              <td>
+                <p v-for="answer in group.answers" :key="answer">
+                  <span v-if="answer.account_id === member.id">
+                    {{answer.content}}: {{answer.answer}}
+                  </span>
+                </p>
+              </td>
               <td>
                 <input
                   v-model="acceptMember"
@@ -118,7 +120,11 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(`groups/${route.params.id}`, { immediate: false })
-const { put: putAcceptMember } = useFetchApi({
+
+const { 
+  put: putAcceptMember,
+  onFetchResponse: putAcceptMemberRes,
+} = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(`user/groups/${route.params.id}/acceptMember`, { immediate: false })
@@ -130,12 +136,10 @@ getGroupRes(() => {
   //   alert("Truy cập nhóm không đúng!");
   //   navigateTo('/groups?type=all');
   // }
-  const temp1 =
-    dataGetGroup.value.data.group.answers.length /
-    dataGetGroup.value.data.group.membersWaiting.length
-  console.log(temp1)
 })
-
+putAcceptMemberRes(() => {
+  getGroup().json().execute()
+})
 const selectAll = () => {
   acceptMember.value = []
   if (!allSelected.value) {

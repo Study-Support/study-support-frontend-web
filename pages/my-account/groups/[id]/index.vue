@@ -9,9 +9,9 @@
       <BCol class="group-infor">
         <h4 class="pt-3 pb-4">{{ group.subject }}</h4>
         <p><span>Khoa:</span> {{ group.faculty }}</p>
-        <p class="title">
+        <p class="topic">
           <span> Tóm tắt thông tin: </span>
-          {{ group.title }}
+          {{ group.topic }}
         </p>
         <span>Thông tin chi tiết</span>
         <p class="information">
@@ -44,7 +44,7 @@ const group = ref({
   id: '',
   faculty: '',
   subject: '',
-  title: '',
+  topic: '',
   information: '',
   quantity: '',
   members: [
@@ -64,12 +64,12 @@ const {
 })(`groups/${route.params.id}`, { immediate: false })
 getGroup().json().execute()
 getGroupRes(() => {
-  group.value = dataGetGroup.value.data
+  group.value = dataGetGroup.value.data.group
   // kiểm tra thực sự nhóm đang tìm mentor k hay nhập bừa id
-  if (group.value.status !== 2) {
-    alert('Truy cập nhóm không đúng!')
-    navigateTo('/groups?type=all')
-  }
+  // if (group.value.status !== 3) {
+  //   alert('Truy cập nhóm không đúng!')
+  //   navigateTo('/groups?type=all')
+  // }
 })
 </script>
 
