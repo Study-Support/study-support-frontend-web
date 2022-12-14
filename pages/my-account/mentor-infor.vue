@@ -3,28 +3,40 @@
     <BContainer fluid>
       <div class="rating">
         <BRow role="group">
-
-          <label for="">Tài khoản ngân hàng
-          </label>
+          <label for="">Tài khoản ngân hàng </label>
           <BCol>
-            <BFormTextarea v-model="infor.smart_banking"
-              :state="validationErrorMessages.smart_banking === undefined ? null : false"
-              aria-describedby="input-live-help input-live-feedback" placeholder="Thông tin ngân hàng và số tài khoản"
-              trim required />
+            <BFormTextarea
+              v-model="infor.smart_banking"
+              :state="
+                validationErrorMessages.smart_banking === undefined
+                  ? null
+                  : false
+              "
+              aria-describedby="input-live-help input-live-feedback"
+              placeholder="Thông tin ngân hàng và số tài khoản"
+              trim
+              required
+            />
             <BFormInvalidFeedback>
-              <ValidationErrorMessage :messages="validationErrorMessages.smart_banking" />
+              <ValidationErrorMessage
+                :messages="validationErrorMessages.smart_banking"
+              />
             </BFormInvalidFeedback>
           </BCol>
 
-          <span @click.prevent="updateSB" class="col col-auto">
+          <span class="col col-auto" @click.prevent="updateSB">
             <BIconPencilSquare />
           </span>
         </BRow>
         <div class="accept mt-3">
-          <label for="">Môn học bạn đã được duyệt làm mentor bởi nhà trường.
-            <span>Bạn có thể đăng ký làm mentor cho các nhóm của môn học dưới mà không cần đăng ký lại và chờ duyệt
-              thông tin thành tích môn học (Nhưng vẫn phải xem xét kế hoạch học tập cho nhóm mới duyệt bạn làm mentor
-              cho nhóm)</span>
+          <label for=""
+            >Môn học bạn đã được duyệt làm mentor bởi nhà trường.
+            <span
+              >Bạn có thể đăng ký làm mentor cho các nhóm của môn học dưới mà
+              không cần đăng ký lại và chờ duyệt thông tin thành tích môn học
+              (Nhưng vẫn phải xem xét kế hoạch học tập cho nhóm mới duyệt bạn
+              làm mentor cho nhóm)</span
+            >
           </label>
           <div v-for="(accept, index) in infor.accepts" :key="accept.id">
             <p>{{ index + 1 }}. {{ accept.subject }}</p>
@@ -33,8 +45,9 @@
           </div>
         </div>
         <div class="accept mt-3">
-          <label for="">Môn học bạn đăng ký làm mentor đang đợi duyệt bởi nhà trường.
-            <BIconPlusCircle @click.prevent="create_request" />
+          <label for=""
+            >Môn học bạn đăng ký làm mentor đang đợi duyệt bởi nhà trường.
+            <BIconPlusCircle @click.prevent="createRequest" />
             <span>Bạn có thể sửa thông tin</span>
           </label>
           <div class="update" :class="{ show: showUpdate }">
@@ -43,58 +56,104 @@
                 <BIconX />
               </button>
               <h6>Thông tin của bạn làm mentor</h6>
-              <div class="update_form" v-if="isUpdateNotCreate">
-                <p for=""><span>Môn học:</span> {{ update_cv.subject }}</p>
-                <p for=""><span>Khoa:</span> {{ update_cv.faculty }}</p>
+              <div v-if="isUpdateNotCreate" class="update_form">
+                <p for=""><span>Môn học:</span> {{ updateCv.subject }}</p>
+                <p for=""><span>Khoa:</span> {{ updateCv.faculty }}</p>
                 <p for=""><span>Thành tích của môn học: </span></p>
                 <form @submit.prevent="updateCVLink">
-                  <BFormInput v-model="update_cv.cv_link"
-                    :state="validationErrorMessages.cv_link === undefined ? null : false"
-                    aria-describedby="input-live-help input-live-feedback" placeholder="Link thành tích" required
-                    class="" />
+                  <BFormInput
+                    v-model="updateCv.cv_link"
+                    :state="
+                      validationErrorMessages.cv_link === undefined
+                        ? null
+                        : false
+                    "
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Link thành tích"
+                    required
+                    class=""
+                  />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.cv_link" />
+                    <ValidationErrorMessage
+                      :messages="validationErrorMessages.cv_link"
+                    />
                   </BFormInvalidFeedback>
                   <BRow class="text-end">
-                    <SubmitButton class="col col-4 mt-3 ms-auto submit-button" :isDisabled="isDisabledButton"
-                      :content="'Chỉnh sửa'" :color="'rgb(70 83 105)'" />
+                    <SubmitButton
+                      class="col col-4 mt-3 ms-auto submit-button"
+                      :is-disabled="isDisabledButton"
+                      :content="'Chỉnh sửa'"
+                      :color="'rgb(70 83 105)'"
+                    />
                   </BRow>
                 </form>
               </div>
-              <div class="create_form" v-else>
-                <form @submit.prevent="create_cv">
-                  <label class="title">1. Chọn môn học bạn muốn đăng ký học</label>
+              <div v-else class="create_form">
+                <form @submit.prevent="createCv">
+                  <label class="title"
+                    >1. Chọn môn học bạn muốn đăng ký học</label
+                  >
                   <BRow>
                     <BCol>
                       <label for="">Chọn khoa</label>
-                      <select v-model="faculty.faculty_id" class="form-select col" required>
+                      <select
+                        v-model="faculty.faculty_id"
+                        class="form-select col"
+                        required
+                      >
                         <option value="" disabled selected>Khoa của bạn</option>
-                        <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id">
+                        <option
+                          v-for="faculty in faculties"
+                          :key="faculty.id"
+                          :value="faculty.id"
+                        >
                           {{ faculty.name }}
                         </option>
                       </select>
                     </BCol>
                     <BCol>
                       <label for="">Chọn môn học</label>
-                      <select v-model="dataCreate.subject_id" class="form-select col" required>
+                      <select
+                        v-model="dataCreate.subject_id"
+                        class="form-select col"
+                        required
+                      >
                         <option value="" disabled selected>Chọn môn học</option>
-                        <option v-for="subject in subjects" :key="subject.id" :value="subject.id">
+                        <option
+                          v-for="subject in subjects"
+                          :key="subject.id"
+                          :value="subject.id"
+                        >
                           {{ subject.name }}
                         </option>
                       </select>
                     </BCol>
                   </BRow>
                   <label for="">Link thành tích</label>
-                  <BFormInput v-model="dataCreate.cv_link"
-                    :state="validationErrorMessages.cv_link === undefined ? null : false"
-                    aria-describedby="input-live-help input-live-feedback" placeholder="Link thành tích" required
-                    class="" />
+                  <BFormInput
+                    v-model="dataCreate.cv_link"
+                    :state="
+                      validationErrorMessages.cv_link === undefined
+                        ? null
+                        : false
+                    "
+                    aria-describedby="input-live-help input-live-feedback"
+                    placeholder="Link thành tích"
+                    required
+                    class=""
+                  />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage :messages="validationErrorMessages.cv_link" />
+                    <ValidationErrorMessage
+                      :messages="validationErrorMessages.cv_link"
+                    />
                   </BFormInvalidFeedback>
                   <BRow class="text-end">
-                    <SubmitButton class="col col-4 mt-3 ms-auto submit-button" :isDisabled="isDisabledButton"
-                      :content="'Tạo đăng ký'" :color="'rgb(70 83 105)'" />
+                    <SubmitButton
+                      class="col col-4 mt-3 ms-auto submit-button"
+                      :is-disabled="isDisabledButton"
+                      :content="'Tạo đăng ký'"
+                      :color="'rgb(70 83 105)'"
+                    />
                   </BRow>
                 </form>
               </div>
@@ -116,27 +175,32 @@
     </BContainer>
   </div>
 </template>
-    
+
 <script setup>
-import { BIconX, BIconPencilSquare, BIconPlusCircle, BIconTrash3 } from 'bootstrap-icons-vue';
-const { errorAlert, successAlert } = useAlert();
+import {
+  BIconX,
+  BIconPencilSquare,
+  BIconPlusCircle,
+  BIconTrash3,
+} from 'bootstrap-icons-vue'
+const { errorAlert, successAlert } = useAlert()
 
 definePageMeta({
   layout: 'logout-page',
   middleware: 'authenticated',
-});
+})
 const route = useRoute()
-const showUpdate = ref(false);
-const isUpdateNotCreate = ref(true);
-const {$swal} = useNuxtApp();
-const isDisabledButton = ref(false);
+const showUpdate = ref(false)
+const isUpdateNotCreate = ref(true)
+const { $swal } = useNuxtApp()
+const isDisabledButton = ref(false)
 const infor = ref({
   smart_banking: '',
   accepts: [],
   requests: [],
   subjects: [],
 })
-const update_cv = ref({
+const updateCv = ref({
   subject_id: '',
   faculty_id: '',
   subject: 'Toan',
@@ -149,26 +213,21 @@ const dataCreate = ref({
   cv_link: '',
 })
 const faculty = ref({
-  faculty_id: ''
+  faculty_id: '',
 })
-const faculties = ref([]);
-const subjects = ref([]);
+const faculties = ref([])
+const subjects = ref([])
 
-const validationErrorMessages = ref({
-});
+const validationErrorMessages = ref({})
 // Lấy mentor_infor
 const {
   data: dataMentorInfor,
   get: getMentorInfor,
   onFetchResponse: getMentorInforResponse,
-  onFetchError: getMentorInforError,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/mentor',
-  { immediate: false },
-);
+})('/mentor', { immediate: false })
 // Update cv_link
 const {
   data: dataPutCVLink,
@@ -178,10 +237,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/mentor/subjects',
-  { immediate: false },
-);
+})('/mentor/subjects', { immediate: false })
 // del cv_link
 const {
   data: dataDelCVLink,
@@ -191,10 +247,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/mentor/subjects',
-  { immediate: false },
-);
+})('/mentor/subjects', { immediate: false })
 // Create cv
 const {
   data: dataPostCV,
@@ -204,10 +257,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/mentor',
-  { immediate: false },
-);
+})('/mentor', { immediate: false })
 // Update smartBanking
 const {
   data: dataPutSB,
@@ -217,15 +267,12 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/mentor/bank',
-  { immediate: false },
-);
+})('/mentor/bank', { immediate: false })
 // Tạo url môn học theo khoa
 const { url: url1 } = useUrl({
   path: '/subjects',
   queryParams: faculty.value,
-});
+})
 const {
   data: dataFaculty,
   get: getFaculty,
@@ -233,10 +280,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
-})(
-  '/faculties',
-  { immediate: false },
-);
+})('/faculties', { immediate: false })
 const {
   data: dataSubject,
   get: getSubject,
@@ -244,119 +288,118 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
-})(
-  url1,
-  { immediate: false },
-);
+})(url1, { immediate: false })
 
-
-
-getMentorInfor().json().execute();
+getMentorInfor().json().execute()
 getMentorInforResponse(() => {
   infor.value.smart_banking = dataMentorInfor.value.data.data.smart_banking
-  infor.value.subjects = dataMentorInfor.value.data.data.subjects;
-  infor.value.subjects.map(subject => {
-    if(subject.active === 1) {
-      infor.value.accepts.push(subject);
+  infor.value.subjects = dataMentorInfor.value.data.data.subjects
+  infor.value.subjects.map((subject) => {
+    if (subject.active === 1) {
+      infor.value.accepts.push(subject)
     } else {
-      infor.value.requests.push(subject);
+      infor.value.requests.push(subject)
     }
-  });
+  })
 })
 putCVLinkResponse(() => {
-  isDisabledButton.value = false;
-  showUpdate.value = false;
-  successAlert('Chỉnh sửa thành công');
-  getMentorInfor().json().execute();
+  isDisabledButton.value = false
+  showUpdate.value = false
+  successAlert('Chỉnh sửa thành công')
+  getMentorInfor().json().execute()
 })
 putCVLinkError(() => {
-  isDisabledButton.value = false;
-  errorAlert(dataPutCVLink.value.meta.error_message);
+  isDisabledButton.value = false
+  errorAlert(dataPutCVLink.value.meta.error_message)
 })
 delCVLinkResponse(() => {
-  successAlert('Xóa đăng ký thành công');
-  getMentorInfor().json().execute();
+  successAlert('Xóa đăng ký thành công')
+  getMentorInfor().json().execute()
 })
 delCVLinkError(() => {
-  errorAlert(dataDelCVLink.value.meta.error_message);
+  errorAlert(dataDelCVLink.value.meta.error_message)
 })
 postCVResponse(() => {
-  isDisabledButton.value = false;
-  showUpdate.value = false;
-  successAlert('Tạo đăng ký thành công');
-  getMentorInfor().json().execute();
-  dataCreate.value.faculty_id = '';
-  dataCreate.value.subject_id = '';
-  dataCreate.value.cv_link = '';
+  isDisabledButton.value = false
+  showUpdate.value = false
+  successAlert('Tạo đăng ký thành công')
+  getMentorInfor().json().execute()
+  dataCreate.value.faculty_id = ''
+  dataCreate.value.subject_id = ''
+  dataCreate.value.cv_link = ''
 })
 postCVError(() => {
-  isDisabledButton.value = false;
-  errorAlert(dataPostCV.value.meta.error_message);
+  isDisabledButton.value = false
+  errorAlert(dataPostCV.value.meta.error_message)
 })
 putSBResponse(() => {
-  showUpdate.value = false;
-  successAlert('Chỉnh sửa thành công');
-  getMentorInfor().json().execute();
+  showUpdate.value = false
+  successAlert('Chỉnh sửa thành công')
+  getMentorInfor().json().execute()
 })
 putSBError(() => {
-  errorAlert(dataPutSB.value.meta.error_message);
+  errorAlert(dataPutSB.value.meta.error_message)
 })
 
-
-getFaculty().json().execute();
+getFaculty().json().execute()
 getFacultyResponse(() => {
-  faculties.value = dataFaculty.value.data.data;
+  faculties.value = dataFaculty.value.data.data
 })
 getSubjectResponse(() => {
-  subjects.value = dataSubject.value.data;
+  subjects.value = dataSubject.value.data
 })
 watch(faculty.value, () => {
-  getSubject().json().execute();
-  dataCreate.value.faculty_id = faculty.value.faculty_id;
-});
+  getSubject().json().execute()
+  dataCreate.value.faculty_id = faculty.value.faculty_id
+})
 onMounted(() => {
-  if(route.query.request === 'create')
-  {
-    create_request();
+  if (route.query.request === 'create') {
+    createRequest()
   }
-});
+})
 const update = (a) => {
-  showUpdate.value = true;
-  isUpdateNotCreate.value = true;
-  update_cv.value = a;
+  showUpdate.value = true
+  isUpdateNotCreate.value = true
+  updateCv.value = a
 }
 const del = (a) => {
-  $swal.fire({
-    title: 'Bạn muốn xóa đăng ký này không?',
-    showCancelButton: true,
-    confirmButtonText: 'Delete',
-    confirmButtonColor: 'rgb(252, 118, 118)',
-  }).then((result) => {
-    if (result.isConfirmed) {
-      delCVLink({
-        cv_link_id: a.id,
-      }).json().execute();
-    }
-  });
+  $swal
+    .fire({
+      title: 'Bạn muốn xóa đăng ký này không?',
+      showCancelButton: true,
+      confirmButtonText: 'Delete',
+      confirmButtonColor: 'rgb(252, 118, 118)',
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        delCVLink({
+          cv_link_id: a.id,
+        })
+          .json()
+          .execute()
+      }
+    })
 }
-const create_request = () => {
-  isUpdateNotCreate.value = false;
-  showUpdate.value = true;
+const createRequest = () => {
+  isUpdateNotCreate.value = false
+  showUpdate.value = true
 }
 const updateCVLink = () => {
-  validationErrorMessages.value = {};
-  isDisabledButton.value = true;
-  putCVLink(update_cv.value).json().execute();
+  validationErrorMessages.value = {}
+  isDisabledButton.value = true
+  putCVLink(updateCv.value).json().execute()
 }
 const updateSB = () => {
   putSB({
-    smart_banking: infor.value.smart_banking
-  }).json().execute();
+    smart_banking: infor.value.smart_banking,
+  })
+    .json()
+    .execute()
 }
-const create_cv = () => {
-  validationErrorMessages.value = {};
-  isDisabledButton.value = true;
-  postCV(dataCreate.value).json().execute();
+const createCv = () => {
+  validationErrorMessages.value = {}
+  isDisabledButton.value = true
+  postCV(dataCreate.value).json().execute()
 }
 </script>
 <style scoped>
@@ -397,18 +440,18 @@ label {
   font-size: 17px;
 }
 
-.accept>div {
+.accept > div {
   margin-bottom: 10px;
 }
 
-.accept>div p,
+.accept > div p,
 .accept a {
   margin: 0;
   padding-left: 20px;
   font-size: 12px;
 }
 
-.accept>div p:first-child {
+.accept > div p:first-child {
   padding-left: 0;
   font-size: 15px;
 }
@@ -469,4 +512,3 @@ label.title {
   color: black;
 }
 </style>
-  

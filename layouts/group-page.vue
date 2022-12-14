@@ -1,9 +1,7 @@
 <template>
-    <div>
-      <Group />
-      <slot />
-    </div>
-  </template>
-  <style scoped>
-  </style>
-  
+  <div>
+    <Group />
+    <slot />
+  </div>
+</template>
+<style scoped></style>

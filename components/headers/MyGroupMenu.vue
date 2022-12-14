@@ -10,16 +10,25 @@
         <p>
           <!-- <BIconChevronDown />  -->
         </p>
-        <button class="i1" :class="`${route.path.substring(21, 23)}`"
-          @click="navigateTo(`/my-account/groups/${route.params.id}`)">
+        <button
+          class="i1"
+          :class="`${route.path.substring(21, 23)}`"
+          @click="navigateTo(`/my-account/groups/${route.params.id}`)"
+        >
           <BIconPersonFill /> Thông tin nhóm học
         </button>
-        <button class="i2" :class="`${route.path.substring(21, 23)}`"
-          @click="navigateTo(`/my-account/groups/${route.params.id}/members`)">
+        <button
+          class="i2"
+          :class="`${route.path.substring(21, 23)}`"
+          @click="navigateTo(`/my-account/groups/${route.params.id}/members`)"
+        >
           <BIconPencilSquare /> Thành viên
         </button>
-        <button class="i8" :class="`${route.path.substring(21, 23)}`"
-          @click="navigateTo(`/my-account/groups/${route.params.id}/qa`)">
+        <button
+          class="i8"
+          :class="`${route.path.substring(21, 23)}`"
+          @click="navigateTo(`/my-account/groups/${route.params.id}/qa`)"
+        >
           <BIconPersonVideo3 /> Trò chuyện
         </button>
       </div>
@@ -52,18 +61,22 @@
   </div>
 </template>
 <script setup>
-import { BIconChevronDown, BIconPencilSquare, BIconPeopleFill, BIconPersonFill, BIconPersonVideo3, BIconPlusCircle } from 'bootstrap-icons-vue';
-import "@fontsource/love-ya-like-a-sister";
-const route = useRoute();
+import {
+  BIconPencilSquare,
+  BIconPersonFill,
+  BIconPersonVideo3,
+} from 'bootstrap-icons-vue'
+import '@fontsource/love-ya-like-a-sister'
+const route = useRoute()
 const a = () => {
   console.log(route.path.substring(21, 23))
 }
-a();
+a()
 </script>
 
 <style scoped>
 h2 {
-  font-family: "Love Ya Like A Sister";
+  font-family: 'Love Ya Like A Sister';
   display: block;
   min-width: 20px;
 }
@@ -77,7 +90,7 @@ h2 {
 .i1,
 .i2.me,
 .i8.qa {
-  background-color: #D3E3FD !important;
+  background-color: #d3e3fd !important;
 }
 
 .i1.me,
@@ -85,14 +98,14 @@ h2 {
   background-color: transparent !important;
 }
 
-.menu>div p {
+.menu > div p {
   margin-top: 20px;
   margin-bottom: 5px;
   font-weight: 600;
   padding-left: 15px;
 }
 
-.menu>div>button {
+.menu > div > button {
   border-radius: 0 12px 12px 0;
   padding: 4px 4px 4px 15px;
   color: rgb(0, 0, 0);
@@ -103,7 +116,7 @@ h2 {
   background-color: transparent;
 }
 
-.menu>div>button:hover {
+.menu > div > button:hover {
   background-color: rgb(230, 230, 230);
 }
 

@@ -6,10 +6,7 @@
           <BCol class="ps-4 col-auto">
             <NuxtLink to="/dashboard"><h2>Study With Us</h2></NuxtLink>
           </BCol>
-          <button
-            class="col col-auto text-center pe-4"
-            @click="logout"
-          >
+          <button class="col col-auto text-center pe-4" @click="logout">
             <BRow>
               <BCol class="logout">
                 <BIconBoxArrowLeft @click="logout" />
@@ -28,30 +25,24 @@
 </template>
 
 <script setup>
-import {BIconBoxArrowLeft} from 'bootstrap-icons-vue';
-import "@fontsource/love-ya-like-a-sister";
+import { BIconBoxArrowLeft } from 'bootstrap-icons-vue'
+import '@fontsource/love-ya-like-a-sister'
 
-const {$toast} = useNuxtApp();
+const { $toast } = useNuxtApp()
 
-const {deleteToken} = useToken();
-const {
-  onFetchResponse,
-  post,
-} = useFetchApi({
+const { deleteToken } = useToken()
+const { onFetchResponse, post } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/logout',
-  {immediate: false},
-);
+})('/logout', { immediate: false })
 onFetchResponse(() => {
-  $toast('Đăng xuất thành công','success', 1500);
-  deleteToken();
-  return navigateTo({name: 'dashboard'});
-});
+  $toast('Đăng xuất thành công', 'success', 1500)
+  deleteToken()
+  return navigateTo({ name: 'dashboard' })
+})
 const logout = () => {
-  post().json().execute();
-};
+  post().json().execute()
+}
 </script>
 
 <style scoped>
@@ -69,15 +60,14 @@ button {
 p {
   font-size: 15px;
 }
- h2{
-  font-family: "Love Ya Like A Sister";
+h2 {
+  font-family: 'Love Ya Like A Sister';
   display: block;
   min-width: 20px;
 }
 .menu-top {
   background-color: #e1e8f0;
-    box-shadow: -4px 2px 0px 0px rgb(0 0 0 / 5%);
-    z-index: 1;
+  box-shadow: -4px 2px 0px 0px rgb(0 0 0 / 5%);
+  z-index: 1;
 }
-
 </style>

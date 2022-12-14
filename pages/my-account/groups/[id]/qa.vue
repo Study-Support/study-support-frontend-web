@@ -4,7 +4,7 @@
       <BRow v-for="data in allChat" :key="data.time" class="mb-4 pb-2">
         <BCol class="col-auto mt-2">
           <div class="user-image">
-            <img src="/assets/user.png" alt="">
+            <img src="/assets/user.png" alt="" />
           </div>
         </BCol>
         <BCol class="qa">
@@ -30,124 +30,146 @@
                 </BCol>
               </BRow>
             </div>
-            <button @click="repClick(data)" class="arrow-reply" v-if="data.id !== showReplyMess">
+            <button
+              v-if="data.id !== showReplyMess"
+              class="arrow-reply"
+              @click="repClick(data)"
+            >
               <BIconArrowReturnLeft /> Trả lời
             </button>
             <BRow class="replyMess" :class="`${data.id === showReplyMess}`">
-              <BFormInput id="input-live" v-model="replyMess" placeholder="Nhập trả lời" trim class="mt-2 col" />
-              <button @click="sendReplyMess(data.id)" class="col">
+              <BFormInput
+                id="input-live"
+                v-model="replyMess"
+                placeholder="Nhập trả lời"
+                trim
+                class="mt-2 col"
+              />
+              <button class="col" @click="sendReplyMess(data.id)">
                 <BIconSend />
               </button>
-              <button @click="(showReplyMess = 0)" class="col">
-                Hủy
-              </button>
+              <button class="col" @click="showReplyMess = 0">Hủy</button>
             </BRow>
           </div>
         </BCol>
       </BRow>
       <BRow class="newMess">
-        <BFormInput id="input-live" v-model="newMess" placeholder="Nhập tin nhắn mới" trim class="mt-2 col" />
-        <button @click="sendNewMess" class="col col-auto">
+        <BFormInput
+          id="input-live"
+          v-model="newMess"
+          placeholder="Nhập tin nhắn mới"
+          trim
+          class="mt-2 col"
+        />
+        <button class="col col-auto" @click="sendNewMess">
           <BIconSend />
         </button>
       </BRow>
     </div>
   </div>
 </template>
-      
+
 <script setup>
-import { BIconArrowReturnLeft, BIconArrowReturnRight, BIconSend } from 'bootstrap-icons-vue';
+import {
+  BIconArrowReturnLeft,
+  BIconArrowReturnRight,
+  BIconSend,
+} from 'bootstrap-icons-vue'
 
 definePageMeta({
   layout: 'my-group',
   middleware: 'authenticated',
-});
+})
 definePageMeta({
-  layout: false
-});
-const route = useRoute();
-const username = ref();
-const newMess = ref();
-const replyMess = ref();
+  layout: false,
+})
+const route = useRoute()
+const username = ref()
+const newMess = ref()
+const replyMess = ref()
 const showReplyMess = ref(1)
-let allChat = ref([]);
+const allChat = ref([])
 const {
   database: databaseFirebase,
   ref: firebaseRef,
-  push,
   set,
-  onValue
-} = useFirebase();
+  onValue,
+} = useFirebase()
 
 const {
   data: dataGetMe,
   get: getMe,
   onFetchResponse: getMeResponse,
-  onFetchError: getMeError,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/user',
-  { immediate: false },
-);
+})('/user', { immediate: false })
 // Lấy thông tin cá nhân
-getMe().json().execute();
+getMe().json().execute()
 getMeResponse(() => {
-  username.value = dataGetMe.value.data.full_name;
+  username.value = dataGetMe.value.data.full_name
 })
 
 const sendNewMess = () => {
   if (newMess.value !== '') {
-    allChat.value = [];
-    const time = (new Date()).getTime();
+    allChat.value = []
+    const time = new Date().getTime()
     set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${time}`), {
       id: time,
       name: username.value,
       message: newMess.value,
-      time: (new Date()).toLocaleString()
-    });
-    newMess.value = '';
+      time: new Date().toLocaleString(),
+    })
+    newMess.value = ''
   }
-};
+}
 const sendReplyMess = (id) => {
   if (replyMess.value !== '') {
-    allChat.value = [];
-    const time = (new Date()).getTime();
-    set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${id}/replies/${time}`), {
-      id: time,
-      name: 'Như Hoàng',
-      message: replyMess.value,
-      time: (new Date()).toLocaleString()
-    });
-    replyMess.value = '';
-    showReplyMess.value = 0;
+    allChat.value = []
+    const time = new Date().getTime()
+    set(
+      firebaseRef(
+        databaseFirebase,
+        `groups/${route.params.id}/${id}/replies/${time}`
+      ),
+      {
+        id: time,
+        name: 'Như Hoàng',
+        message: replyMess.value,
+        time: new Date().toLocaleString(),
+      }
+    )
+    replyMess.value = ''
+    showReplyMess.value = 0
   }
 }
 const bb = () => {
-  allChat.value = [];
-  onValue(firebaseRef(databaseFirebase, `groups/${route.params.id}`), (data) => {
-    allChat.value = [];
-    data.forEach((d) => {
-      allChat.value.push(d.val());
-    });
-    // data.value.sort((a,b) => {a.time - b.time});
-    console.log(data.value)
-  })
-};
+  allChat.value = []
+  onValue(
+    firebaseRef(databaseFirebase, `groups/${route.params.id}`),
+    (data) => {
+      allChat.value = []
+      data.forEach((d) => {
+        allChat.value.push(d.val())
+      })
+      // data.value.sort((a,b) => {a.time - b.time});
+      console.log(data.value)
+    }
+  )
+}
 const repClick = (data) => {
-  replyMess.value = '';
+  replyMess.value = ''
   if (showReplyMess.value !== data.id) {
     showReplyMess.value = data.id
   } else {
-    showReplyMess.value = 0;
+    showReplyMess.value = 0
   }
 }
 onMounted(() => {
-  bb();
+  bb()
 })
 </script>
-      
+
 <style scoped>
 * {
   color: black;
@@ -174,20 +196,20 @@ onMounted(() => {
   width: 88%;
 }
 
-.qa>div>p {
+.qa > div > p {
   color: rgb(1, 1, 118);
 }
 
-.reply>div {
+.reply > div {
   padding-left: 40px;
   padding-top: 0px;
 }
 
-.reply>div>div:first-child {
+.reply > div > div:first-child {
   padding-top: 5px;
 }
 
-.reply>div>div {
+.reply > div > div {
   padding: 0px;
 }
 
@@ -270,5 +292,3 @@ p {
   border-radius: 60px;
 }
 </style>
-      
-    
