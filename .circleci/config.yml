@@ -9,11 +9,11 @@ jobs:
       - image: cimg/node:16.10
     steps:
       - checkout
-      # - node/install-packages:
-      #     pkg-manager: yarn
+      - node/install-packages:
+          pkg-manager: npm
       - run:
           name: Lint
-          command: yarn lint
+          command: npm run lint
   build:
     docker:
       - image: cimg/node:16.10
