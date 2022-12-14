@@ -137,10 +137,7 @@ getMentorResponse(() => {
   mentorInfor.value = dataMentor.value.data
   inviteInfor.value.mentor_id = mentorInfor.value.id
 })
-const {
-  post: postInvite,
-  onFetchResponse: postInviteResponse,
-} = useFetchApi({
+const { post: postInvite, onFetchResponse: postInviteResponse } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
 })('/post-invite', { immediate: false })

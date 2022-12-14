@@ -201,7 +201,7 @@ const {
 const {
   data: dataMentorInfor,
   get: getMentorInfor,
-  onFetchResponse: getMentorInforResponse
+  onFetchResponse: getMentorInforResponse,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,

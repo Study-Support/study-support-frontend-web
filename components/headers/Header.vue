@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import {  BIconX} from 'bootstrap-icons-vue'
+import { BIconX } from 'bootstrap-icons-vue'
 import '@fontsource/love-ya-like-a-sister'
 
 const { getConfig } = useConfig()

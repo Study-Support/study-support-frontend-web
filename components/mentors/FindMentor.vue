@@ -9,7 +9,7 @@
   </NuxtLink>
 </template>
 <script setup>
-const props = defineProps({
+props = defineProps({
   group: {
     type: Object,
   },
