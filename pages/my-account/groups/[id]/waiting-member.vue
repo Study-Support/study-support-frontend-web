@@ -96,8 +96,6 @@ definePageMeta({
   middleware: 'authenticated',
 })
 const route = useRoute()
-const { $toast } = useNuxtApp()
-const { getConfig } = useConfig()
 const acceptMember = ref([])
 const allSelected = ref(false)
 const group = ref({
@@ -120,9 +118,7 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(`groups/${route.params.id}`, { immediate: false })
-const {
-  put: putAcceptMember,
-} = useFetchApi({
+const { put: putAcceptMember } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(`user/groups/${route.params.id}/acceptMember`, { immediate: false })

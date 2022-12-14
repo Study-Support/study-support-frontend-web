@@ -75,7 +75,12 @@
                   <div role="group">
                     <label for="">Mục đích tạo nhóm học?</label>
                     <BFormInput
-v-model="data.topic" :state="validationErrorMessages.topic === undefined ? null : false"
+                      v-model="data.topic"
+                      :state="
+                        validationErrorMessages.topic === undefined
+                          ? null
+                          : false
+                      "
                       aria-describedby="input-live-help input-live-feedback"
                       placeholder="Mục đích nhóm học"
                       trim
@@ -183,12 +188,16 @@ v-model="data.topic" :state="validationErrorMessages.topic === undefined ? null 
                       trường sẽ đánh giá rèn luyện vì thái độ học tập</label
                     >
                     <BFormCheckbox
-id="checkbox-1" v-model="data.confirm" name="checkbox-1" value="agreed"
+                      id="checkbox-1"
+                      v-model="data.confirm"
+                      name="checkbox-1"
+                      value="agreed"
                       unchecked-value="not_agreed"
                     >
                       Đảm bảo
                     </BFormCheckbox>
-                    <span v-if="showConfirmError" class="confirm-error">Bạn phải đảm bảo thông tin
+                    <span v-if="showConfirmError" class="confirm-error"
+                      >Bạn phải đảm bảo thông tin
                     </span>
                   </div>
                 </BCol>
@@ -196,13 +205,16 @@ id="checkbox-1" v-model="data.confirm" name="checkbox-1" value="agreed"
             </BCol>
             <div class="text-end">
               <SubmitButton
-class="mt-3 me-3 submit-button" :is-disabled="isDisabledButton"
+                class="mt-3 me-3 submit-button"
+                :is-disabled="isDisabledButton"
                 :content="'Chỉnh sửa thông tin'"
                 :color="'rgb(23 131 27)'"
                 @click.prevent="update"
               />
               <SubmitButton
-class="mt-3 submit-button" :is-disabled="isDisabledButton" :content="'Hủy đăng ký nhu cầu'"
+                class="mt-3 submit-button"
+                :is-disabled="isDisabledButton"
+                :content="'Hủy đăng ký nhu cầu'"
                 :color="'rgb(255 57 57)'"
                 @click.prevent="deletee"
               />

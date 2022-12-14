@@ -67,7 +67,7 @@
 </template>
 
 <script setup>
-import { BIconBoxArrowLeft, BIconX, BIconPeopleFill } from 'bootstrap-icons-vue'
+import {  BIconX} from 'bootstrap-icons-vue'
 import '@fontsource/love-ya-like-a-sister'
 
 const { getConfig } = useConfig()
@@ -100,7 +100,6 @@ const {
   data: dataGetMyGroups,
   get: getGroups,
   onFetchResponse: getGroupsResponse,
-  onFetchError: getGroupsError,
 } = useFetchApi({
   requireAuth: false,
   disableHandleErrorUnauthorized: false,

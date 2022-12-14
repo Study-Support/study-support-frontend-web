@@ -11,7 +11,7 @@ const createGetResponse = () => ({
   },
 })
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(() => {
   // if (isMethod(event.req, 'PUT')) {
   //   const body = await useBody(event.req);
   //   if (body.difficult === 'a') {

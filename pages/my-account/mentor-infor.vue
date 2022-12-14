@@ -47,7 +47,7 @@
         <div class="accept mt-3">
           <label for=""
             >Môn học bạn đăng ký làm mentor đang đợi duyệt bởi nhà trường.
-            <BIconPlusCircle @click.prevent="create_request" />
+            <BIconPlusCircle @click.prevent="createRequest" />
             <span>Bạn có thể sửa thông tin</span>
           </label>
           <div class="update" :class="{ show: showUpdate }">
@@ -89,7 +89,7 @@
                 </form>
               </div>
               <div v-else class="create_form">
-                <form @submit.prevent="create_cv">
+                <form @submit.prevent="createCv">
                   <label class="title"
                     >1. Chọn môn học bạn muốn đăng ký học</label
                   >
@@ -354,7 +354,7 @@ watch(faculty.value, () => {
 })
 onMounted(() => {
   if (route.query.request === 'create') {
-    create_request()
+    createRequest()
   }
 })
 const update = (a) => {
@@ -380,7 +380,7 @@ const del = (a) => {
       }
     })
 }
-const create_request = () => {
+const createRequest = () => {
   isUpdateNotCreate.value = false
   showUpdate.value = true
 }
@@ -396,7 +396,7 @@ const updateSB = () => {
     .json()
     .execute()
 }
-const create_cv = () => {
+const createCv = () => {
   validationErrorMessages.value = {}
   isDisabledButton.value = true
   postCV(dataCreate.value).json().execute()

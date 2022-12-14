@@ -141,7 +141,7 @@ const {
 const {
   data: dataGetgroupsIsRequireGroup,
   get: getgroupsIsRequireGroup,
-  onFetchResponse: getgroupsIsRequireGroupResponse, 
+  onFetchResponse: getgroupsIsRequireGroupResponse,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,

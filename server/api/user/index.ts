@@ -1,5 +1,3 @@
-import crypto from 'crypto'
-
 const createGetResponse = () => ({
   data: {
     id: '1s',

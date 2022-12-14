@@ -1,4 +1,3 @@
-
 const createGetResponse2 = () => ({
   data: {
     id: '5',

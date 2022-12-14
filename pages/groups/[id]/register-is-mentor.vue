@@ -159,12 +159,10 @@ const group = ref({
 const registerInform = ref({
   confirm: 'not_agreed',
 })
-const validationErrorMessages = ref({})
 const {
   data: dataGetGroup,
   get: getGroup,
   onFetchResponse: getGroupRes,
-  onFetchError: getGroupErr,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
@@ -203,8 +201,7 @@ const {
 const {
   data: dataMentorInfor,
   get: getMentorInfor,
-  onFetchResponse: getMentorInforResponse,
-  onFetchError: getMentorInforError,
+  onFetchResponse: getMentorInforResponse
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,

@@ -138,7 +138,6 @@ getMentorResponse(() => {
   inviteInfor.value.mentor_id = mentorInfor.value.id
 })
 const {
-  data: dataInvite,
   post: postInvite,
   onFetchResponse: postInviteResponse,
 } = useFetchApi({

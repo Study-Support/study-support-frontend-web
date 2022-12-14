@@ -75,7 +75,6 @@ const {
   data: dataGetMyGroups,
   get: getGroups,
   onFetchResponse: getGroupsResponse,
-  onFetchError: getGroupsError,
 } = useFetchApi({
   requireAuth: false,
   disableHandleErrorUnauthorized: false,

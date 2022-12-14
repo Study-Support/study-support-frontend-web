@@ -16,7 +16,6 @@
   </div>
 </template>
 <script setup>
-
 definePageMeta({
   layout: 'logout-page',
   middleware: 'authenticated',

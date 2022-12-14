@@ -271,7 +271,6 @@ const userData = ref({
 })
 const validationErrorMessages = ref({})
 const dataFaculty = ref([])
-const ratings = ref([])
 
 const showChangePass = ref(false)
 const changeData = ref({
