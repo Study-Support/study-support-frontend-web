@@ -29,7 +29,7 @@ export default {
 <style scoped>
 button {
   width: 100%;
-  height: 40px;
+  height: 36px;
   border-radius: 8px !important;
   background-color: black;
   color: white;
