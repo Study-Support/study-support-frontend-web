@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="{ path: `/groups/${group.id}` }" class="fulls">
+  <NuxtLink :to="{ path: `/groups/${group.id}/register-is-member` }" class="fulls">
     <div class="image">
       <!-- <img :src="`${group.img}`" alt="" /> -->
       <img src="/assets/groups/g1.png" alt="" />
