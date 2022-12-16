@@ -39,7 +39,7 @@
             </li>
             <li
               class="text-decoration-none d-block"
-              @click="sidebarShow = !sidebarShow"
+              @click="navigateTo('/my-account')"
             >
               <a href="#" class="user">
                 <div class="avatar">
@@ -49,7 +49,7 @@
             </li>
           </ul>
         </BRow>
-        <div class="sidebar" :class="{ sidebarShow: !sidebarShow }">
+        <!-- <div class="sidebar" :class="{ sidebarShow: !sidebarShow }">
           <button @click="sidebarShow = false">
             <BIconX class="close" />
           </button>
@@ -59,7 +59,7 @@
             </div>
             Xem trang cá nhân
           </NuxtLink>
-        </div>
+        </div> -->
       </BContainer>
     </BContainer>
     <div class="back-header" />
@@ -79,44 +79,44 @@ const user = ref({
 const userId = ref({
   user_id: '',
 })
-const myGroups = ref([])
-// Tạo url lấy user theo id
-const { url: url1 } = useUrl({
-  path: '/groups',
-  queryParams: userId.value,
-})
+// const myGroups = ref([])
+// // Tạo url lấy user theo id
+// const { url: url1 } = useUrl({
+//   path: '/groups',
+//   queryParams: userId.value,
+// })
 // Lấy thông tin user
-const {
-  data: dataGetMe,
-  get: getMe,
-  onFetchResponse: getMeResponse,
-  onFetchError: getMeError,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})('/user', { immediate: false })
+// const {
+//   data: dataGetMe,
+//   get: getMe,
+//   onFetchResponse: getMeResponse,
+//   onFetchError: getMeError,
+// } = useFetchApi({
+//   requireAuth: true,
+//   disableHandleErrorUnauthorized: false,
+// })('/user', { immediate: false })
 // Lấy groups của user đang đăng nhập
-const {
-  data: dataGetMyGroups,
-  get: getGroups,
-  onFetchResponse: getGroupsResponse,
-} = useFetchApi({
-  requireAuth: false,
-  disableHandleErrorUnauthorized: false,
-})(url1, { immediate: false })
+// const {
+//   data: dataGetMyGroups,
+//   get: getGroups,
+//   onFetchResponse: getGroupsResponse,
+// } = useFetchApi({
+//   requireAuth: false,
+//   disableHandleErrorUnauthorized: false,
+// })(url1, { immediate: false })
 
-getGroupsResponse(() => {
-  myGroups.value = dataGetMyGroups.value.data.data
-})
-getMe().json().execute()
-getMeResponse(() => {
-  user.value = dataGetMe.value.data.data
-  userId.value.user_id = user.value.id
-  getGroups().json().execute()
-})
-getMeError(() => {
-  // deleteToken();
-})
+// getGroupsResponse(() => {
+//   myGroups.value = dataGetMyGroups.value.data.data
+// })
+// getMe().json().execute()
+// getMeResponse(() => {
+//   user.value = dataGetMe.value.data.data
+//   userId.value.user_id = user.value.id
+//   getGroups().json().execute()
+// })
+// getMeError(() => {
+//   // deleteToken();
+// })
 </script>
 
 <style scoped>

@@ -2,7 +2,8 @@
   <div class="full">
     <NuxtLink :to="{ path: `/mentors/${mentor.id}` }">
       <div class="img">
-        <img :src="`${mentor.image}`" alt="" />
+        <!-- <img :src="`${mentor.image}`" alt="" /> -->
+        <img src="/assets/mentors/m1.jpg" alt="" />
       </div>
       <div class="infor">
         <h5 class="text-center">{{ mentor.full_name }}</h5>
