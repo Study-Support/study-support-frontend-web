@@ -4,7 +4,7 @@
       <BRow class="d-flex justify-content-between">
         <BCol class="col-auto"> </BCol>
         <ul class="col col-auto d-flex menu mb-1 mt-1">
-          
+
           <li class="text-decoration-none d-block">
             <NuxtLink :to="`/my-account/groups/${group.id}`">
               THÔNG TIN NHÓM HỌC
@@ -45,107 +45,130 @@
       </BRow>
     </BContainer>
   </div>
-  <BContainer v-if="route.hash === ''" class="pb-5">
+  <BContainer v-if="route.hash === ''" class="pb-5 group-infor-content">
     <BRow class="mt-3">
       <BCol>
-        <h6 class="pb-4"><span>Thành viên hiện có:</span> {{ group.quantity }} thành viên</h6>
+        <h6>Người hướng dẫn</h6>
+        <p class="mb-0 member-name ps-3"> {{ group.mentorAccepted.full_name }}
+        </p>
+        <p class="faculty faculty2">
+          Khoa {{ group.mentorAccepted.faculty }}
+        </p>
+        <h6><span>Thành viên hiện có:</span> {{ group.quantity }} thành viên</h6>
         <!-- <p><span>1. Thành viên hiện có:</span> {{ group.quantity }} thành viên</p> -->
         <div v-for="(member, index) in group.membersAccepted" :key="member.id" class="mt-2">
-          
-          <p class="mb-0 member-name">{{index + 1}}. {{ member.full_name }}
+
+          <p class="mb-0 member-name">{{ index + 1 }}. {{ member.full_name }}
           </p>
           <p class="faculty faculty2">
             Khoa {{ member.faculty }}
           </p>
         </div>
         <div class="group-detail">
-          <h6 class="pb-4 pt-4">Thông tin chi tiết của nhóm</h6>
+          <h6>Thông tin chi tiết của nhóm</h6>
           <p v-if="group.self_study === 0">
-            <span>Là nhóm có người hướng dẫn</span> 
+            <span>Là nhóm có người hướng dẫn</span>
           </p>
           <p v-else>
-            <span>Là nhóm tự học, không có người hướng dẫn</span> 
+            <span>Là nhóm tự học, không có người hướng dẫn</span>
           </p>
           <p>
-            <span>Địa điểm học:</span> {{group.location_study}}
+            <span>Địa điểm học:</span> {{ group.location_study }}
           </p>
           <p>
-            <span>Thời gian học:</span> {{group.time_study}}
+            <span>Thời gian học:</span> {{ group.time_study }}
           </p>
         </div>
       </BCol>
     </BRow>
   </BContainer>
+
+  <!-- qa -->
   <div v-if="route.hash === '#qa'">
     <div class="full p-4">
-    <div>
-      <BRow v-for="data in allChat" :key="data.time" class="mb-4 pb-2">
-        <BCol class="col-auto mt-2">
-          <div class="user-image">
-            <img src="/assets/user.png" alt="" />
-          </div>
-        </BCol>
-        <BCol class="qa">
-          <div>
-            <p class="name">
-              {{ data.name }} <span>{{ data.time }}</span>
-            </p>
-            <p class="mess">
-              {{ data.message }}
-            </p>
-            <div class="reply">
-              <BRow v-for="reply in data.replies" :key="reply.id">
-                <BCol class="col-auto">
-                  <BIconArrowReturnRight />
-                </BCol>
-                <BCol>
-                  <p class="name">
-                    {{ reply.name }} <span>{{ reply.time }}</span>
-                  </p>
-                  <p class="mess">
-                    {{ reply.message }}
-                  </p>
-                </BCol>
+      <div>
+        <BRow v-for="data in allChat" :key="data.time" class="mb-4 pb-2">
+          <BCol class="col-auto mt-2">
+            <div class="user-image">
+              <img src="/assets/user.png" alt="" />
+            </div>
+          </BCol>
+          <BCol class="qa">
+            <div>
+              <p class="name">
+                {{ data.name }} <span>{{ data.time }}</span>
+              </p>
+              <p class="mess">
+                {{ data.message }}
+              </p>
+              <div class="reply">
+                <BRow v-for="reply in data.replies" :key="reply.id">
+                  <BCol class="col-auto">
+                    <BIconArrowReturnRight />
+                  </BCol>
+                  <BCol>
+                    <p class="name">
+                      {{ reply.name }} <span>{{ reply.time }}</span>
+                    </p>
+                    <p class="mess">
+                      {{ reply.message }}
+                    </p>
+                  </BCol>
+                </BRow>
+              </div>
+              <button v-if="data.id !== showReplyMess" class="arrow-reply" @click="repClick(data)">
+                <BIconArrowReturnLeft /> Trả lời
+              </button>
+              <BRow class="replyMess" :class="`${data.id === showReplyMess}`">
+                <BFormInput id="input-live" v-model="replyMess" placeholder="Nhập trả lời" trim class="mt-2 col" />
+                <button class="col" @click="sendReplyMess(data.id)">
+                  <BIconSend />
+                </button>
+                <button class="col" @click="showReplyMess = 0">Hủy</button>
               </BRow>
             </div>
-            <button
-              v-if="data.id !== showReplyMess"
-              class="arrow-reply"
-              @click="repClick(data)"
-            >
-              <BIconArrowReturnLeft /> Trả lời
-            </button>
-            <BRow class="replyMess" :class="`${data.id === showReplyMess}`">
-              <BFormInput
-                id="input-live"
-                v-model="replyMess"
-                placeholder="Nhập trả lời"
-                trim
-                class="mt-2 col"
-              />
-              <button class="col" @click="sendReplyMess(data.id)">
-                <BIconSend />
-              </button>
-              <button class="col" @click="showReplyMess = 0">Hủy</button>
-            </BRow>
-          </div>
-        </BCol>
-      </BRow>
-      <BRow class="newMess">
-        <BFormInput
-          id="input-live"
-          v-model="newMess"
-          placeholder="Nhập tin nhắn mới"
-          trim
-          class="mt-2 col"
-        />
-        <button class="col col-auto" @click="sendNewMess">
-          <BIconSend />
-        </button>
-      </BRow>
+          </BCol>
+        </BRow>
+        <BRow class="newMess">
+          <BFormInput id="input-live" v-model="newMess" placeholder="Nhập tin nhắn mới" trim class="mt-2 col" />
+          <button class="col col-auto" @click="sendNewMess">
+            <BIconSend />
+          </button>
+        </BRow>
+      </div>
     </div>
   </div>
-  </div>
+  <!-- rating -->
+  <BContainer v-if="route.hash === '#rate'" class="pt-5 pb-5">
+    <div class="mentor-rate">
+      <h5 for="" class="pb-2">Đánh giá người hướng dẫn:</h5>
+      <p class="mb-0 member-name"> {{ group.mentorAccepted.full_name }}
+      </p>
+      <p class="faculty faculty2 ps-0">
+        Khoa {{ group.mentorAccepted.faculty }}
+      </p>
+      <label for="" class="pt-4">1. Những đánh giá, nhận xét bạn dành cho người hướng dẫn trong quá trình hướng dẫn
+        học</label>
+      <BFormInput id="input-live" v-model="rate.comment" placeholder="Nhập đánh giá" trim class="mt-2" />
+      <label for="" class="pt-4">2. Số điểm bạn đánh giá người hướng dẫn</label>
+      <select v-model="rate.rating" class="form-select" required>
+        <option :value="0">0</option>
+        <option :value="1">1</option>
+        <option :value="2">2</option>
+        <option :value="3">3</option>
+        <option :value="4">4</option>
+        <option :value="5">5</option>
+        <option :value="6">6</option>
+        <option :value="7">7</option>
+        <option :value="8">8</option>
+        <option :value="9">9</option>
+        <option :value="10">10</option>
+      </select>
+      <button class="col" @click="sendRate">
+        Gửi đánh giá
+      </button>
+    </div>
+  </BContainer>
 </template>
 
 <script setup>
@@ -160,6 +183,12 @@ definePageMeta({
 })
 
 const route = useRoute()
+const rate = ref({
+  group_id: '',
+  user_id: '',
+  comment: '',
+  rating: 0,
+})
 const group = ref({
   id: '',
   faculty: '',
@@ -167,6 +196,10 @@ const group = ref({
   topic: '',
   information: '',
   quantity: '',
+  mentorAccepted: {
+    full_name: '',
+    faculty: ''
+  },
   members: [
     {
       full_name: '',
@@ -269,36 +302,49 @@ const repClick = (data) => {
     showReplyMess.value = 0
   }
 }
+const sendRate = () => {
+
+}
 onMounted(() => {
   bb()
 })
 </script>
 
 <style scoped>
+select {
+  width: 80px;
+}
 label {
   font-style: italic;
 }
+
 .group-detail {
   font-size: 14px;
 }
-.group-detail span, form span{
+
+.group-detail span,
+form span {
   margin-bottom: 0;
   font-style: italic;
   margin-top: 0;
   color: rgb(0, 0, 0);
   font-weight: 600;
 }
+
 form {
   font-size: 14px;
 }
+
 .group-detail p {
   margin-bottom: 10px;
 }
+
 h6 {
   font-size: 16px;
   line-height: 26px;
   margin: 0;
-  padding-bottom: 8px;
+  padding-bottom: 10px !important;
+  padding-top: 20px;
   font-weight: 700;
   text-transform: uppercase;
   color: #000000;
@@ -315,6 +361,11 @@ h6::after {
   border-radius: 3px;
   margin-top: 5px;
   margin-bottom: 0px;
+}
+
+.group-infor-content p {
+  color: rgb(96, 96, 96);
+  font-size: 14px;
 }
 
 .infor {
@@ -338,10 +389,12 @@ h6::after {
   color: rgb(0, 0, 0);
   padding-left: 20px;
 }
+
 .member-name {
   line-height: 22px;
   font-weight: 600;
 }
+
 .topic,
 .information {
   margin-bottom: 0;
@@ -468,20 +521,20 @@ label span {
   width: 88%;
 }
 
-.qa > div > p {
+.qa>div>p {
   color: rgb(1, 1, 118);
 }
 
-.reply > div {
+.reply>div {
   padding-left: 40px;
   padding-top: 0px;
 }
 
-.reply > div > div:first-child {
+.reply>div>div:first-child {
   padding-top: 5px;
 }
 
-.reply > div > div {
+.reply>div>div {
   padding: 0px;
 }
 

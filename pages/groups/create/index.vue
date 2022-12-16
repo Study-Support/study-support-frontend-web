@@ -250,7 +250,7 @@ const data = ref({
   self_study: 1,
   faculty_id: '',
   subject_id: '',
-  survey_questions: [],
+  survey_questions: [], 
 })
 const validationErrorMessages = ref({})
 
