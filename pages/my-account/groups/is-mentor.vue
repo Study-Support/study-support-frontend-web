@@ -6,7 +6,9 @@
         :key="group.id"
         class="col-6 col-md-3 mt-4"
       >
-        <GroupCard :group="group" />
+        <GroupCard :group="group" 
+        @click.prevent="detail(group)"
+        />
       </BCol>
     </BRow>
   </div>
@@ -42,5 +44,16 @@ getgroupsIsMember().json().execute()
 getgroupsIsMemberResponse(() => {
   groupsIsMember.value = dataGetgroupsIsMember.value.data.data
 })
+const detail = (group) => {
+  if (group.status === 2) {
+    navigateTo(`/my-account/groups/${group.id}/waiting-mentor`)
+  }
+  if (group.status === 1) {
+    navigateTo(`/my-account/groups/${group.id}/waiting-member`)
+  }
+  if (group.status === 3) {
+    navigateTo(`/my-account/groups/${group.id}`)
+  }
+}
 </script>
 <style scoped></style>

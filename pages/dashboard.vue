@@ -282,7 +282,7 @@
         </BRow>
       </BContainer>
     </BContainer>
-    <BContainer class="self-study mt-5">
+    <BContainer class="self-study mt-5 mb-5">
       <BRow class="d-flex justify-content-between">
         <BCol class="col-6">
           <div class="img">
@@ -306,7 +306,41 @@
         </BCol>
       </BRow>
     </BContainer>
-    <p class="p-5"></p>
+    <BContainer fluid class="footer">
+      <BContainer>
+        <BRow class="d-flex justify-content-between">
+          <BCol class="col-auto">
+            <h4>Thông tin liên hệ</h4>
+            <p>Điện thoại: <strong>0 800 123 4567</strong></p>
+            <p>Email: hoangthithunhu28012001@gmail.com</p>
+            <p>TRƯỜNG ĐẠI HỌC BÁCH KHOA - ĐẠI HỌC ĐÀ NẴNG</p>
+          </BCol>
+          <BCol class="col-auto">
+            <h4>Thông tin</h4>
+            <p>Về chúng tôi</p>
+            <p>Về cộng đồng</p>
+          </BCol>
+          <BCol class="col-auto">
+            <h4>Nhóm học</h4>
+            <p>Đang tìm thành viên</p>
+            <p>Đang tìm mentor</p>
+            <p>Tự học</p>
+          </BCol>
+          <BCol class="col-auto">
+            <h4>Chương trình cố vấn</h4>
+            <p>Danh sách mentor</p>
+            <p>Lĩnh vực</p>
+            <p>Chủ đề</p>
+            <p>Mentor Blog</p>
+            <P>Đăng ký làm mentor</P>
+          </BCol>
+
+        </BRow>
+      </BContainer>
+    </BContainer>
+    <div class="end-footer">
+
+    </div>
   </div>
 </template>
 <script setup>
@@ -992,7 +1026,9 @@ img.laptop {
   overflow: hidden;
   border-radius: 10px;
 }
-
+.self-study {
+  margin-bottom: 150px !important;
+}
 .self-study img {
   width: 100%;
 }
@@ -1006,5 +1042,35 @@ img.laptop {
 }
 .back {
   height: 300px;
+}
+.footer {
+  padding-top: 40px;
+    background-color: #252D41;
+    font-size: 14px;
+}
+.footer h4 {
+  position: relative;
+    margin-bottom: 30px;
+    font-size: 18px;
+    line-height: 26px;
+    color: white;
+}
+.footer h4::after {
+    content: '';
+    background-color: #fff;
+    position: absolute;
+    bottom: -13px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+  }
+.footer p {
+  margin-bottom: 10px;
+  color: #fff;
+}
+.end-footer {
+  height: 50px;
+  background-color: #0e1928;
+  width: 100%;
 }
 </style>

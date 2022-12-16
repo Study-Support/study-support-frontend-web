@@ -1,11 +1,11 @@
 <template>
   <div>
     <BContainer fluid class="position-fixed top-0 start-0 menu-top">
-      <BContainer>
+      <BContainer fluid>
         <BRow class="d-flex justify-content-between mt-2">
           <BCol class="col-auto ps-0">
             <NuxtLink to="/dashboard">
-              <h2>Study With Us</h2>
+              <h2>STUDY WITH US</h2>
             </NuxtLink>
           </BCol>
           <ul class="col col-auto d-flex menu mb-1">
@@ -117,7 +117,15 @@ h2 {
   font-family: 'Love Ya Like A Sister';
   display: block;
   min-width: 20px;
-  font-size: 27px;
+  font-size: 24px;
+  font-weight: 700;
+  padding: 0 16px;
+  padding-top: 3px;
+  margin-right: 5px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 0%);
+  background-color: transparent;
 }
 
 li {

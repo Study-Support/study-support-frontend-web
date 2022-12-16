@@ -56,5 +56,9 @@
         "**/*.{js,ts,vue}": [
             "yarn lint"
         ]
+    },
+    "dependencies": {
+        "@firebase/storage": "^0.10.0",
+        "firestore": "^1.1.6"
     }
 }

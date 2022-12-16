@@ -214,7 +214,7 @@ span {
   top: 35px;
   left: 10px;
   width: 100%;
-  padding-bottom: 15px;
+  padding-bottom: 10px;
   padding-left: 10px;
   padding-right: 10px;
   padding-top: 15px;
@@ -240,11 +240,7 @@ th:nth-child(1),
 .td:nth-child(1) {
   width: 5%;
 }
-
-/* th:nth-child(2),
-.td:nth-child(1) {
-  width: 30%;
-}
+/*
 
 th:nth-child(3),
 .td:nth-child(2) {
@@ -276,13 +272,14 @@ td,
 th {
   border: 1px solid #dbdada;
   text-align: left;
-  padding: 8px;
+  padding: 4px;
 }
 
 th {
   text-align: center;
   color: white;
-  background-color: #075794;
+  background-color: #4c545a;
+  padding: 10px;
 }
 
 td:nth-child(1),
@@ -301,7 +298,7 @@ td:nth-child(1) {
 }
 
 tr:nth-child(even) {
-  background-color: #efefef;
+  background-color: #f4f4f4;
 }
 
 td button {
