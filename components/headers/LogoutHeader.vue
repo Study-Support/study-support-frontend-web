@@ -4,7 +4,7 @@
       <BCol class="position-fixed top-0 start-0 menu-top">
         <BRow class="d-flex justify-content-between mt-2">
           <BCol class="ps-4 col-auto">
-            <NuxtLink to="/dashboard"><h2>Study With Us</h2></NuxtLink>
+            <a href="/dashboard"><h2>Study With Us</h2></a>
           </BCol>
           <button class="col col-auto text-center pe-4" @click="logout">
             <BRow>

@@ -4,9 +4,9 @@
       <BContainer fluid>
         <BRow class="d-flex justify-content-between mt-2">
           <BCol class="col-auto ps-0">
-            <NuxtLink to="/dashboard">
+            <a href="/dashboard">
               <h2>STUDY WITH US</h2>
-            </NuxtLink>
+            </a>
           </BCol>
           <ul class="col col-auto d-flex menu mb-1">
             <li class="text-decoration-none d-block">
@@ -149,64 +149,6 @@ li:last-child {
 li a:hover {
   color: rgb(0, 108, 240);
   transition: color 300ms linear;
-}
-
-.sidebar {
-  position: fixed;
-  top: 0px;
-  right: 0px;
-  background-color: rgb(58, 65, 62);
-  height: 100vh;
-  width: 50vh;
-  transition: all 200ms linear;
-}
-
-.sidebar a {
-  color: white;
-}
-
-.sidebar span {
-  color: white;
-}
-
-.sidebar svg {
-  color: rgb(1, 116, 188);
-}
-
-.sidebarShow {
-  right: -50vh;
-}
-
-.sidebar button {
-  border: 0px;
-  background-color: rgb(58, 65, 62);
-  text-align: left;
-}
-
-.sidebar button .close {
-  color: white;
-  font-weight: bold;
-  font-size: 30px;
-}
-
-.sidebar .user-image {
-  width: 35px;
-  height: 35px;
-  margin-left: 5px;
-  margin-right: 5px;
-  display: inline-block;
-}
-
-.sidebar .user-image img {
-  width: 100%;
-  border-radius: 60px;
-}
-
-.sidebar .user-infor {
-  /* background-color: black; */
-  margin: 10px;
-  padding: 10px;
-  border-radius: 5px;
 }
 
 .avatar {

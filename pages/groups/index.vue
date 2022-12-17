@@ -1,20 +1,43 @@
 <template>
-  <BContainer fluid>
+  <div>
+    <BContainer fluid class="position-fixed top-0 start-0 menu-top">
+      <BContainer fluid>
+        <BRow class="d-flex justify-content-between mt-2">
+          <BCol class="col-auto ps-0">
+            <a href="/dashboard">
+              <h2>STUDY WITH US</h2>
+            </a>
+          </BCol>
+          <ul class="col col-auto d-flex mb-1">
+            <li class="text-decoration-none d-block">
+              <a href="/groups/create">
+                ĐĂNG KÝ NHU CẦU TẠO NHÓM
+              </a>
+            </li>
+            <li class="text-decoration-none d-block">
+              <a href="/my-account">
+                <div class="avatar">
+                  <img src="/assets/user.png" alt="" />
+                </div>
+              </a>
+            </li>
+          </ul>
+        </BRow>
+      </BContainer>
+    </BContainer>
+    <div class="back-header" />
+  </div>
+
+  <BContainer fluid class="pt-3 result">
     <BRow class="filter">
       <BCol class="pt-3">
-        <!-- <label for="search"> Tìm kiếm tên môn học </label> -->
         <div id="search" class="input-group search">
-          <input
-            v-model="filter.a.search"
-            class="form-control border"
-            type="search"
-            placeholder="Tìm kiếm theo tên môn học"
-          />
+          <input v-model="filter.a.search" class="form-control border" type="search"
+            placeholder="Tìm kiếm theo tên môn học" />
         </div>
       </BCol>
       <BCol>
         <div class="mt-3">
-          <!-- <label for="type">Chọn loại nhóm học</label> -->
           <select id="type" v-model="filter.a.type" class="form-select">
             <option :value="getConfig('constants.typeOfGroup.all')">
               Tất cả các loại nhóm
@@ -33,27 +56,17 @@
       </BCol>
       <BCol>
         <div class="mt-3">
-          <!-- <label>Chọn khoa</label> -->
           <select v-model="filter.a.faculty" class="form-select" required>
             <option value="" disabled selected>Lọc theo khoa</option>
-            <option
-              v-for="faculty in faculties"
-              :key="faculty.id"
-              :value="faculty.id"
-            >
+            <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id">
               {{ faculty.name }}
             </option>
           </select>
         </div>
       </BCol>
       <BCol class="col-2">
-        <SubmitButton
-          class="mt-2"
-          :is-disabled="isDisabledButton"
-          :content="'Tìm kiếm'"
-          :color="'rgb(63 88 120)'"
-          @click.prevent="search"
-        />
+        <SubmitButton class="mt-2" :is-disabled="isDisabledButton" :content="'Tìm kiếm'" :color="'rgb(63 88 120)'"
+          @click.prevent="search" />
       </BCol>
     </BRow>
     <BRow class="filter-result">
@@ -88,9 +101,10 @@
 <script setup>
 import InfiniteLoading from 'v3-infinite-loading'
 import 'v3-infinite-loading/lib/style.css'
+import '@fontsource/love-ya-like-a-sister'
 
 definePageMeta({
-  layout: 'group-page',
+  layout: false,
   middleware: 'authenticated',
 })
 
@@ -169,6 +183,7 @@ const load = () => {
     filter.value.a.page += 0
   }, 100)
 }
+load();
 const join = (group) => {
   if (group.status === 1) {
     navigateTo(`/groups/${group.id}/register-is-member`)
@@ -180,12 +195,13 @@ const join = (group) => {
 </script>
 <style scoped>
 .container-fluid {
-  padding: 20px;
   padding-bottom: 0;
 }
+
 .filter-result {
   padding-top: 40px;
 }
+
 label {
   color: rgb(0, 0, 0);
   font-size: 14.5px;
@@ -240,6 +256,7 @@ th:nth-child(1),
 .td:nth-child(1) {
   width: 5%;
 }
+
 /*
 
 th:nth-child(3),

@@ -1,6 +1,40 @@
 <template>
   <div>
+    
     <BContainer fluid class="header">
+      <ul class="col col-auto d-flex menu mb-1 mt-1">
+          <li class="text-decoration-none d-block">
+            <NuxtLink to="/dashboard"> TRANG CHỦ </NuxtLink>
+          </li>
+          <li class="text-decoration-none d-block">
+            <NuxtLink :to="{
+              path: '/groups',
+              query: { type: getConfig('constants.typeOfGroup.all') },
+            }">
+              NHÓM HỌC
+            </NuxtLink>
+          </li>
+          <li class="text-decoration-none d-block">
+            <NuxtLink :to="{
+              path: '/groups',
+              query: {
+                type: getConfig('constants.typeOfGroup.findMentor'),
+              },
+            }">
+              TÌM HƯỚNG DẪN
+            </NuxtLink>
+          </li>
+          <li class="text-decoration-none d-block">
+            <NuxtLink to="/mentors"> NGƯỜI HƯỚNG DẪN </NuxtLink>
+          </li>
+          <li class="text-decoration-none d-block" @click="navigateTo('/my-account')">
+            <NuxtLink to="/my-account" class="user">
+              <div class="avatar">
+                <img src="/assets/user.png" alt="" />
+              </div>
+            </NuxtLink>
+          </li>
+        </ul>
       <BContainer>
         <BRow class="content">
           <BCol class="header-content col-12 col-lg-6">
@@ -88,7 +122,7 @@
           </BCol>
         </BRow>
       </div>
-      <BRow class="result pb-5">
+      <BRow class="result">
         <BCol
           v-for="mentor in MentorsResult"
           :key="mentor.id"
@@ -109,7 +143,7 @@ import InfiniteLoading from 'v3-infinite-loading'
 import 'v3-infinite-loading/lib/style.css'
 
 definePageMeta({
-  layout: 'page',
+  layout: false,
   middleware: 'authenticated',
 })
 const faculty = ref({
@@ -184,11 +218,13 @@ const {
 })(url1, { immediate: false })
 
 const load = () => {
+  console.log('load')
   setTimeout(() => {
     getFilterMentors().json().execute()
     filter.value.a.page += 1
   }, 100)
 }
+load();
 const submit = () => {
   filter.value.a.page = 1
   router.replace({
@@ -212,6 +248,51 @@ watch(faculty.value, () => {
 })
 </script>
 <style scoped>
+a {
+  color: white;
+}
+.avatar {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  margin-right: 5px;
+  border: 1px solid black;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  vertical-align: 0px;
+}
+
+ul.menu li {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 0 16px;
+  margin-right: 5px;
+  line-height: 3em;
+  text-transform: uppercase;
+  border-radius: 4px;
+  box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 0%);
+  background-color: transparent;
+}
+
+ul.menu li:last-child {
+  margin-right: 0px;
+  padding-right: 0px;
+}
+
+ul.menu li a:hover {
+  color: rgb(0, 108, 240);
+  transition: color 300ms linear;
+}
+.menu {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
 h2,
 p {
   color: white;
@@ -227,6 +308,7 @@ h2 {
   background-color: rgb(96, 139, 141);
   background-repeat: none;
   background-size: 100%;
+  position: relative;
 }
 
 .header .content {
