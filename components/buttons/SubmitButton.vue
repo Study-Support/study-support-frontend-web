@@ -6,7 +6,7 @@
       :style="{ backgroundColor: color }"
       :disabled="isDisabled"
     >
-      <img v-if="isDisabled" src="../../assets/ajax-loader.gif" alt="">
+      <img v-if="isDisabled" src="../../assets/ajax-loader.gif" alt="" />
       <span v-if="!isDisabled"> {{ content }} </span>
     </BButton>
   </div>
@@ -24,18 +24,18 @@ export default {
       type: Boolean,
     },
   },
-};
+}
 </script>
 <style scoped>
 button {
   width: 100%;
-  height: 40px;
+  height: 36px;
   border-radius: 8px !important;
   background-color: black;
   color: white;
   border: none;
 }
 button img {
-    height: 100% !important;
+  height: 100% !important;
 }
 </style>

@@ -1,76 +1,117 @@
 <template>
-    <div class="full">
-      <BContainer fluid>
-        <div class="background" v-if="showChangePass" @click="closeChangePass"></div>
-        <div class="change-pass" :class="{showChangePass: showChangePass}">
+    <div class="row d-flex">
+      <div class="sidebar-my-account col col-auto menu">
+        <a href="/dashboard" class="menu-top"><h2>Study With Us</h2></a>
+        <div>
+          <p>
+            <BIconChevronDown /> Trang cá nhân
+          </p>
+          <button class="i1" :class="`${route.path.substring(12, 15)}`" @click="navigateTo('/my-account')">
+            <BIconPersonFill /> Thông tin cá nhân
+          </button>
+          <button class="i2" :class="`${route.path.substring(12, 15)}`" @click="navigateTo('/my-account/evaluate')">
+            <BIconPencilSquare /> Đánh giá của bạn
+          </button>
+          <button class="i8" :class="`${route.path.substring(12, 15)}`" @click="navigateTo('/my-account/mentor-infor')">
+            <BIconPersonVideo3 /> Thông tin làm mentor
+          </button>
+        </div>
+        <div>
+          <p>
+            <BIconChevronDown /> Nhóm của tôi
+          </p>
+          <button class="i3" :class="`${route.path.substring(19, 28)}`"
+            @click="navigateTo('/my-account/groups/is-member')">
+            <BIconPeopleFill /> Nhóm là thành viên
+          </button>
+          <button class="i4" :class="`${route.path.substring(19, 28)}`"
+            @click="navigateTo('/my-account/groups/is-mentor')">
+            <BIconPersonVideo3 /> Nhóm là mentor
+          </button>
+        </div>
+        <div>
+          <p>
+            <BIconChevronDown /> Yêu cầu chờ duyệt
+          </p>
+          <button class="i5" :class="`${route.path.substring(19, 37)}`"
+            @click="navigateTo('/my-account/groups/request-create-group')">
+            <BIconPlusCircle /> Nhu cầu tạo nhóm
+          </button>
+          <button class="i6" :class="`${route.path.substring(19, 37)}`"
+            @click="navigateTo('/my-account/groups/request-is-member')">
+            <BIconPeopleFill /> Yêu cầu là thành viên
+          </button>
+          <button class="i7" :class="`${route.path.substring(19, 37)}`"
+            @click="navigateTo('/my-account/groups/request-is-mentor')">
+            <BIconPersonVideo3 /> Yêu cầu là mentor
+          </button>
+        </div>
+      </div>
+  
+      <BContainer class="col result-my-account">
+        <button class="col col-auto text-center pe-4 logout-button" @click="logout">
+            <BRow>
+              <BCol class="logout">
+                <BIconBoxArrowLeft @click="logout" />
+              </BCol>
+            </BRow>
+            <BRow>
+              <BCol>
+                <p class="m-0">Logout</p>
+              </BCol>
+            </BRow>
+          </button>
+
+
+        <div v-if="showChangePass" class="background" @click="closeChangePass"></div>
+        <div class="change-pass" :class="{ showChangePass: showChangePass }">
           <form @submit.prevent="save">
             <button class="close" @click="closeChangePass">
-              <BIconX/>
+              <BIconX />
             </button>
             <div role="group" class="mb-3">
               <label> Nhập mật khẩu cũ </label>
-              <BFormInput
-                id="input-live"
-                v-model="changeData.current_password"
-                :state="validationErrorChangePassMessages.current_password === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback"
-                required
-                type="password"
-                trim
-              />
+              <BFormInput id="input-live" v-model="changeData.current_password" :state="
+                validationErrorChangePassMessages.current_password === undefined
+                  ? null
+                  : false
+              " aria-describedby="input-live-help input-live-feedback" required type="password" trim />
               <BFormInvalidFeedback>
                 <ValidationErrorMessage :messages="validationErrorChangePassMessages.current_password" />
               </BFormInvalidFeedback>
             </div>
             <div role="group" class="mb-3">
               <label> Nhập mật khẩu mới </label>
-              <BFormInput
-                id="input-live"
-                v-model="changeData.password"
-                :state="validationErrorChangePassMessages.password === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback"
-                required
-                type="password"
-                trim
-              />
+              <BFormInput id="input-live" v-model="changeData.password" :state="
+                validationErrorChangePassMessages.password === undefined
+                  ? null
+                  : false
+              " aria-describedby="input-live-help input-live-feedback" required type="password" trim />
               <BFormInvalidFeedback>
                 <ValidationErrorMessage :messages="validationErrorChangePassMessages.password" />
               </BFormInvalidFeedback>
             </div>
             <div role="group" class="mb-3">
               <label> Nhập lại mật khẩu mới </label>
-              <BFormInput
-                id="input-live"
-                v-model="changeData.password_confirmation"
-                :state="isPasswordMatched"
-                aria-describedby="input-live-help input-live-feedback"
-                required
-                type="password"
-                trim
-              />
+              <BFormInput id="input-live" v-model="changeData.password_confirmation" :state="isPasswordMatched"
+                aria-describedby="input-live-help input-live-feedback" required type="password" trim />
               <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorChangePassMessages.password_confirmation" />
+                <ValidationErrorMessage :messages="
+                  validationErrorChangePassMessages.password_confirmation
+                " />
               </BFormInvalidFeedback>
             </div>
-            <SubmitButton
-              :isDisabled="isDisabledButton"
-              :content="'Lưu'"
-              :color="'rgb(64 97 128)'"
-              class="mt-2"
-            />
-        </form>
+            <SubmitButton :is-disabled="isDisabledButton" :content="'Lưu'" :color="'rgb(64 97 128)'" class="mt-2" />
+          </form>
         </div>
         <BRow>
-          <form @submit.prevent="submit" class="col infor">
+          <form class="col infor" @submit.prevent="submit">
             <div class="avatar-infor">
               <div class="avatar">
-                <img src="assets/mentors/m1.jpg" alt="avatar">
+                <img src="assets/mentors/m1.jpg" alt="avatar" />
                 <div>
-                  <button
-                    href="#"
-                    @click.prevent = "changeAvatar"
-                  >
-                  <BIconCamera />
+                  <button href="#" @click.prevent="changeAvatar">
+                    <BIconCamera />
                   </button>
                 </div>
               </div>
@@ -79,16 +120,10 @@
             <BRow class="mb-3">
               <BCol role="group">
                 <label for="email">Địa chỉ email</label>
-                <BFormInput
-                  id="email"
-                  v-model="userData.email"
-                  :state="validationErrorMessages.email === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Địa chỉ email"
-                  type="email"
-                  trim
-                  required
-                />
+                <BFormInput id="email" v-model="userData.email" :state="
+                  validationErrorMessages.email === undefined ? null : false
+                " aria-describedby="input-live-help input-live-feedback" placeholder="Địa chỉ email" type="email" trim
+                  required />
                 <BFormInvalidFeedback>
                   <ValidationErrorMessage :messages="validationErrorMessages.email" />
                 </BFormInvalidFeedback>
@@ -97,15 +132,9 @@
             <BRow class="mb-3">
               <BCol role="group">
                 <label for="full_name">Họ và tên</label>
-                <BFormInput
-                  id="full_name"
-                  v-model="userData.full_name"
-                  :state="validationErrorMessages.full_name === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Họ và tên"
-                  trim
-                  required
-                />
+                <BFormInput id="full_name" v-model="userData.full_name" :state="
+                  validationErrorMessages.full_name === undefined ? null : false
+                " aria-describedby="input-live-help input-live-feedback" placeholder="Họ và tên" trim required />
                 <BFormInvalidFeedback>
                   <ValidationErrorMessage :messages="validationErrorMessages.full_name" />
                 </BFormInvalidFeedback>
@@ -114,17 +143,12 @@
             <BRow class="mb-3">
               <BCol role="group">
                 <label for="phonename">Số điện thoại</label>
-                <BFormInput
-                  id="phonename"
-                  v-model="userData.phone_number"
-                  :state="validationErrorMessages.phone_number === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Số điện thoại"
-                  trim
-                  type="tel"
-                  pattern="[0]{1}[0-9]{9}"
-                  required
-                />
+                <BFormInput id="phonename" v-model="userData.phone_number" :state="
+                  validationErrorMessages.phone_number === undefined
+                    ? null
+                    : false
+                " aria-describedby="input-live-help input-live-feedback" placeholder="Số điện thoại" trim type="tel"
+                  pattern="[0]{1}[0-9]{9}" required />
                 <BFormInvalidFeedback>
                   <ValidationErrorMessage :messages="validationErrorMessages.phonenumber" />
                 </BFormInvalidFeedback>
@@ -133,57 +157,32 @@
             <BRow class="mb-3">
               <BCol role="group" class="pe-0">
                 <label for="address">Địa chỉ thường trú</label>
-                <BFormInput
-                  id="address"
-                  v-model="userData.address"
-                  :state="validationErrorMessages.address === undefined ? null : false"
-                  aria-describedby="input-live-help input-live-feedback"
-                  placeholder="Địa chỉ thường trú"
-                  trim
-                  required
-                />
+                <BFormInput id="address" v-model="userData.address" :state="
+                  validationErrorMessages.address === undefined ? null : false
+                " aria-describedby="input-live-help input-live-feedback" placeholder="Địa chỉ thường trú" trim
+                  required />
                 <BFormInvalidFeedback>
                   <ValidationErrorMessage :messages="validationErrorMessages.address" />
                 </BFormInvalidFeedback>
               </BCol>
               <BCol>
                 <label for="gender">Giới tính</label>
-                <select
-                  id="gender"
-                  v-model="userData.gender"
-                  class="form-select"
-                >
+                <select id="gender" v-model="userData.gender" class="form-select">
                   <option value="" disabled selected>Select gender</option>
-                  <option value="0">
-                    Nam
-                  </option>
-                  <option value="1">
-                    Nữ
-                  </option>
+                  <option value="0">Nam</option>
+                  <option value="1">Nữ</option>
                 </select>
               </BCol>
             </BRow>
             <BRow class="mb-3">
               <BCol class="pe-0">
                 <label for="birthday">Ngày sinh</label>
-                <Datepicker
-                  id="birthday"
-                  v-model="userData.birthday"
-                  date-picker
-                  required
-                  textInput
-                  placeholder="Chọn ngày sinh" class="ms-2 date-picker"
-                />
+                <Datepicker id="birthday" v-model="userData.birthday" date-picker required text-input
+                  placeholder="Chọn ngày sinh" class="ms-2 date-picker" />
               </BCol>
-              <BCol role="group" >
+              <BCol role="group">
                 <label for="faculty">Khoa đang học</label>
-                <select
-                  id="faculty"
-                  v-model="userData.faculty_id"
-                  class="form-select"
-                  required
-                  disabled
-                >
+                <select id="faculty" v-model="userData.faculty_id" class="form-select" required disabled>
                   <option value="" disabled selected>Chọn khoa</option>
                   <option v-for="faculty in dataFaculty" :key="faculty.id" :value="faculty.id">
                     {{ faculty.name }}
@@ -192,43 +191,44 @@
               </BCol>
             </BRow>
             <BRow class="d-flex justify-content-end mb-3">
-              <SubmitButton
-                :isDisabled="isDisabledButton"
-                :content="'Update'"
-                :color="'rgb(64 97 128)'"
-                class="col-6 col-lg-2 pe-0"
-              />
-              <SubmitButton
-                :isDisabled="isDisabledButton"
-                :content="'Change password'"
-                @click.prevent = "showChangePass=true"
-                :color="'rgb(64 97 128)'"
-                class="col-6 col-lg-3"
-              />
+              <SubmitButton :is-disabled="isDisabledButton" :content="'Update'" :color="'rgb(64 97 128)'"
+                class="col-6 col-lg-2 pe-0" />
+              <SubmitButton :is-disabled="isDisabledButton" :content="'Change password'" :color="'rgb(64 97 128)'"
+                class="col-6 col-lg-3" @click.prevent="showChangePass = true" />
             </BRow>
           </form>
         </BRow>
       </BContainer>
     </div>
-  </template>
-  
+</template>
+
 <script setup>
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
-import authenticated from "~~/middleware/authenticated";
-import {BIconX, BIconCamera} from 'bootstrap-icons-vue';
-
+import Datepicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
+import { BIconX, BIconCamera, BIconBoxArrowLeft } from 'bootstrap-icons-vue'
+import '@fontsource/love-ya-like-a-sister'
+import {
+  BIconChevronDown,
+  BIconPencilSquare,
+  BIconPeopleFill,
+  BIconPersonFill,
+  BIconPersonVideo3,
+  BIconPlusCircle,
+} from 'bootstrap-icons-vue'
+const route = useRoute()
 definePageMeta({
-  layout: 'logout-page',
+  layout: false,
   middleware: 'authenticated',
-});
-const {$toast} = useNuxtApp();
-const {setToken} = useToken();
-const {getConfig} = useConfig();
-const {$swal} = useNuxtApp();
-const {successAlert} = useAlert();
-
-const isDisabledButton = ref(false);
+})
+const { $toast } = useNuxtApp()
+const { getConfig } = useConfig()
+const { successAlert } = useAlert()
+const { deleteToken } = useToken()
+const { onFetchResponse, post } = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})('/logout', { immediate: false })
+const isDisabledButton = ref(false)
 const userData = ref({
   username: '',
   full_name: '',
@@ -239,19 +239,17 @@ const userData = ref({
   birthday: '',
   faculty_id: '',
   phone_number: '',
-});
-const validationErrorMessages = ref({});
-const dataFaculty = ref([]);
-const ratings = ref([]);
+})
+const validationErrorMessages = ref({})
+const dataFaculty = ref([])
 
-const showChangePass = ref(false);
+const showChangePass = ref(false)
 const changeData = ref({
   current_password: '',
   password: '',
   password_confirmation: '',
-});
-const validationErrorChangePassMessages = ref({
-});
+})
+const validationErrorChangePassMessages = ref({})
 const {
   data: dataChangePass,
   onFetchResponse: changePassRes,
@@ -261,33 +259,23 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/user/password',
-  {immediate: false},
-);
+})('/user/password', { immediate: false })
 const {
   data: dataGetFaculty,
   get: getFaculty,
   onFetchResponse: getFacultyResponse,
-  } = useFetchApi({
+} = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-  })(
-  '/faculties',
-  {immediate: false},
-);
+})('/faculties', { immediate: false })
 const {
   data: dataGetMe,
   get: getMe,
   onFetchResponse: getMeResponse,
-  onFetchError: getMeError,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/user',
-  {immediate: false},
-);
+})('/user', { immediate: false })
 const {
   data: dataPut,
   onFetchResponse: resPut,
@@ -297,106 +285,114 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/user/edit',
-  {immediate: false},
-);
-// Lấy đánh giá
-const {
-  data: dataRating,
-  get: getRating,
-  onFetchResponse: getRatingResponse,
-  onFetchError: getRatingError,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})(
-  '/user/rating',
-  {immediate: false},
-);
-getRating().json().execute();
-getRatingResponse(() => {
-  ratings.value = dataRating.value.data;
+})('/user/edit', { immediate: false })
+
+onFetchResponse(() => {
+  $toast('Đăng xuất thành công', 'success', 1500)
+  deleteToken()
+  return navigateTo({ name: 'dashboard' })
 })
+const logout = () => {
+  post().json().execute()
+}
 // Lấy thông tin cá nhân
-getMe().json().execute();
+getMe().json().execute()
 getMeResponse(() => {
-  userData.value = dataGetMe.value.data;
+  userData.value = dataGetMe.value.data
 })
 // Lấy tất cả khoa
-getFaculty().json().execute();
+getFaculty().json().execute()
 getFacultyResponse(() => {
-  dataFaculty.value = dataGetFaculty.value.data.data;
-});
+  dataFaculty.value = dataGetFaculty.value.data.data
+})
 
-const isPasswordMatched = computed(
-  () => (changeData.value.password_confirmation === '' ? null : changeData.value.password_confirmation === changeData.value.password),
-);
+const isPasswordMatched = computed(() =>
+  changeData.value.password_confirmation === ''
+    ? null
+    : changeData.value.password_confirmation === changeData.value.password
+)
 changePassRes(() => {
-isDisabledButton.value = false;
-successAlert('Thay đổi mật khẩu thành công!', () => {
-  closeChangePass();
-});
-});
+  isDisabledButton.value = false
+  successAlert('Thay đổi mật khẩu thành công!', () => {
+    closeChangePass()
+  })
+})
 const closeChangePass = () => {
-  showChangePass.value = false;
-  changeData.value.current_password = '',
-  changeData.value.password = '',
-  changeData.value.password_confirmation = ''
-  validationErrorChangePassMessages.value = {};
-};
+  showChangePass.value = false
+    ; (changeData.value.current_password = ''),
+      (changeData.value.password = ''),
+      (changeData.value.password_confirmation = '')
+  validationErrorChangePassMessages.value = {}
+}
 changePassErr(() => {
   if (statusCode.value === getConfig('constants.statusCodes.validation')) {
-    validationErrorChangePassMessages.value = dataChangePass.value.meta.error_message;
+    validationErrorChangePassMessages.value =
+      dataChangePass.value.meta.error_message
   }
-  isDisabledButton.value = false;
-  return false;
-});
-function save () {
-  validationErrorChangePassMessages.value = {};
+  isDisabledButton.value = false
+  return false
+})
+function save() {
+  validationErrorChangePassMessages.value = {}
   if (isPasswordMatched.value) {
-    isDisabledButton.value = true;
-    changePassPut(changeData).json().execute();
+    isDisabledButton.value = true
+    changePassPut(changeData).json().execute()
   }
 }
 
 // Trả về khi put thông tin cá nhân
 resPut(() => {
-  userData.value = dataPut.value.data.data;
-  successAlert('Updated');
-  isDisabledButton.value = false;
-});
+  userData.value = dataPut.value.data.data
+  successAlert('Updated')
+  isDisabledButton.value = false
+})
 errPut(() => {
   if (codePut.value === getConfig('constants.statusCodes.validation')) {
-    validationErrorMessages.value = dataPut.value.meta.error_message;
+    validationErrorMessages.value = dataPut.value.meta.error_message
   }
-  isDisabledButton.value = false;
-  return false;
-});
+  isDisabledButton.value = false
+  return false
+})
 
 const changeAvatar = () => {
-  $toast('Đổi avatar','success', 2000);
+  $toast('Đổi avatar', 'success', 2000)
 }
 const submit = () => {
-  validationErrorMessages.value = {};
-  isDisabledButton.value = true;
+  validationErrorMessages.value = {}
+  isDisabledButton.value = true
   if (userData.value.birthday === null) {
-    const temp = new Date();
-    userData.value.birthday = temp.toString().slice(4, 15);
+    const temp = new Date()
+    userData.value.birthday = temp.toString().slice(4, 15)
   } else if (userData.value.birthday.toString().length > 12) {
-    userData.value.birthday = userData.value.birthday.toString().slice(4, 15);
+    userData.value.birthday = userData.value.birthday.toString().slice(4, 15)
   }
-  put(userData.value).json().execute();
-};
-
+  put(userData.value).json().execute()
+}
 </script>
 <style scoped>
+.result-my-account {
+  position: relative;
+}
+.result-my-account .logout-button {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+}
+.logout {
+  font-size: 20px;
+  margin-top: -15px;
+}
 h1 {
   color: rgb(75, 82, 98);
-  margin: 0px; 
+  margin: 0px;
   background-color: transparent;
   font-size: 35px;
   font-weight: 600;
+}
+h2{
+  color: black;
+  font-size: 30px;
+  padding-bottom: 20px;
 }
 .avatar {
   width: 120px;
@@ -407,7 +403,8 @@ h1 {
   overflow: hidden;
   position: relative;
 }
-.avatar> div {
+
+.avatar>div {
   display: none;
   position: absolute;
   bottom: 0;
@@ -416,25 +413,30 @@ h1 {
   width: 100%;
   height: 100%;
 }
+
 .avatar:hover div {
   display: inline-block;
 }
+
 .avatar button {
   width: 100%;
-  
 }
+
 .avatar img {
   width: 100%;
 }
+
 .infor {
   padding: 0 50px;
   background-color: #ffffff;
   padding-top: 20px;
   height: 100%;
 }
+
 .avatar-infor {
   z-index: -1000;
 }
+
 button {
   border: 0px;
   padding-top: 5px;
@@ -443,15 +445,17 @@ button {
   display: block;
   margin: auto;
 }
+
 label {
-  font-weight:400 !important;  
+  font-weight: 400 !important;
   font-size: 13px;
   color: rgba(2, 18, 62, 0.886);
   padding-left: 2px;
   padding-bottom: 3px;
 }
-.mess{
-  color:red;
+
+.mess {
+  color: red;
   font-size: small;
 }
 
@@ -461,35 +465,41 @@ label {
   margin-right: 12px;
   z-index: -1000;
 }
+
 .date-picker::placeholder {
   font-weight: 500;
-  opacity: .5;
+  opacity: 0.5;
   color: rgb(165, 165, 165) !important;
   font-size: smaller;
 }
+
 select {
   border: 0px solid #ced4da !important;
-  border-radius: 3px ;
+  border-radius: 3px;
   color: #a2a2a2 !important;
   font-size: smaller;
   height: 37px;
 }
+
 select option:first-child {
   color: black;
 }
+
 .change-pass {
   position: fixed;
   top: -400px;
   width: 60%;
   left: 20%;
   padding: 30px;
-  transition: all .4s;
+  transition: all 0.4s;
   background-color: white;
   z-index: 2;
 }
-.change-pass form{
+
+.change-pass form {
   position: relative;
 }
+
 .change-pass .close {
   position: absolute;
   top: -35px;
@@ -497,12 +507,15 @@ select option:first-child {
   font-weight: bold;
   font-size: 25px;
 }
-.change-pass input{
+
+.change-pass input {
   border: 1px solid black !important;
 }
+
 .showChangePass {
   top: 0;
 }
+
 .background {
   position: fixed;
   top: 0;
@@ -513,7 +526,10 @@ select option:first-child {
   z-index: 1;
   transition: all 2s;
 }
-input, select, .date-picker {
+
+input,
+select,
+.date-picker {
   box-shadow: 0 3px 5px 0 rgb(0 0 0 / 10%);
 }
 </style>

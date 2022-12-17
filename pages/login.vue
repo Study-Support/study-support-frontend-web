@@ -6,7 +6,7 @@
           <BCol>
             <h1 class="">Đăng nhập vào website</h1>
           </BCol>
-          
+
           <div v-if="unauthorizedErrorMessage !== ''" class="mess mt-2 ps-2">
             {{ unauthorizedErrorMessage }} !
           </div>
@@ -15,9 +15,11 @@
           <BCol>
             <form @submit.prevent="submit">
               <div role="group">
-                <BFormInput 
+                <BFormInput
                   v-model="requestBody.email"
-                  :state="validationErrorMessages.email === undefined ? null : false"
+                  :state="
+                    validationErrorMessages.email === undefined ? null : false
+                  "
                   aria-describedby="input-live-help input-live-feedback"
                   placeholder="Email"
                   type="email"
@@ -26,14 +28,20 @@
                   class=""
                 />
                 <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.email" />
+                  <ValidationErrorMessage
+                    :messages="validationErrorMessages.email"
+                  />
                 </BFormInvalidFeedback>
               </div>
               <div role="group">
                 <BFormInput
                   id="input-live"
                   v-model="requestBody.password"
-                  :state="validationErrorMessages.password === undefined ? null : false"
+                  :state="
+                    validationErrorMessages.password === undefined
+                      ? null
+                      : false
+                  "
                   aria-describedby="input-live-help input-live-feedback"
                   placeholder="Mật khẩu"
                   trim
@@ -42,12 +50,14 @@
                   class="mt-2"
                 />
                 <BFormInvalidFeedback>
-                  <ValidationErrorMessage :messages="validationErrorMessages.password" />
+                  <ValidationErrorMessage
+                    :messages="validationErrorMessages.password"
+                  />
                 </BFormInvalidFeedback>
               </div>
               <SubmitButton
                 class="mt-3"
-                :isDisabled="isDisabledButton"
+                :is-disabled="isDisabledButton"
                 :content="'Đăng nhập'"
                 :color="'rgb(63 88 120)'"
               />
@@ -66,52 +76,44 @@
 </template>
 
 <script setup>
-import "@fontsource/love-ya-like-a-sister";
+import '@fontsource/love-ya-like-a-sister'
 
 definePageMeta({
   layout: false,
-});
-const {$toast} = useNuxtApp();
-const {setToken} = useToken();
-const {getConfig} = useConfig();
-const requestBody = ref({email: '', password: ''});
-const unauthorizedErrorMessage = ref('');
-const isDisabledButton = ref(false);
-const validationErrorMessages = ref({
-});
-const {
-  data,
-  statusCode,
-  onFetchResponse,
-  onFetchError,
-  post,
-} = useFetchApi({
+})
+const { $toast } = useNuxtApp()
+const { setToken } = useToken()
+const { getConfig } = useConfig()
+const requestBody = ref({ email: '', password: '' })
+const unauthorizedErrorMessage = ref('')
+const isDisabledButton = ref(false)
+const validationErrorMessages = ref({})
+const { data, statusCode, onFetchResponse, onFetchError, post } = useFetchApi({
   requireAuth: false,
   disableHandleErrorUnauthorized: true,
-})(
-  'login',
-  {immediate: false},
-);
+})('login', { immediate: false })
 onFetchResponse(() => {
-  setToken(data.value.data.token.access_token);
-  $toast('Đăng nhập thành công','success', 1500);
-  return navigateTo({name: 'dashboard'});
-});
+  setToken(data.value.data.token.access_token)
+  $toast('Đăng nhập thành công', 'success', 1500)
+  return navigateTo({ name: 'dashboard' })
+})
 onFetchError(() => {
   if (statusCode.value === getConfig('constants.statusCodes.unauthorized')) {
-    unauthorizedErrorMessage.value = data.value.meta.error_message;
-  } else if (statusCode.value === getConfig('constants.statusCodes.validation')) {
-    validationErrorMessages.value = data.value.meta.error_message;
+    unauthorizedErrorMessage.value = data.value.meta.error_message
+  } else if (
+    statusCode.value === getConfig('constants.statusCodes.validation')
+  ) {
+    validationErrorMessages.value = data.value.meta.error_message
   }
-  isDisabledButton.value = false;
-});
+  isDisabledButton.value = false
+})
 // submit login
 const submit = () => {
-  unauthorizedErrorMessage.value = '';
-  validationErrorMessages.value = {};
-  isDisabledButton.value = true;
-  post(requestBody).json().execute();
-};
+  unauthorizedErrorMessage.value = ''
+  validationErrorMessages.value = {}
+  isDisabledButton.value = true
+  post(requestBody).json().execute()
+}
 </script>
 <style scoped>
 h1 {
@@ -125,8 +127,8 @@ h1 {
   background-color: #eef1f7;
   border-radius: 5px;
 }
-.mess{
-  color:red;
+.mess {
+  color: red;
   font-size: small;
 }
 a {

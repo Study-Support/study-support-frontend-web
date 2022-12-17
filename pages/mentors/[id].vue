@@ -4,76 +4,66 @@
       <BRow>
         <BCol class="content col-9 mt-5">
           <div class="header">
-            <div class="img">
-            </div>
+            <div class="img"></div>
             <div class="header-content">
               <div class="number">
                 <p class="rating">
                   <BIconPeopleFill />
-                  {{ mentor_infor.group_quantity }} nhóm
+                  {{ mentorInfor.group_quantity }} nhóm
                 </p>
                 <p class="rating">
                   <BIconHeartFill />
-                  {{ mentor_infor.rating }}
+                  {{ mentorInfor.rating }}
                 </p>
               </div>
               <div class="invite">
-                <button @click="showInvite = true">
-                  Gửi lời mời
-                </button>
+                <button @click="showInvite = true">Gửi lời mời</button>
               </div>
             </div>
             <div class="img-center">
               <div class="d-flex">
                 <div class="avatar">
-                  <img src="/assets/mentors/m1.jpg" alt="">
+                  <img src="/assets/mentors/m1.jpg" alt="" />
                 </div>
                 <div class="name">
-                  <h5>{{ mentor_infor.full_name }}</h5>
-                  <p>Khoa {{ mentor_infor.faculty }}</p>
+                  <h5>{{ mentorInfor.full_name }}</h5>
+                  <p>Khoa {{ mentorInfor.faculty }}</p>
                 </div>
               </div>
-              <div class="line">
-
-              </div>
+              <div class="line"></div>
               <div class="back">
-                <img src="/assets/mentors/back.png" alt="">
+                <img src="/assets/mentors/back.png" alt="" />
               </div>
             </div>
           </div>
           <div class="mentor-infor">
             <div class="subject-infor">
-              <h6>
-                Hướng dẫn các môn học:
-              </h6>
+              <h6>Hướng dẫn các môn học:</h6>
               <div>
-                <p v-for="(subject, index) in mentor_infor.subjects" :key="subject.id">
+                <p
+                  v-for="(subject, index) in mentorInfor.subjects"
+                  :key="subject.id"
+                >
                   {{ index + 1 }}.
-                  {{
-                      subject.name
-                  }}
+                  {{ subject.name }}
                 </p>
               </div>
             </div>
             <div class="subject-infor">
-              <h6>
-                Đánh giá của người học:
-              </h6>
+              <h6>Đánh giá của người học:</h6>
               <div>
-                <p v-for="(subject, index) in mentor_infor.subjects" :key="subject.id">
+                <p
+                  v-for="(subject, index) in mentorInfor.subjects"
+                  :key="subject.id"
+                >
                   {{ index + 1 }}.
-                  {{
-                      subject.name
-                  }}
+                  {{ subject.name }}
                 </p>
               </div>
             </div>
-
           </div>
         </BCol>
-        <BCol class="sidebar">
-
-        </BCol>
+        <BCol class="sidebar"> </BCol>
       </BRow>
       <div class="update" :class="{ show: showInvite }">
         <div class="update-infor">
@@ -82,11 +72,22 @@
           </button>
           <form @submit.prevent="invite()">
             <div role="group">
-              <BFormInput v-model="inviteInfor.inviteLink"
-                :state="validationErrorMessages.inviteLink === undefined ? null : false"
-                aria-describedby="input-live-help input-live-feedback" placeholder="Link nhóm mời" trim required />
+              <BFormInput
+                v-model="inviteInfor.inviteLink"
+                :state="
+                  validationErrorMessages.inviteLink === undefined
+                    ? null
+                    : false
+                "
+                aria-describedby="input-live-help input-live-feedback"
+                placeholder="Link nhóm mời"
+                trim
+                required
+              />
               <BFormInvalidFeedback>
-                <ValidationErrorMessage :messages="validationErrorMessages.inviteLink" />
+                <ValidationErrorMessage
+                  :messages="validationErrorMessages.inviteLink"
+                />
               </BFormInvalidFeedback>
             </div>
             <BRow class="invite-button">
@@ -99,32 +100,30 @@
   </div>
 </template>
 <script setup>
-import { BIconPeopleFill, BIconHeartFill, BIconX } from 'bootstrap-icons-vue';
+import { BIconPeopleFill, BIconHeartFill, BIconX } from 'bootstrap-icons-vue'
 
 definePageMeta({
-  layout: 'page',
+  layout: false,
   middleware: 'authenticated',
-});
+})
 
-const route = useRoute();
-const showInvite = ref(false);
-const isDisabledButton = ref(false);
-const { successAlert } = useAlert();
+const route = useRoute()
+const showInvite = ref(false)
+const { successAlert } = useAlert()
 const inviteInfor = ref({
   inviteLink: '',
-  mentor_id: ''
-});
-const mentor_infor = ref({
+  mentor_id: '',
+})
+const mentorInfor = ref({
   id: '',
   full_name: '',
   image: '',
   faculty: '',
-  subjects: [
-  ],
+  subjects: [],
   rating: '',
-  group_quantity: ''
+  group_quantity: '',
 })
-const validationErrorMessages = ref([]);
+const validationErrorMessages = ref([])
 const {
   data: dataMentor,
   get: getMentor,
@@ -132,34 +131,24 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
-})(
-  `mentors/${route.params.id}`,
-  { immediate: false },
-);
-getMentor().json().execute();
+})(`mentors/${route.params.id}`, { immediate: false })
+getMentor().json().execute()
 getMentorResponse(() => {
-  mentor_infor.value = dataMentor.value.data;
-  inviteInfor.value.mentor_id = mentor_infor.value.id;
+  mentorInfor.value = dataMentor.value.data
+  inviteInfor.value.mentor_id = mentorInfor.value.id
 })
-const {
-  data: dataInvite,
-  post: postInvite,
-  onFetchResponse: postInviteResponse,
-} = useFetchApi({
+const { post: postInvite, onFetchResponse: postInviteResponse } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
-})(
-  '/post-invite',
-  { immediate: false },
-);
+})('/post-invite', { immediate: false })
 postInviteResponse(() => {
-  showInvite.value = false;
-  successAlert("Gửi lời mời thành công!");
+  showInvite.value = false
+  successAlert('Gửi lời mời thành công!')
 })
 
 const invite = () => {
-  postInvite(inviteInfor.value).json().execute();
-  inviteInfor.value.inviteLink = '';
+  postInvite(inviteInfor.value).json().execute()
+  inviteInfor.value.inviteLink = ''
 }
 </script>
 <style scoped>
@@ -176,7 +165,6 @@ const invite = () => {
   background-size: cover;
   border-radius: 15px;
   overflow: hidden;
-
 }
 
 .header-content {
@@ -269,7 +257,7 @@ img {
   border: 5px solid #ffffff;
   overflow: hidden;
   cursor: pointer;
-  transition: .5s;
+  transition: 0.5s;
   border-radius: 76px;
   margin-left: 40px;
 }
@@ -371,8 +359,8 @@ img {
   font-weight: 700;
   text-transform: uppercase;
   color: #1c5991;
-  font-family: "Roboto", sans-serif;
-  margin-top: 30px
+  font-family: 'Roboto', sans-serif;
+  margin-top: 30px;
 }
 
 .mentor-infor h6::after {
@@ -395,7 +383,10 @@ img {
   margin-block-end: 1em;
   margin-inline-start: 0px;
   margin-inline-end: 0px;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, segoe ui, Roboto, helvetica neue, fira sans, Ubuntu, Oxygen, oxygen sans, Cantarell, droid sans, apple color emoji, segoe ui emoji, segoe ui emoji, segoe ui symbol, lucida grande, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, segoe ui, Roboto,
+    helvetica neue, fira sans, Ubuntu, Oxygen, oxygen sans, Cantarell,
+    droid sans, apple color emoji, segoe ui emoji, segoe ui emoji,
+    segoe ui symbol, lucida grande, Helvetica, Arial, sans-serif;
   color: #555;
   font-size: 14px;
 }

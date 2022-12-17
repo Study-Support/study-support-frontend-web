@@ -1,11 +1,8 @@
 <template>
   <div>
-    <span
-      v-for="error in messages"
-      :key="error"
-    >
+    <span v-for="error in messages" :key="error">
       {{ error }}
-      <br>
+      <br />
     </span>
   </div>
 </template>
@@ -16,7 +13,6 @@ export default {
       type: Array,
     },
   },
-};
+}
 </script>
-<style scoped>
-</style>
+<style scoped></style>

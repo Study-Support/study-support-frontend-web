@@ -1,5 +1,5 @@
 const createGetResponse = () => ({
-  data:{
+  data: {
     data: [
       {
         id: '5',
@@ -39,7 +39,7 @@ const createGetResponse = () => ({
         is_creator: false,
         created_at: '2022-08-05T16:04:43.967Z',
         updated_at: '2022-08-05T16:04:43.967Z',
-      },  
+      },
       {
         id: '2',
         subject: 'Vi điều khiển',
@@ -79,35 +79,27 @@ const createGetResponse = () => ({
         created_at: '2022-08-05T16:04:43.967Z',
         updated_at: '2022-08-05T16:04:43.967Z',
       },
-    ]
-  }
-});
-  
-  const createPostResponse = () => ({
-    api_token: 'beareAuthApiToken',
-  });
-  
-  const ValidationErrorResponses = () => ({
-    name: [
-      'Tên đăng nhập đã tồn tại',
-      'Tên đăng nhập đã tồn tại',
     ],
-    quantity: [
-      'Tên đăng nhập đã tồn tại',
-      'Tên đăng nhập đã tồn tại',
-    ],
-  });
-  export default defineEventHandler(async (event) => {
-    if (isMethod(event.req, 'POST')) {
-      const body = await useBody(event.req);
-      if (body.name === 'a') {
-        // eslint-disable-next-line no-param-reassign
-        event.res.statusCode = 422;
-        return ValidationErrorResponses();
-      }
-      return createPostResponse();
+  },
+})
+
+const createPostResponse = () => ({
+  api_token: 'beareAuthApiToken',
+})
+
+const ValidationErrorResponses = () => ({
+  name: ['Tên đăng nhập đã tồn tại', 'Tên đăng nhập đã tồn tại'],
+  quantity: ['Tên đăng nhập đã tồn tại', 'Tên đăng nhập đã tồn tại'],
+})
+export default defineEventHandler(async (event) => {
+  if (isMethod(event.req, 'POST')) {
+    const body = await useBody(event.req)
+    if (body.name === 'a') {
+      event.res.statusCode = 422
+      return ValidationErrorResponses()
     }
-  
-    return createGetResponse();
-  });
-  
+    return createPostResponse()
+  }
+
+  return createGetResponse()
+})

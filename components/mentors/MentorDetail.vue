@@ -2,11 +2,12 @@
   <div class="full">
     <NuxtLink :to="{ path: `/mentors/${mentor.id}` }">
       <div class="img">
-        <img :src="`${mentor.image}`" alt="">
+        <!-- <img :src="`${mentor.image}`" alt="" /> -->
+        <img src="/assets/mentors/m1.jpg" alt="" />
       </div>
       <div class="infor">
-        <h5 class="text-center">{{mentor.full_name}}</h5>
-        <p class="faculty text-center">Khoa {{mentor.faculty}}</p>
+        <h5 class="text-center">{{ mentor.full_name }}</h5>
+        <p class="faculty text-center">Khoa {{ mentor.faculty }}</p>
         <div class="subjects">
           <p v-for="sub in mentor.subjects" :key="sub.id">{{ sub.name }}</p>
         </div>
@@ -17,7 +18,7 @@
           </p>
           <p class="rating">
             <BIconHeartFill />
-            {{ mentor.rating }} 
+            {{ mentor.rating }}
           </p>
         </div>
       </div>
@@ -25,11 +26,11 @@
   </div>
 </template>
 <script setup>
-import { BIconHeartFill, BIconPeopleFill } from 'bootstrap-icons-vue';
+import { BIconHeartFill, BIconPeopleFill } from 'bootstrap-icons-vue'
 const props = defineProps({
-	mentor: {
-		type: Object,
-	}
+  mentor: {
+    type: Object,
+  },
 })
 </script>
 <style scoped>
@@ -67,7 +68,7 @@ h5 {
 }
 
 .subjects {
-  background-color: #E6EDEB;
+  background-color: #e6edeb;
   margin: 20px 0 50px 0;
   padding: 5px 3px;
   border-radius: 5px;
@@ -94,7 +95,7 @@ h5 {
   width: 100%;
   bottom: 0;
   right: 0;
-  padding:0 14px 0 14px;
+  padding: 0 14px 0 14px;
 }
 .back p {
   font-size: 15px;

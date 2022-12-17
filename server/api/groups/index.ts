@@ -125,12 +125,11 @@ const createGetResponse = () => ({
         created_at: '2022-08-05T16:04:43.967Z',
         updated_at: '2022-08-05T16:04:43.967Z',
       },
-    ]
-  }
-});
+    ],
+  },
+})
 
-const createPostResponse = () => ({
-});
+const createPostResponse = () => ({})
 const createPutResponse = () => ({
   data: {
     difficult: 'aa',
@@ -141,35 +140,33 @@ const createPutResponse = () => ({
     self_study: 'false',
     faculty_id: '1',
     subject_id: '1',
-  }
-});
+  },
+})
 const ValidationErrorResponses = () => ({
   meta: {
-    error_message: 'Nhóm này đã tồn tại!'
-  }
-});
+    error_message: 'Nhóm này đã tồn tại!',
+  },
+})
 export default defineEventHandler(async (event) => {
   if (isMethod(event.req, 'POST')) {
-    const body = await useBody(event.req);
+    const body = await useBody(event.req)
     if (body.note === 'a') {
-      // eslint-disable-next-line no-param-reassign
-      event.res.statusCode = 422;
-      return ValidationErrorResponses();
+      event.res.statusCode = 422
+      return ValidationErrorResponses()
     }
-    return createPostResponse();
+    return createPostResponse()
   }
   if (isMethod(event.req, 'PUT')) {
-    const body = await useBody(event.req);
+    const body = await useBody(event.req)
     if (body.difficult === 'a') {
-      // eslint-disable-next-line no-param-reassign
-      event.res.statusCode = 422;
-      return ValidationErrorResponses();
+      event.res.statusCode = 422
+      return ValidationErrorResponses()
     }
-    return createPutResponse();
+    return createPutResponse()
   }
   if (isMethod(event.req, 'DELETE')) {
-    return createPostResponse();
+    return createPostResponse()
   }
 
-  return createGetResponse();
-});
+  return createGetResponse()
+})
