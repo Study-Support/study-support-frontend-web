@@ -4,9 +4,9 @@
       <BContainer>
         <BRow class="d-flex justify-content-between mt-2">
           <BCol class="col-auto ps-0">
-            <NuxtLink to="/dashboard">
+            <a href="/dashboard">
               <h2>Study With Us</h2>
-            </NuxtLink>
+            </a>
           </BCol>
           <ul class="col col-auto d-flex menu mb-1">
             <li class="text-decoration-none d-block">

@@ -90,8 +90,8 @@
     <BRow v-if="group.is_creator" class="mt-3">
       <BCol>
         <div>
-          <h6 class="pb-4">Thành viên đợi duyệt:</h6>
-          <table>
+          <h6 class="pb-4">Thành viên đợi duyệt: <span v-if="group.membersWaiting.length ===0">Không có</span></h6>
+          <table v-if="group.membersWaiting.length !==0">
             <tr class="title">
               <th>STT</th>
               <th>Name</th>
@@ -130,7 +130,7 @@
               </td>
             </tr>
           </table>
-          <div class="button">
+          <div class="button" v-if="group.membersWaiting.length !==0">
             <button @click="accept">Duyệt thành viên</button>
             <button @click="deleteWaiting">Xóa thành viên</button>
           </div>

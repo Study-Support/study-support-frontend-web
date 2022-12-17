@@ -526,6 +526,9 @@ const scrollTop = () => {
 }
 </script>
 <style scoped>
+.menu {
+  padding: 0 15px;
+}
 .top-dashboard h1,
 .top-dashboard h2,
 .top-dashboard h3 {

@@ -103,7 +103,7 @@
 import { BIconPeopleFill, BIconHeartFill, BIconX } from 'bootstrap-icons-vue'
 
 definePageMeta({
-  layout: 'page',
+  layout: false,
   middleware: 'authenticated',
 })
 

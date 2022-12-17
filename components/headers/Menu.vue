@@ -79,10 +79,6 @@ import {
   BIconPlusCircle,
 } from 'bootstrap-icons-vue'
 const route = useRoute()
-const a = () => {
-  console.log(route.path.substring(19, 37))
-}
-a()
 </script>
 
 <style scoped>

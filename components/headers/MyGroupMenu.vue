@@ -1,9 +1,9 @@
 <template>
   <div>
     <BCol class="ps-4 col-auto">
-      <NuxtLink to="/dashboard">
+      <a href="/dashboard">
         <h2>Study With Us</h2>
-      </NuxtLink>
+      </a>
     </BCol>
     <div class="menu">
       <div>

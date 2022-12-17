@@ -29,3 +29,141 @@ input::placeholder {
     width: 100%;
     background-color: white;
 }
+
+.menu-top *,
+.menu-top a {
+    color: white;
+}
+
+.menu-top {
+    background-color: #465c71;
+    z-index: 100;
+}
+
+.menu-top h5 {
+    color: rgb(0, 108, 240);
+}
+
+.menu-top .container-fluid {
+    border-bottom: 1px solid black;
+}
+
+.menu-top h2 {
+    font-family: 'Love Ya Like A Sister';
+    display: block;
+    min-width: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    padding: 0 16px;
+    padding-top: 3px;
+    margin-right: 5px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 0%);
+    background-color: transparent;
+}
+
+.menu-top li {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0 16px;
+    margin-right: 5px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 0%);
+    background-color: transparent;
+}
+
+.menu-top ul li:first-child {
+    height: 10px;
+    padding-top: 8px;
+}
+
+.menu-top li:last-child {
+    margin-right: 0px;
+    padding-right: 0px;
+}
+
+.menu-top li a:hover {
+    color: rgb(0, 108, 240);
+    transition: color 300ms linear;
+}
+
+.menu-top .avatar {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    margin-right: 5px;
+    border: 1px solid black;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.menu-top .avatar img {
+    width: 100%;
+    vertical-align: 0px;
+}
+
+.menu {
+    padding: 15px 15px 15px 0;
+}
+
+.i1,
+.i2.eva,
+.i8.men,
+.i3.is-member,
+.i4.is-mentor,
+.i5.request-create-gro,
+.i6.request-is-member,
+.i7.request-is-mentor {
+    background-color: #d3e3fd !important;
+}
+
+.i1.eva,
+.i1.gro,
+.i1.men {
+    background-color: transparent !important;
+}
+
+.menu>div p {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    padding-left: 15px;
+}
+
+.menu>div>button {
+    border-radius: 0 12px 12px 0;
+    padding: 4px 4px 4px 15px;
+    color: rgb(0, 0, 0);
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+}
+
+.menu>div>button:hover {
+    background-color: rgb(230, 230, 230);
+}
+
+.menu svg {
+    font-size: 13px;
+    margin-right: 10px;
+}
+
+.sidebar-my-account {
+    width: 21% !important;
+    background-color: #f6f8fc;
+    display: inline-block;
+    height: 97vh;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+
+.result-my-account {
+    display: inline-block;
+    width: 79% !important;
+    overflow: auto;
+    height: 97vh;
+}
