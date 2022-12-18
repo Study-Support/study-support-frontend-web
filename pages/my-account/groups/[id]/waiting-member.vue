@@ -308,7 +308,9 @@ h6::after {
   margin-top: 0;
   color: rgb(255, 255, 255);
 }
-
+.information {
+  padding-bottom: 30px;
+}
 .avatar {
   width: 30px;
   height: 30px;
