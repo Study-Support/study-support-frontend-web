@@ -19,11 +19,11 @@
             <NuxtLink :to="`/my-account/groups/${group.id}#rate`"> ĐÁNH GIÁ </NuxtLink>
           </li>
           <li class="text-decoration-none d-block" @click="navigateTo('/my-account')">
-            <NuxtLink to="/my-account" class="user">
+            <a href="/my-account" class="user">
               <div class="avatar">
                 <img src="/assets/user.png" alt="" />
               </div>
-            </NuxtLink>
+            </a>
           </li>
         </ul>
       </BRow>

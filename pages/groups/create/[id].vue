@@ -245,6 +245,7 @@ const data = ref({
   self_study: 0,
   faculty_id: '',
   subject_id: '',
+  image_url: 'a',
 })
 const validationErrorMessages = ref({})
 

@@ -55,15 +55,15 @@
         <BRow class="rating">
           <BTabs pills card align="end">
             <BTab title="Bạn là mentor" active>
-              <div v-for="rating in ratings" :key="rating.name">
-                <p class="name">{{ rating.name }}</p>
-                <p class="content">{{ rating.content }}</p>
+              <div v-for="(rating, index) in ratings.mentorRatings" :key="rating.name">
+                <p class="name">{{index + 1}}. Nhóm {{ rating.group }}</p>
+                <p class="content">Đánh giá: {{ rating.comment }}</p>
               </div>
             </BTab>
             <BTab title="Bạn là member">
-              <div v-for="rating in ratings" :key="rating.name">
-                <p class="name">{{ rating.name }}</p>
-                <p class="content">{{ rating.content }}</p>
+              <div v-for="(rating, index) in ratings.userRatings" :key="rating.name">
+                <p class="name">{{index + 1}}. Nhóm {{ rating.group }}</p>
+                <p class="content">Đánh giá: {{ rating.comment }}</p>
               </div>
             </BTab>
           </BTabs>
@@ -105,7 +105,7 @@ const {
 })('/rate', { immediate: false })
 getRating().json().execute()
 getRatingResponse(() => {
-  ratings.value = dataRating.value.data
+  ratings.value = dataRating.value.data.data
 })
 </script>
 <style scoped>
@@ -148,5 +148,9 @@ h5 {
   position: fixed;
   right: 50px;
   top: 70px;
+  width: 70%;
+}
+.card-header:first-child {
+  padding-bottom: 20px;
 }
 </style>
