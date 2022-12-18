@@ -257,21 +257,28 @@ th:nth-child(1),
   width: 5%;
 }
 
-/*
 
-th:nth-child(3),
+
+/* th:nth-child(3),
 .td:nth-child(2) {
   width: 30%;
 } */
-
-.th:nth-child(4),
+th:nth-child(2),
+.td:nth-child(2) {
+  width: 17%;
+}
+th:nth-child(3),
 .td:nth-child(3) {
-  width: 10%;
+  width: 25%;
+}
+th:nth-child(4),
+.td:nth-child(4) {
+  width:25%;
 }
 
 .th:nth-child(5),
-.td:nth-child(4) {
-  width: 25%;
+.td:nth-child(5) {
+  width: 10%;
 }
 
 table {
