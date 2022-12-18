@@ -138,7 +138,7 @@
               <div v-else class="create_form">
                 <form @submit.prevent="createCv">
                   <label class="title"
-                    >1. Chọn môn học bạn muốn đăng ký học</label
+                    >1. Chọn môn học bạn muốn đăng ký</label
                   >
                   <BRow>
                     <BCol>
@@ -187,7 +187,7 @@
                     aria-describedby="input-live-help input-live-feedback"
                     placeholder="Link thành tích"
                     required
-                    class=""
+                    class="cv_link_create"
                   />
                   <BFormInvalidFeedback>
                     <ValidationErrorMessage
@@ -565,11 +565,21 @@ label {
   font-size: 15px !important;
   font-weight: 600;
 }
-
+.create_form label {
+  
+  font-weight: 500;
+  margin-top: 15px;
+  font-size: 14px;
+}
 label.title {
-  font-weight: 600;
   font-size: 16px;
   margin-top: 10px;
   color: black;
+  font-style: italic;
+}
+
+.cv_link_create {
+  margin-left: 0 !important;
+  width: 100% !important;
 }
 </style>

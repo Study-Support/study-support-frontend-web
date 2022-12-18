@@ -35,7 +35,8 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      apiBase: 'http://45.77.39.185/api/v1',
+      // apiBase: 'http://45.77.39.185/api/v1',
+      apiBase: process.env.API_BASE || '/',
     },
   },
 })

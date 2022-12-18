@@ -5,35 +5,27 @@
         <BCol class="col-auto"> </BCol>
         <ul class="col col-auto d-flex menu mb-1 mt-1">
           <li class="text-decoration-none d-block">
-            <NuxtLink to="/dashboard"> TRANG CHỦ </NuxtLink>
+            <a href="/dashboard"> TRANG CHỦ </a>
           </li>
           <li class="text-decoration-none d-block">
-            <NuxtLink :to="{
-              path: '/groups',
-              query: { type: getConfig('constants.typeOfGroup.all') },
-            }">
+            <a href="/groups?type=all">
               NHÓM HỌC
-            </NuxtLink>
+          </a>
           </li>
           <li class="text-decoration-none d-block">
-            <NuxtLink :to="{
-              path: '/groups',
-              query: {
-                type: getConfig('constants.typeOfGroup.findMentor'),
-              },
-            }">
+            <a href="/groups?type=2">
               TÌM HƯỚNG DẪN
-            </NuxtLink>
+            </a>
           </li>
           <li class="text-decoration-none d-block">
-            <NuxtLink to="/mentors"> NGƯỜI HƯỚNG DẪN </NuxtLink>
+            <a href="/mentors"> NGƯỜI HƯỚNG DẪN </a>
           </li>
           <li class="text-decoration-none d-block" @click="navigateTo('/my-account')">
-            <NuxtLink to="/my-account" class="user">
+            <a href="/my-account" class="user">
               <div class="avatar">
                 <img src="/assets/user.png" alt="" />
               </div>
-            </NuxtLink>
+            </a>
           </li>
         </ul>
       </BRow>

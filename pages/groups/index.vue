@@ -186,10 +186,10 @@ const load = () => {
 load();
 const join = (group) => {
   if (group.status === 1) {
-    navigateTo(`/groups/${group.id}/register-is-member`)
+    location.href =`/groups/${group.id}/register-is-member`
   }
   if (group.status === 2) {
-    navigateTo(`/groups/${group.id}/register-is-mentor`)
+    location.href = `/groups/${group.id}/register-is-mentor`
   }
 }
 </script>
