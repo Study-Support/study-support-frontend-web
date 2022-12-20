@@ -4,27 +4,16 @@
       <BContainer>
         <div class="notification" :class="{ notiShow: notiShow }">
           <div class="inter">
-            <button
-              :disabled="notiShow"
-              class="p-2 bell"
-              @click="notiShow = !notiShow"
-            >
+            <button :disabled="notiShow" class="p-2 bell" @click="notiShow = !notiShow">
               <BIconBellFill />
               Thông báo
             </button>
             <div class="input-group search">
-              <input
-                v-model="noti.search"
-                class="form-control border-end-0 border"
-                type="search"
-                placeholder="Nội dung"
-              />
+              <input v-model="noti.search" class="form-control border-end-0 border" type="search"
+                placeholder="Nội dung" />
               <span class="input-group-append">
-                <button
-                  class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5"
-                  type="button"
-                  @click="searchNoti"
-                >
+                <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5"
+                  type="button" @click="searchNoti">
                   <BIconSearch />
                 </button>
               </span>
@@ -32,21 +21,13 @@
             <BIconX class="close" @click="notiShow = false" />
             <div class="noti-content p-2">
               <p class="noti-mess">{{ mess }}</p>
-              <div
-                v-for="noti in notifications"
-                :key="noti.id"
-                class="noti-item mb-4"
-              >
+              <div v-for="noti in notifications" :key="noti.id" class="noti-item mb-4">
                 <p class="time">{{ noti.time }}:</p>
                 <p class="title">{{ noti.title }}</p>
                 <p class="des">{{ noti.description }}</p>
               </div>
               <div class="loader">
-                <InfiniteLoading
-                  v-if="loading"
-                  class="loading ms-auto me-auto"
-                  @infinite="load"
-                />
+                <InfiniteLoading v-if="loading" class="loading ms-auto me-auto" @infinite="load" />
               </div>
             </div>
           </div>
@@ -57,8 +38,7 @@
               <BCol class="col-auto">
                 <span class="contact">
                   Contact us on <a href="#">0 800 123 4567</a> or
-                  <a href="https://dut.udn.vn/">dut.udn.vn</a></span
-                >
+                  <a href="https://dut.udn.vn/">dut.udn.vn</a></span>
               </BCol>
               <ul v-if="dataGetMe === null" class="col col-auto d-flex login">
                 <li class="d-flex register">
@@ -78,11 +58,8 @@
                     <img src="assets/user.png" alt="" />
                   </div>
                   <!-- <a href="#" class="user">{{ user.full_name }}</a> -->
-                  <NuxtLink
-                    to="/my-account"
-                    class="user"
-                  >
-                  {{ user.full_name }}
+                  <NuxtLink to="/my-account" class="user">
+                    {{ user.full_name }}
                   </NuxtLink>
                 </div>
                 <!-- <div class="sidebar" :class="{ sidebarShow: !sidebarShow }">
@@ -108,12 +85,10 @@
                   <NuxtLink to="/dashboard"> TRANG CHỦ </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
-                  <NuxtLink
-                    :to="{
-                      path: 'groups',
-                      query: { type: getConfig('constants.typeOfGroup.all') },
-                    }"
-                  >
+                  <NuxtLink :to="{
+                    path: 'groups',
+                    query: { type: getConfig('constants.typeOfGroup.all') },
+                  }">
                     NHÓM HỌC
                   </NuxtLink>
                 </li>
@@ -128,6 +103,9 @@
                   >
                     TÌM HƯỚNG DẪN
                   </NuxtLink>
+                  <!-- <a href="/groups?type=2">
+                    TÌM HƯỚNG DẪN
+                  </a> -->
                 </li>
                 <li class="text-decoration-none d-block">
                   <NuxtLink to="/mentors"> NGƯỜI HƯỚNG DẪN </NuxtLink>
@@ -149,14 +127,12 @@
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
-                      <NuxtLink
-                        :to="{
-                          path: 'groups',
-                          query: {
-                            type: getConfig('constants.typeOfGroup.all'),
-                          },
-                        }"
-                      >
+                      <NuxtLink :to="{
+                        path: 'groups',
+                        query: {
+                          type: getConfig('constants.typeOfGroup.all'),
+                        },
+                      }">
                         NHÓM HỌC
                       </NuxtLink>
                     </li>
@@ -202,21 +178,15 @@
     <BContainer fluid class="all-groups pb-5">
       <h3 class="ms-3">Nhóm học</h3>
       <BRow class="ms-1 me-1 mb-4">
-        <BCol
-          v-for="group in topGroup"
-          :key="group.id"
-          class="col-6 col-md-3 mt-4"
-        >
+        <BCol v-for="group in topGroup" :key="group.id" class="col-6 col-md-3 mt-4">
           <GroupCard :group="group" />
         </BCol>
       </BRow>
       <div class="text-end me-1 more">
-        <NuxtLink
-          :to="{
-            path: 'groups',
-            query: { type: getConfig('constants.typeOfGroup.findMember') },
-          }"
-        >
+        <NuxtLink :to="{
+          path: 'groups',
+          query: { type: getConfig('constants.typeOfGroup.findMember') },
+        }">
           Xem thêm
           <BIconArrowRight />
         </NuxtLink>
@@ -255,26 +225,18 @@
         <BRow>
           <BCol>
             <div class="d-flex justify-content-around flex-wrap">
-              <FindMentor
-                v-for="group in topGroupFindMentor"
-                :key="group.id"
-                :group="group"
-                class="item"
-              />
+              <FindMentor v-for="group in topGroupFindMentor" :key="group.id" :group="group" class="item" />
             </div>
           </BCol>
           <BCol class="content">
             <h2>Tìm kiếm người hướng dẫn</h2>
             <div class="text-center">
-              <NuxtLink
-                :to="{
-                  path: 'groups',
-                  query: {
-                    type: getConfig('constants.typeOfGroup.findMentor'),
-                  },
-                }"
-                class="more"
-              >
+              <NuxtLink :to="{
+                path: 'groups',
+                query: {
+                  type: getConfig('constants.typeOfGroup.findMentor'),
+                },
+              }" class="more">
                 Xem thêm
               </NuxtLink>
             </div>
@@ -529,6 +491,7 @@ const scrollTop = () => {
 .menu {
   padding: 0 15px;
 }
+
 .top-dashboard h1,
 .top-dashboard h2,
 .top-dashboard h3 {
@@ -583,7 +546,7 @@ ul.login {
   padding-right: 0px;
 }
 
-ul.login li > a {
+ul.login li>a {
   background-color: #0d77a8;
   padding: 5px 15px;
   margin-right: 5px;
@@ -684,7 +647,7 @@ img.laptop {
   z-index: 1000;
 }
 
-.sticky > div {
+.sticky>div {
   margin-bottom: 0 !important;
   width: 90%;
 }
@@ -818,7 +781,7 @@ img.laptop {
   z-index: 10;
 }
 
-.mentor-item > div {
+.mentor-item>div {
   /* padding: 2px; */
 }
 
@@ -835,7 +798,7 @@ img.laptop {
   padding: 2px;
 }
 
-.mentor-item .up-right > div:first-child {
+.mentor-item .up-right>div:first-child {
   padding-bottom: 2px;
 }
 
@@ -956,7 +919,7 @@ img.laptop {
   padding-left: 20px;
 }
 
-.loading >>> div {
+.loading>>>div {
   margin: auto;
 }
 
@@ -1029,48 +992,58 @@ img.laptop {
   overflow: hidden;
   border-radius: 10px;
 }
+
 .self-study {
   margin-bottom: 150px !important;
 }
+
 .self-study img {
   width: 100%;
 }
+
 .full-intro {
   padding-top: 80px;
   padding-bottom: 80px;
 }
+
 .intro {
   width: 70%;
   margin: auto;
 }
+
 .back {
   height: 300px;
 }
+
 .footer {
   padding-top: 40px;
-    background-color: #252D41;
-    font-size: 14px;
+  background-color: #252D41;
+  font-size: 14px;
 }
+
 .footer h4 {
   position: relative;
-    margin-bottom: 30px;
-    font-size: 18px;
-    line-height: 26px;
-    color: white;
+  margin-bottom: 30px;
+  font-size: 18px;
+  line-height: 26px;
+  color: white;
 }
+
 .footer h4::after {
-    content: '';
-    background-color: #fff;
-    position: absolute;
-    bottom: -13px;
-    left: 0;
-    width: 80px;
-    height: 2px;
-  }
+  content: '';
+  background-color: #fff;
+  position: absolute;
+  bottom: -13px;
+  left: 0;
+  width: 80px;
+  height: 2px;
+}
+
 .footer p {
   margin-bottom: 10px;
   color: #fff;
 }
+
 .end-footer {
   height: 50px;
   background-color: #0e1928;
