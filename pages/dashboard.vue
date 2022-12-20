@@ -4,16 +4,27 @@
       <BContainer>
         <div class="notification" :class="{ notiShow: notiShow }">
           <div class="inter">
-            <button @click="notiShow = !notiShow" :disabled="notiShow" class="p-2 bell">
+            <button
+              :disabled="notiShow"
+              class="p-2 bell"
+              @click="notiShow = !notiShow"
+            >
               <BIconBellFill />
               Thông báo
             </button>
             <div class="input-group search">
-              <input v-model="noti.search" class="form-control border-end-0 border" type="search"
-                placeholder="Nội dung">
+              <input
+                v-model="noti.search"
+                class="form-control border-end-0 border"
+                type="search"
+                placeholder="Nội dung"
+              />
               <span class="input-group-append">
-                <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5"
-                  type="button" @click="searchNoti">
+                <button
+                  class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5"
+                  type="button"
+                  @click="searchNoti"
+                >
                   <BIconSearch />
                 </button>
               </span>
@@ -21,13 +32,21 @@
             <BIconX class="close" @click="notiShow = false" />
             <div class="noti-content p-2">
               <p class="noti-mess">{{ mess }}</p>
-              <div v-for="noti in notifications" :key="noti.id" class="noti-item mb-4">
+              <div
+                v-for="noti in notifications"
+                :key="noti.id"
+                class="noti-item mb-4"
+              >
                 <p class="time">{{ noti.time }}:</p>
                 <p class="title">{{ noti.title }}</p>
                 <p class="des">{{ noti.description }}</p>
               </div>
               <div class="loader">
-                <InfiniteLoading v-if="loading" class="loading ms-auto me-auto" @infinite="load" />
+                <InfiniteLoading
+                  v-if="loading"
+                  class="loading ms-auto me-auto"
+                  @infinite="load"
+                />
               </div>
             </div>
           </div>
@@ -36,66 +55,88 @@
           <BCol>
             <BRow class="d-flex justify-content-between mt-1">
               <BCol class="col-auto">
-                <span class="contact"> Contact us on <a href="#">0 800 123 4567</a> or <a
-                    href="https://dut.udn.vn/">dut.udn.vn</a></span>
+                <span class="contact">
+                  Contact us on <a href="#">0 800 123 4567</a> or
+                  <a href="https://dut.udn.vn/">dut.udn.vn</a></span
+                >
               </BCol>
-              <ul class="col col-auto d-flex login" v-if="dataGetMe === null">
+              <ul v-if="dataGetMe === null" class="col col-auto d-flex login">
                 <li class="d-flex register">
-                  <NuxtLink class="text-decoration-none d-block" to="/register"> Đăng ký </NuxtLink>
+                  <NuxtLink class="text-decoration-none d-block" to="/register">
+                    Đăng ký
+                  </NuxtLink>
                 </li>
                 <li class="d-flex">
-                  <NuxtLink class="text-decoration-none d-block" to="/login"> Đăng nhập </NuxtLink>
+                  <NuxtLink class="text-decoration-none d-block" to="/login">
+                    Đăng nhập
+                  </NuxtLink>
                 </li>
               </ul>
               <BCol v-else class="col-auto">
-                <div @click="sidebarShow = !sidebarShow">
+                <div @click="navigateTo('/my-account')">
                   <div class="avatar">
-                    <img src="assets/user.png" alt="">
+                    <img src="assets/user.png" alt="" />
                   </div>
-                  <a href="#" class="user">{{ user.full_name }}</a>
+                  <!-- <a href="#" class="user">{{ user.full_name }}</a> -->
+                  <NuxtLink
+                    to="/my-account"
+                    class="user"
+                  >
+                  {{ user.full_name }}
+                  </NuxtLink>
                 </div>
-                <div class="sidebar" :class="{ sidebarShow: !sidebarShow }">
+                <!-- <div class="sidebar" :class="{ sidebarShow: !sidebarShow }">
                   <button @click="sidebarShow = false">
                     <BIconX class="close" />
                   </button>
-                  <NuxtLink to="/my-account" class="mt-2 mb-4 user-infor d-block">
+                  <NuxtLink
+                    to="/my-account"
+                    class="mt-2 mb-4 user-infor d-block"
+                  >
                     <div class="user-image">
-                      <img src="assets/user.png" alt="">
+                      <img src="assets/user.png" alt="" />
                     </div>
                     Xem trang cá nhân
                   </NuxtLink>
-                </div>
+                </div> -->
               </BCol>
             </BRow>
-            <BRow class=" mt-3 d-flex justify-content-between">
-              <BCol class="col-auto">
-              </BCol>
+            <BRow class="mt-3 d-flex justify-content-between">
+              <BCol class="col-auto"> </BCol>
               <ul class="col col-auto d-flex menu mb-1 mt-1">
                 <li class="text-decoration-none d-block">
-                  <NuxtLink to="/dashboard">
-                    TRANG CHỦ
-                  </NuxtLink>
+                  <NuxtLink to="/dashboard"> TRANG CHỦ </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
-                  <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.all') } }">
+                  <NuxtLink
+                    :to="{
+                      path: 'groups',
+                      query: { type: getConfig('constants.typeOfGroup.all') },
+                    }"
+                  >
                     NHÓM HỌC
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
-                  <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.findMentor') } }">
+                  <NuxtLink
+                    :to="{
+                      path: 'groups',
+                      query: {
+                        type: getConfig('constants.typeOfGroup.findMentor'),
+                      },
+                    }"
+                  >
                     TÌM HƯỚNG DẪN
                   </NuxtLink>
                 </li>
                 <li class="text-decoration-none d-block">
-                  <NuxtLink to="/mentors">
-                    NGƯỜI HƯỚNG DẪN
-                  </NuxtLink>
+                  <NuxtLink to="/mentors"> NGƯỜI HƯỚNG DẪN </NuxtLink>
                 </li>
               </ul>
             </BRow>
             <BRow v-if="sticky">
               <BCol :class="{ sticky: sticky }">
-                <BRow class=" mt-2 mb-2 d-flex justify-content-between">
+                <BRow class="mt-2 mb-2 d-flex justify-content-between">
                   <BCol class="col-auto ps-0">
                     <a href="/dashboard">
                       <h2>Study With Us</h2>
@@ -108,19 +149,22 @@
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
-                      <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.all') } }">
+                      <NuxtLink
+                        :to="{
+                          path: 'groups',
+                          query: {
+                            type: getConfig('constants.typeOfGroup.all'),
+                          },
+                        }"
+                      >
                         NHÓM HỌC
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
-                      <NuxtLink to="/dashboard">
-                        TÌM HƯỚNG DẪN
-                      </NuxtLink>
+                      <NuxtLink to="/dashboard"> TÌM HƯỚNG DẪN </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
-                      <NuxtLink to="/dashboard">
-                        NGƯỜI HƯỚNG DẪN
-                      </NuxtLink>
+                      <NuxtLink to="/dashboard"> NGƯỜI HƯỚNG DẪN </NuxtLink>
                     </li>
                   </ul>
                 </BRow>
@@ -129,18 +173,21 @@
           </BCol>
         </BRow>
         <BRow class="pb-5 pt-2">
-          <BCol class=" header-content col-12 col-lg-6">
+          <BCol class="header-content col-12 col-lg-6">
             <BRow class="mb-4">
-              <h1 class="col slogan"> Study With Us </h1>
+              <h1 class="col slogan">Study With Us</h1>
             </BRow>
             <BRow class="mb-4">
-              <p class="col idiom col-12 col-auto"> 
-                Học… học để là chính mình, và học để từ bỏ với vẻ thanh cao những gì không phải là mình.
+              <p class="col idiom col-12 col-auto">
+                Học… học để là chính mình, và học để từ bỏ với vẻ thanh cao
+                những gì không phải là mình.
               </p>
             </BRow>
             <BRow class="">
               <BCol>
-                <button @click="scrollWin" class="let-start"> Các cách tham gia </button>
+                <button class="let-start" @click="scrollWin">
+                  Các cách tham gia
+                </button>
               </BCol>
             </BRow>
           </BCol>
@@ -149,18 +196,27 @@
     </BContainer>
     <BContainer class="full-intro">
       <!-- <div class="intro"> -->
-        <Intro />
+      <Intro />
       <!-- </div> -->
     </BContainer>
     <BContainer fluid class="all-groups pb-5">
       <h3 class="ms-3">Nhóm học</h3>
       <BRow class="ms-1 me-1 mb-4">
-        <BCol class="col-6 col-md-3 mt-4" v-for="group in topGroup" :key="group.id">
+        <BCol
+          v-for="group in topGroup"
+          :key="group.id"
+          class="col-6 col-md-3 mt-4"
+        >
           <GroupCard :group="group" />
         </BCol>
       </BRow>
       <div class="text-end me-1 more">
-        <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.findMember') } }">
+        <NuxtLink
+          :to="{
+            path: 'groups',
+            query: { type: getConfig('constants.typeOfGroup.findMember') },
+          }"
+        >
           Xem thêm
           <BIconArrowRight />
         </NuxtLink>
@@ -168,9 +224,10 @@
     </BContainer>
     <BContainer class="mentors">
       <h3 class="text-center">Người hướng dẫn</h3>
-      <p class="text-center a"> Những bạn hiện là người hướng dẫn của nhà trường</p>
-      <div class="bg">
-      </div>
+      <p class="text-center a">
+        Những bạn hiện là người hướng dẫn của nhà trường
+      </p>
+      <div class="bg"></div>
       <div class="mentor-item">
         <div class="up d-flex">
           <div class="up-left">
@@ -198,14 +255,26 @@
         <BRow>
           <BCol>
             <div class="d-flex justify-content-around flex-wrap">
-              <FindMentor v-for="group in topGroupFindMentor" :key="group.id" :group="group" class="item" />
+              <FindMentor
+                v-for="group in topGroupFindMentor"
+                :key="group.id"
+                :group="group"
+                class="item"
+              />
             </div>
           </BCol>
           <BCol class="content">
             <h2>Tìm kiếm người hướng dẫn</h2>
             <div class="text-center">
-              <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.findMentor') } }"
-                class="more">
+              <NuxtLink
+                :to="{
+                  path: 'groups',
+                  query: {
+                    type: getConfig('constants.typeOfGroup.findMentor'),
+                  },
+                }"
+                class="more"
+              >
                 Xem thêm
               </NuxtLink>
             </div>
@@ -213,18 +282,21 @@
         </BRow>
       </BContainer>
     </BContainer>
-    <BContainer class="self-study mt-5">
+    <BContainer class="self-study mt-5 mb-5">
       <BRow class="d-flex justify-content-between">
         <BCol class="col-6">
           <div class="img">
-            <img src="assets/self.jpg" alt="">
+            <img src="assets/self.jpg" alt="" />
           </div>
         </BCol>
         <BCol class="content col-5">
           <h2>Tham gia các nhóm tự học để nâng cao kiến thức</h2>
-          <p>Đây là các nhóm không có người hướng dẫn, có thể là nhóm nghiên cứu khoa học, học nhóm... tìm thành viên để
-            cùng nhau học tập, nghiên cứu.</p>
-          <ThunhuButton color="#3075a9" path="groups" type="0" ></ThunhuButton>
+          <p>
+            Đây là các nhóm không có người hướng dẫn, có thể là nhóm nghiên cứu
+            khoa học, học nhóm... tìm thành viên để cùng nhau học tập, nghiên
+            cứu.
+          </p>
+          <ThunhuButton color="#3075a9" path="groups" type="0"></ThunhuButton>
           <!-- <div class="pt-5">
             <NuxtLink :to="{ path: 'groups', query: { type: getConfig('constants.typeOfGroup.selfStudy') } }"
               class="more">
@@ -234,43 +306,75 @@
         </BCol>
       </BRow>
     </BContainer>
-    <p>ádfasdfasdf</p>
-    <p>ádfasdfasdf</p>
-    <p>ádfasdfasdf</p>
-    <p>ádfasdfasdf</p>
-    <p>ádfasdfasdf</p>
+    <BContainer fluid class="footer">
+      <BContainer>
+        <BRow class="d-flex justify-content-between">
+          <BCol class="col-auto">
+            <h4>Thông tin liên hệ</h4>
+            <p>Điện thoại: <strong>0 800 123 4567</strong></p>
+            <p>Email: hoangthithunhu28012001@gmail.com</p>
+            <p>TRƯỜNG ĐẠI HỌC BÁCH KHOA - ĐẠI HỌC ĐÀ NẴNG</p>
+          </BCol>
+          <BCol class="col-auto">
+            <h4>Thông tin</h4>
+            <p>Về chúng tôi</p>
+            <p>Về cộng đồng</p>
+          </BCol>
+          <BCol class="col-auto">
+            <h4>Nhóm học</h4>
+            <p>Đang tìm thành viên</p>
+            <p>Đang tìm mentor</p>
+            <p>Tự học</p>
+          </BCol>
+          <BCol class="col-auto">
+            <h4>Chương trình cố vấn</h4>
+            <p>Danh sách mentor</p>
+            <p>Lĩnh vực</p>
+            <p>Chủ đề</p>
+            <p>Mentor Blog</p>
+            <P>Đăng ký làm mentor</P>
+          </BCol>
+
+        </BRow>
+      </BContainer>
+    </BContainer>
+    <div class="end-footer">
+
+    </div>
   </div>
 </template>
 <script setup>
-import "@fontsource/love-ya-like-a-sister";
-import InfiniteLoading from 'v3-infinite-loading';
-import 'v3-infinite-loading/lib/style.css';
-import { BIconX, BIconPeopleFill, BIconArrowRight, BIconBellFill, BIconSearch } from 'bootstrap-icons-vue';
-import "@fontsource/quicksand";
+import '@fontsource/love-ya-like-a-sister'
+import InfiniteLoading from 'v3-infinite-loading'
+import 'v3-infinite-loading/lib/style.css'
+import {
+  BIconX,
+  BIconArrowRight,
+  BIconBellFill,
+  BIconSearch,
+} from 'bootstrap-icons-vue'
+import '@fontsource/quicksand'
 
 definePageMeta({
   layout: false,
-});
-const { token, deleteToken } = useToken();
-const { getConfig } = useConfig();
-const loading = ref(true);
-const sticky = ref(false);
-const sidebarShow = ref(false);
-const notiShow = ref(false);
-const notifications = ref([]);
-const mess = ref('');
+})
+const { getConfig } = useConfig()
+const loading = ref(true)
+const sticky = ref(false)
+const sidebarShow = ref(false)
+const notiShow = ref(false)
+const notifications = ref([])
+const mess = ref('')
 const noti = ref({
   search: '',
   page: 0,
-});
+})
 const user = ref({
   id: '',
   full_name: '',
-});
-const topGroup = ref([
-]);
-const topGroupFindMentor = ref([
-]);
+})
+const topGroup = ref([])
+const topGroupFindMentor = ref([])
 const topMentor = ref([
   {
     full_name: '',
@@ -284,7 +388,7 @@ const topMentor = ref([
     full_name: '',
     subject: '',
   },
-]);
+])
 
 // Lấy thông tin user
 const {
@@ -295,10 +399,7 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  '/user',
-  { immediate: false },
-);
+})('/user', { immediate: false })
 
 // Lấy tất cả mentor
 const {
@@ -308,10 +409,7 @@ const {
 } = useFetchApi({
   requireAuth: false,
   disableHandleErrorUnauthorized: false,
-})(
-  '/mentors',
-  { immediate: false },
-);
+})('/mentors', { immediate: false })
 
 // tạo url lấy nhóm tìm member
 const { url: url2 } = useUrl({
@@ -319,19 +417,19 @@ const { url: url2 } = useUrl({
   queryParams: {
     type: getConfig('constants.typeOfGroup.findMember'),
   },
-});
+})
 // tạo url lấy nhóm tìm mentor
 const { url: url4 } = useUrl({
   path: '/groups',
   queryParams: {
     type: getConfig('constants.typeOfGroup.findMentor'),
   },
-});
+})
 
 const { url: url3 } = useUrl({
   path: '/notifications',
   queryParams: noti.value,
-});
+})
 // Lấy tất cả thông báo
 const {
   data: dataGetNotis,
@@ -340,107 +438,101 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  url3,
-  { immediate: false },
-);
+})(url3, { immediate: false })
 
 // Lấy groups đang tìm member
 const {
   data: dataGetTopGroup,
   get: getTopGroup,
-  onFetchResponse: getTopGroupResponse
+  onFetchResponse: getTopGroupResponse,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  url2,
-  { immediate: false },
-);
-getTopGroup().json().execute();
+})(url2, { immediate: false })
+getTopGroup().json().execute()
 getTopGroupResponse(() => {
-  topGroup.value = dataGetTopGroup.value.data.data.slice(0, 4);
+  topGroup.value = dataGetTopGroup.value.data.data.slice(0, 4)
 })
 // Lấy groups đang tìm mentor
 const {
   data: dataGetGroupFindMentor,
   get: getGroupFindMentor,
-  onFetchResponse: GetGroupFindMentorResponse
+  onFetchResponse: GetGroupFindMentorResponse,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  url4,
-  { immediate: false },
-);
-getGroupFindMentor().json().execute();
+})(url4, { immediate: false })
+getGroupFindMentor().json().execute()
 GetGroupFindMentorResponse(() => {
-  topGroupFindMentor.value = dataGetGroupFindMentor.value.data.data.slice(0, 6);
+  topGroupFindMentor.value = dataGetGroupFindMentor.value.data.data.slice(0, 6)
 })
 
-getMentors().json().execute();
+getMentors().json().execute()
 getMentorsResponse(() => {
-  topMentor.value = dataGetMentors.value.data.data.slice(0, 3);
+  topMentor.value = dataGetMentors.value.data.data.slice(0, 3)
 })
 
-getMe().json().execute();
+getMe().json().execute()
 getMeResponse(() => {
-  user.value = dataGetMe.value.data;
-  getGroups().json().execute();
-});
+  user.value = dataGetMe.value.data
+  getGroups().json().execute()
+})
 getMeError(() => {
   // deleteToken();
-});
-
+})
 
 getNotisResponse(() => {
   // notifications.value = dataGetNotis.value.data.data;
   if (dataGetNotis.value.data.data.length !== 0) {
-    notifications.value = notifications.value.concat(dataGetNotis.value.data.data);
+    notifications.value = notifications.value.concat(
+      dataGetNotis.value.data.data
+    )
   }
   if (dataGetNotis.value.data.data.length < getConfig('constants.pagination')) {
-    loading.value = false;
+    loading.value = false
   }
   if (notifications.value.length === 0) {
-    mess.value = 'Không có thông báo nào!';
+    mess.value = 'Không có thông báo nào!'
   }
-});
+})
 // Lấy dữ liệu notifications theo paginate
 const load = () => {
   setTimeout(() => {
-    noti.value.page += 1;
-    getNotis().json().execute();
-  }, 100);
-};
+    noti.value.page += 1
+    getNotis().json().execute()
+  }, 100)
+}
 // nhấn search notifications
 const searchNoti = () => {
-  mess.value = '';
-  noti.value.page = 0;
-  loading.value = true;
-  notifications.value = [];
-};
+  mess.value = ''
+  noti.value.page = 0
+  loading.value = true
+  notifications.value = []
+}
 // Set sticky menu
 window.document.body.onscroll = function () {
   if (window.scrollY > 150) {
-    sticky.value = true;
+    sticky.value = true
+  } else {
+    sidebarShow.value = false
+    sticky.value = false
   }
-  else {
-    sidebarShow.value = false;
-    sticky.value = false;
-  }
-};
+}
 const scrollWin = () => {
-  window.scrollTo(0, 350);
+  window.scrollTo(0, 350)
 }
 const scrollTop = () => {
-  window.scrollTo(0, 0);
+  window.scrollTo(0, 0)
 }
 </script>
 <style scoped>
+.menu {
+  padding: 0 15px;
+}
 .top-dashboard h1,
 .top-dashboard h2,
 .top-dashboard h3 {
-  font-family: "Love Ya Like A Sister";
+  font-family: 'Love Ya Like A Sister';
 }
 
 /* .top-dashboard h2 {
@@ -462,7 +554,7 @@ h1 {
 
 .top-dashboard {
   background-color: rgb(96, 132, 141);
-  background-image: url("assets/bg1.png");
+  background-image: url('assets/bg1.png');
   background-repeat: none;
   background-size: 100%;
   /* min-height: 615px; */
@@ -476,7 +568,7 @@ h1 {
 }
 
 .top-dashboard:after {
-  content: "";
+  content: '';
   display: block;
   position: absolute;
   top: 0;
@@ -491,7 +583,7 @@ ul.login {
   padding-right: 0px;
 }
 
-ul.login li>a {
+ul.login li > a {
   background-color: #0d77a8;
   padding: 5px 15px;
   margin-right: 5px;
@@ -586,13 +678,13 @@ img.laptop {
   left: 0;
   transition: all 2s;
   box-shadow: -4px 3px 0px 0px rgb(0 0 0 / 20%);
-  background-color: #465C71;
+  background-color: #465c71;
   display: flex;
   justify-content: center;
   z-index: 1000;
 }
 
-.sticky>div {
+.sticky > div {
   margin-bottom: 0 !important;
   width: 90%;
 }
@@ -726,7 +818,7 @@ img.laptop {
   z-index: 10;
 }
 
-.mentor-item>div {
+.mentor-item > div {
   /* padding: 2px; */
 }
 
@@ -743,7 +835,7 @@ img.laptop {
   padding: 2px;
 }
 
-.mentor-item .up-right>div:first-child {
+.mentor-item .up-right > div:first-child {
   padding-bottom: 2px;
 }
 
@@ -762,14 +854,13 @@ img.laptop {
   bottom: 0;
   right: 20px;
   border-radius: 3px 3px 0 0;
-  transition: all .4s;
+  transition: all 0.4s;
   overflow: hidden;
   width: 130px;
   height: 40px;
   z-index: 10000;
   box-shadow: 0 0 7px 0 #999;
   background-color: rgb(216, 224, 231);
-
 }
 
 .notification .search {
@@ -798,7 +889,7 @@ img.laptop {
 }
 
 .notification .search button:hover svg {
-  color: rgb(7, 30, 95)
+  color: rgb(7, 30, 95);
 }
 
 .notification .noti-mess {
@@ -865,12 +956,12 @@ img.laptop {
   padding-left: 20px;
 }
 
-.loading>>>div {
+.loading >>> div {
   margin: auto;
 }
 
 .find-mentors {
-  background-image: url("assets/mentor.jpg");
+  background-image: url('assets/mentor.jpg');
   margin-top: 100px;
 }
 
@@ -899,13 +990,12 @@ img.laptop {
   border-radius: 4px;
   font-weight: 400;
   font-size: larger;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 
 .content .more:hover {
   background-color: white;
   color: rgb(56, 56, 56);
-
 }
 
 .self-study .content h2 {
@@ -939,7 +1029,9 @@ img.laptop {
   overflow: hidden;
   border-radius: 10px;
 }
-
+.self-study {
+  margin-bottom: 150px !important;
+}
 .self-study img {
   width: 100%;
 }
@@ -953,5 +1045,35 @@ img.laptop {
 }
 .back {
   height: 300px;
+}
+.footer {
+  padding-top: 40px;
+    background-color: #252D41;
+    font-size: 14px;
+}
+.footer h4 {
+  position: relative;
+    margin-bottom: 30px;
+    font-size: 18px;
+    line-height: 26px;
+    color: white;
+}
+.footer h4::after {
+    content: '';
+    background-color: #fff;
+    position: absolute;
+    bottom: -13px;
+    left: 0;
+    width: 80px;
+    height: 2px;
+  }
+.footer p {
+  margin-bottom: 10px;
+  color: #fff;
+}
+.end-footer {
+  height: 50px;
+  background-color: #0e1928;
+  width: 100%;
 }
 </style>

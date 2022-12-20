@@ -1,9 +1,7 @@
 <template>
-    <div>
-      <Header />
-      <slot />
-    </div>
-  </template>
-  <style scoped>
-  </style>
-  
+  <div>
+    <Header />
+    <slot />
+  </div>
+</template>
+<style scoped></style>

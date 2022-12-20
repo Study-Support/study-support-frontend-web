@@ -1,16 +1,23 @@
 <template>
   <BContainer fluid>
-    <BRow>
-      <BCol class="filter col-12 col-md-3 pt-3">
-        <label for="search"> Tìm kiếm tên môn học </label>
-        <div class="input-group search" id="search">
-          <input v-model="filter.a.search" class="form-control border" type="search" placeholder="Môn học">
+    <BRow class="filter">
+      <BCol class="pt-3">
+        <!-- <label for="search"> Tìm kiếm tên môn học </label> -->
+        <div id="search" class="input-group search">
+          <input
+            v-model="filter.a.search"
+            class="form-control border"
+            type="search"
+            placeholder="Tìm kiếm theo tên môn học"
+          />
         </div>
+      </BCol>
+      <BCol>
         <div class="mt-3">
-          <label for="type">Chọn loại nhóm học</label>
-          <select v-model="filter.a.type" class="form-select mt-1" id="type">
+          <!-- <label for="type">Chọn loại nhóm học</label> -->
+          <select id="type" v-model="filter.a.type" class="form-select">
             <option :value="getConfig('constants.typeOfGroup.all')">
-              Tất cả
+              Tất cả các loại nhóm
             </option>
             <option :value="getConfig('constants.typeOfGroup.findMentor')">
               Nhóm tìm người hướng dẫn
@@ -23,106 +30,110 @@
             </option>
           </select>
         </div>
+      </BCol>
+      <BCol>
         <div class="mt-3">
-          <label>Chọn khoa</label>
-          <select v-model="filter.a.faculty" class="form-select mt-1" required>
-            <option value="" disabled selected>Chọn khoa</option>
-            <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id">
+          <!-- <label>Chọn khoa</label> -->
+          <select v-model="filter.a.faculty" class="form-select" required>
+            <option value="" disabled selected>Lọc theo khoa</option>
+            <option
+              v-for="faculty in faculties"
+              :key="faculty.id"
+              :value="faculty.id"
+            >
               {{ faculty.name }}
             </option>
           </select>
         </div>
-        <SubmitButton class="mt-3" :isDisabled="isDisabledButton" :content="'Tìm kiếm'" :color="'rgb(63 88 120)'"
-          @click.prevent="search" />
       </BCol>
-      <BCol class="pt-3">
-        <BRow class="text-end">
-          <BCol class="register">
-            <button @click="navigateTo('/groups/create')">Đăng ký nhu cầu tạo nhóm</button>
-          </BCol>
-        </BRow>
-        <BRow>
-          <BCol class="result pt-2">
-            <table>
-              <tr class="title">
-                <th>STT</th>
-                <th>Khoa</th>
-                <th>Môn học</th>
-                <th>Thành viên hiện tại</th>
-                <th>Tham gia nhóm</th>
-              </tr>
-              <tr v-for="(group, index) in groupsResult" :key="group.id">
-                <td>{{ index }}</td>
-                <td>{{ group.faculty }}</td>
-                <td>{{ group.subject }}</td>
-                <td>{{ group.quantity }}</td>
-                <td>
-                  <button @click="join(group)">
-                    Tham gia
-                  </button>
-                </td>
-              </tr>
-            </table>
-            <div class="loader">
-              <InfiniteLoading v-if="loading" class="loading" @infinite="load" />
-            </div>
-          </BCol>
-        </BRow>
+      <BCol class="col-2">
+        <SubmitButton
+          class="mt-2"
+          :is-disabled="isDisabledButton"
+          :content="'Tìm kiếm'"
+          :color="'rgb(63 88 120)'"
+          @click.prevent="search"
+        />
+      </BCol>
+    </BRow>
+    <BRow class="filter-result">
+      <BCol class="result pt-3">
+        <table>
+          <tr class="title">
+            <th>STT</th>
+            <th>Khoa</th>
+            <th>Môn học</th>
+            <th>Mục đích</th>
+            <th>Thành viên hiện tại</th>
+            <th>Tham gia nhóm</th>
+          </tr>
+          <tr v-for="(group, index) in groupsResult" :key="group.id">
+            <td>{{ index }}</td>
+            <td>{{ group.faculty }}</td>
+            <td>{{ group.subject }}</td>
+            <td>{{ group.topic }}</td>
+            <td>{{ group.quantity }}</td>
+            <td>
+              <button @click="join(group)">Tham gia</button>
+            </td>
+          </tr>
+        </table>
+        <div class="loader">
+          <InfiniteLoading v-if="loading" class="loading" @infinite="load" />
+        </div>
       </BCol>
     </BRow>
   </BContainer>
 </template>
 <script setup>
-import { BIconSearch, BIconPlusSquare } from 'bootstrap-icons-vue';
-import InfiniteLoading from 'v3-infinite-loading';
-import 'v3-infinite-loading/lib/style.css';
+import InfiniteLoading from 'v3-infinite-loading'
+import 'v3-infinite-loading/lib/style.css'
 
 definePageMeta({
-  layout: 'page',
+  layout: 'group-page',
   middleware: 'authenticated',
-});
+})
 
-const route = useRoute();
-const router = useRouter();
-const { getConfig } = useConfig();
-const groupsResult = ref([]);
-const loading = ref(true);
-const isDisabledButton = ref(false);
-const filter = ref(
-  {
-    a: {
-      search: route.query.search === undefined ? '' : route.query.search,
-      faculty: route.query.faculty === undefined ? '' : route.query.faculty,
-      type: route.query.type === undefined ? '' : route.query.type,
-      page: route.query.page === undefined ? 1 : route.query.page,
-    }
-  }
-);
-const faculties = ref([]);
+const route = useRoute()
+const router = useRouter()
+const { getConfig } = useConfig()
+const groupsResult = ref([])
+const loading = ref(true)
+const isDisabledButton = ref(false)
+const filter = ref({
+  a: {
+    search: route.query.search === undefined ? '' : route.query.search,
+    faculty: route.query.faculty === undefined ? '' : route.query.faculty,
+    type: route.query.type === undefined ? '' : route.query.type,
+    page: route.query.page === undefined ? 1 : route.query.page,
+  },
+})
+const faculties = ref([])
 const { url: urlGroups } = useUrl({
   path: '/groups',
-  queryParams: filter.value.a
-});
+  queryParams: filter.value.a,
+})
 // Lấy groups theo filter
 const {
   data: dataGetFilterGroups,
   get: getFilterGroups,
   onFetchResponse: getFilterGroupsResponse,
-  onFetchError: getFilterGroupsError,
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
-})(
-  urlGroups,
-  { immediate: false },
-)
+})(urlGroups, { immediate: false })
 getFilterGroupsResponse(() => {
-  isDisabledButton.value = false;
+  isDisabledButton.value = false
   if (dataGetFilterGroups.value.data.data.length !== 0) {
-    groupsResult.value = groupsResult.value.concat(dataGetFilterGroups.value.data.data);
+    groupsResult.value = groupsResult.value.concat(
+      dataGetFilterGroups.value.data.data
+    )
   }
-  if (dataGetFilterGroups.value.data.data.length < getConfig('constants.pagination')) {
-    loading.value = false;
+  if (
+    dataGetFilterGroups.value.data.data.length <
+    getConfig('constants.pagination')
+  ) {
+    loading.value = false
   }
 })
 
@@ -133,42 +144,48 @@ const {
 } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
-})(
-  '/faculties',
-  { immediate: false },
-);
-getFaculty().json().execute();
+})('/faculties', { immediate: false })
+getFaculty().json().execute()
 getFacultyResponse(() => {
-  faculties.value = dataFaculty.value.data.data;
+  faculties.value = dataFaculty.value.data.data
 })
 
 const search = () => {
-  filter.value.a.page = 1;
+  filter.value.a.page = 1
   router.replace({
     path: '/groups',
     query: filter.value.a,
-  });
-  filter.value.a.page = 0;
-  groupsResult.value = [];
-  isDisabledButton.value = true;
+  })
+  filter.value.a.page = 0
+  groupsResult.value = []
+  isDisabledButton.value = true
+  loading.value = true
 }
 // Lấy dữ liệu groups kèm đk theo paginate
 const load = () => {
+  console.log('load')
   setTimeout(() => {
-    getFilterGroups().json().execute();
-    filter.value.a.page += 0;
-  }, 100);
-};
+    getFilterGroups().json().execute()
+    filter.value.a.page += 0
+  }, 100)
+}
 const join = (group) => {
   if (group.status === 1) {
-    navigateTo(`/groups/${group.id}/register-is-member`);
+    navigateTo(`/groups/${group.id}/register-is-member`)
   }
   if (group.status === 2) {
-    navigateTo(`/groups/${group.id}/register-is-mentor`);
+    navigateTo(`/groups/${group.id}/register-is-mentor`)
   }
 }
 </script>
 <style scoped>
+.container-fluid {
+  padding: 20px;
+  padding-bottom: 0;
+}
+.filter-result {
+  padding-top: 40px;
+}
 label {
   color: rgb(0, 0, 0);
   font-size: 14.5px;
@@ -191,17 +208,21 @@ span {
   color: rgb(220, 201, 0);
 }
 
-.filter,
-.result {
-  min-height: calc(100vh - 100px);
-}
-
 .filter {
-  background-color: #F6F8FC;
+  background-color: #bac0cc;
+  position: fixed;
+  top: 35px;
+  left: 10px;
+  width: 100%;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 15px;
 }
 
 .filter label {
   font-weight: 600;
+  font-size: 12px;
 }
 
 .filter select {
@@ -219,16 +240,12 @@ th:nth-child(1),
 .td:nth-child(1) {
   width: 5%;
 }
-
-th:nth-child(2),
-.td:nth-child(1) {
-  width: 30%;
-}
+/*
 
 th:nth-child(3),
 .td:nth-child(2) {
   width: 30%;
-}
+} */
 
 .th:nth-child(4),
 .td:nth-child(3) {
@@ -255,18 +272,19 @@ td,
 th {
   border: 1px solid #dbdada;
   text-align: left;
-  padding: 8px;
+  padding: 4px;
 }
 
 th {
   text-align: center;
   color: white;
-  background-color: #075794;
+  background-color: #4c545a;
+  padding: 10px;
 }
 
 td:nth-child(1),
-td:nth-child(4),
-td:nth-child(5) {
+td:nth-child(5),
+td:nth-child(6) {
   text-align: center;
 }
 
@@ -280,7 +298,7 @@ td:nth-child(1) {
 }
 
 tr:nth-child(even) {
-  background-color: #efefef;
+  background-color: #f4f4f4;
 }
 
 td button {
@@ -302,7 +320,7 @@ td button {
 }
 
 .search button:hover svg {
-  color: rgb(7, 30, 95)
+  color: rgb(7, 30, 95);
 }
 
 .loading :deep(div) {
