@@ -1,23 +1,23 @@
 <template>
   <div class="full">
-    <BContainer fluid>
-      <BRow class="rating">
-        <BTabs pills card align="end">
-          <BTab title="Bạn là mentor" active>
-            <div v-for="rating in ratings" :key="rating.name">
-              <p class="name">{{ rating.name }}</p>
-              <p class="content">{{ rating.content }}</p>
-            </div>
-          </BTab>
-          <BTab title="Bạn là member">
-            <div v-for="rating in ratings" :key="rating.name">
-              <p class="name">{{ rating.name }}</p>
-              <p class="content">{{ rating.content }}</p>
-            </div>
-          </BTab>
-        </BTabs>
-      </BRow>
-    </BContainer>
+    <BContainer class="col result-my-account">
+        <BRow class="rating">
+          <BTabs pills card align="end">
+            <BTab title="Bạn là mentor" active>
+              <div v-for="(rating, index) in ratings.mentorRatings" :key="rating.name">
+                <p class="name">{{index + 1}}. Nhóm {{ rating.group }}</p>
+                <p class="content">Đánh giá: {{ rating.comment }}</p>
+              </div>
+            </BTab>
+            <BTab title="Bạn là member">
+              <div v-for="(rating, index) in ratings.userRatings" :key="rating.name">
+                <p class="name">{{index + 1}}. Nhóm {{ rating.group }}</p>
+                <p class="content">Đánh giá: {{ rating.comment }}</p>
+              </div>
+            </BTab>
+          </BTabs>
+        </BRow>
+      </BContainer>
   </div>
 </template>
 
@@ -50,36 +50,41 @@ getRatingResponse(() => {
   padding: 10px;
 }
 
+h2{
+  color: black;
+  font-size: 30px;
+  padding-bottom: 20px;
+}
 h5 {
   font-size: 20px;
 }
-
 .name {
   font-weight: 600;
   margin: 0;
 }
-
 .content {
   font-size: 13px;
 }
-
-div >>> button {
+.result-my-account div>>>button {
   color: rgb(0, 0, 0);
   padding: 7px 20px !important;
   border-bottom: 2px solid #ededed !important;
   border-radius: 0 !important;
 }
-
-div >>> button.active {
+.result-my-account div>>>button.active {
   color: #465c71 !important;
   border-bottom: 2px solid #465c71 !important;
 }
-div >>> button:hover {
+.result-my-account  div>>>button:hover {
   color: #465c71 !important;
 }
 .rating {
   position: fixed;
   right: 50px;
   top: 70px;
+  width: 70%;
+}
+.card-header:first-child {
+  padding-bottom: 20px;
 }
 </style>

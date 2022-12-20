@@ -503,12 +503,18 @@ label {
   font-size: 15px !important;
   font-weight: 600;
 }
-
+.create_form label {
+  
+  font-weight: 500;
+  margin-top: 15px;
+  font-size: 14px;
+}
 label.title {
   font-weight: 600;
   font-size: 16px;
   margin-top: 10px;
   color: black;
+  font-style: italic;
 }
 .cv_link_create {
   margin-left: 0 !important;
