@@ -541,7 +541,6 @@ ul.menu li a:hover {
   color: rgb(0, 108, 240);
   transition: color 300ms linear;
 }
-
 .horizontal {
   height: 0.2em;
   width: 100%;
