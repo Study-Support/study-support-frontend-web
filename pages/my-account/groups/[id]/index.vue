@@ -141,17 +141,30 @@
   <!-- rating -->
   <BContainer v-if="route.hash === '#rate'" class="pt-5 pb-5">
     <div class="mentor-rate">
-      <h5 for="" class="pb-2">Đánh giá người hướng dẫn:</h5>
-      <p class="mb-0 member-name"> {{ group.mentorAccepted.full_name }}
-      </p>
-      <p class="faculty faculty2 ps-0">
-        Khoa {{ group.mentorAccepted.faculty }}
-      </p>
-      <label for="" class="pt-4">1. Những đánh giá, nhận xét bạn dành cho người hướng dẫn trong quá trình hướng dẫn
+      <h5 for="" class="pb-2" v-if="show_rate_mentor">Đánh giá người hướng dẫn:</h5>
+      <h5 for="" class="pb-2" v-else>Đánh giá sinh viên trong nhóm:</h5>
+      <div v-if="show_rate_mentor">
+        <p class="mb-0 member-name"> {{ group.mentorAccepted.full_name }}
+        </p>
+        <p class="faculty faculty2 ps-0">
+          Khoa {{ group.mentorAccepted.faculty }}
+        </p>
+      </div>
+      <div v-else>
+        <label for="" class="pt-4">1. Chọn sinh viên muốn đánh giá:</label>
+        <select v-model="rate.user_id" class="form-select rate-member" required>
+          <option v-for="student in group.membersAccepted" :key="student.id" :value="student.id">
+          {{ student.full_name }}
+          </option>
+        </select>
+      </div>
+      <label for="" v-if="show_rate_mentor" class="pt-4">1. Những đánh giá, nhận xét bạn dành cho người hướng dẫn trong quá trình hướng dẫn
         học</label>
+      <label for="" v-else class="pt-4">2. Những đánh giá, nhận xét bạn dành cho người sinh viên trong quá trình học tập</label>
       <BFormInput id="input-live" v-model="rate.comment" placeholder="Nhập đánh giá" trim class="mt-2" />
-      <label for="" class="pt-4">2. Số điểm bạn đánh giá người hướng dẫn</label>
-      <select v-model="rate.rating" class="form-select" required>
+      <label for="" class="pt-4" v-if="show_rate_mentor">2. Số điểm bạn đánh giá người hướng dẫn</label>
+      <label for="" class="pt-4" v-else>3. Số điểm đánh bạn giá dành cho sinh viên</label>
+      <select v-model="rate.rate" class="form-select rate-number" required>
         <option :value="0">0</option>
         <option :value="1">1</option>
         <option :value="2">2</option>
@@ -164,7 +177,7 @@
         <option :value="9">9</option>
         <option :value="10">10</option>
       </select>
-      <button class="col" @click="sendRate">
+      <button class="col send-rating" @click="sendRate">
         Gửi đánh giá
       </button>
     </div>
@@ -183,11 +196,13 @@ definePageMeta({
 })
 
 const route = useRoute()
+const { errorAlert, successAlert } = useAlert()
+const show_rate_mentor = ref(false)
 const rate = ref({
   group_id: '',
   user_id: '',
   comment: '',
-  rating: 0,
+  rate: 0,
 })
 const group = ref({
   id: '',
@@ -197,6 +212,7 @@ const group = ref({
   information: '',
   quantity: '',
   mentorAccepted: {
+    id: '',
     full_name: '',
     faculty: ''
   },
@@ -215,9 +231,22 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(`groups/${route.params.id}`, { immediate: false })
+// gửi đánh giá
+const {
+  data: dataPostRate,
+  post: postRate,
+  onFetchResponse: postRateRes,
+  onFetchError: postRateErr,
+} = useFetchApi({
+  requireAuth: true,
+  disableHandleErrorUnauthorized: false,
+})('rate', { immediate: false })
+
 getGroup().json().execute()
 getGroupRes(() => {
   group.value = dataGetGroup.value.data.group
+  rate.value.group_id = dataGetGroup.value.data.group.id;
+  getMe().json().execute()
 })
 
 
@@ -242,11 +271,22 @@ const {
   disableHandleErrorUnauthorized: false,
 })('/user', { immediate: false })
 // Lấy thông tin cá nhân
-getMe().json().execute()
+// getMe().json().execute()
 getMeResponse(() => {
   username.value = dataGetMe.value.data.full_name
+  if(dataGetMe.value.data.account_id !== group.value.mentorAccepted.id) {
+    show_rate_mentor.value = true;
+    rate.value.user_id = group.value.mentorAccepted.id;
+  }
 })
-
+postRateRes(() => {
+  successAlert('Đánh giá thành công!');
+  rate.value.comment = '';
+  rate.value.rate = 0;
+})
+postRateErr(() => {
+  errorAlert(dataPostRate.value.meta.error_message)
+})
 const sendNewMess = () => {
   if (newMess.value !== '') {
     allChat.value = []
@@ -290,7 +330,7 @@ const bb = () => {
         allChat.value.push(d.val())
       })
       // data.value.sort((a,b) => {a.time - b.time});
-      console.log(data.value)
+      // console.log(data.value)
     }
   )
 }
@@ -303,7 +343,7 @@ const repClick = (data) => {
   }
 }
 const sendRate = () => {
-
+  postRate(rate.value).json().execute();
 }
 onMounted(() => {
   bb()
@@ -504,7 +544,7 @@ label span {
 
 .full {
   background-color: #efefef;
-  min-height: 100vh;
+  min-height: 50vh;
   position: relative;
   padding-bottom: 70px !important;
 }
@@ -539,7 +579,9 @@ label span {
 .reply>div>div {
   padding: 0px;
 }
-
+.reply p {
+  font-size: 13.5px !important;
+}
 .qa .true {
   display: block;
 }
@@ -617,5 +659,22 @@ p {
 .user-image img {
   width: 100%;
   border-radius: 60px;
+}
+.send-rating {
+  border: 1px solid rgb(174, 174, 174);
+  border-radius: 3px;
+  padding: 3px 30px;
+  background-color: #dedede;
+  margin-left: auto;
+  display: block;
+  margin-top: 20px;
+}
+select.rate-number {
+  margin-top: 10px;
+  height: 35px;
+}
+select.rate-member {
+  width: 50%;
+  margin-top: 10px;
 }
 </style>

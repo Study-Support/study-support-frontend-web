@@ -23,7 +23,7 @@
             <div class="img-center">
               <div class="d-flex">
                 <div class="avatar">
-                  <img src="/assets/mentors/m1.jpg" alt="" />
+                  <img :src="`${mentorInfor.avatar_url}`" alt="" />
                 </div>
                 <div class="name">
                   <h5>{{ mentorInfor.full_name }}</h5>

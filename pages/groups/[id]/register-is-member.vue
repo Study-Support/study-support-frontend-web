@@ -111,8 +111,8 @@
                 <span>
                   Câu hỏi số {{ index + 1 }}:
                 </span>  
-                {{ questions.question }}
-                <BFormInput v-model="questions.content" aria-describedby="input-live-help input-live-feedback"
+                {{ questions.content }}
+                <BFormInput v-model="questions.answer" aria-describedby="input-live-help input-live-feedback"
                   placeholder="Câu trả lời" trim required class="" />
               </div>
             </div>

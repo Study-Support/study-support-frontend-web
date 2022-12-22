@@ -68,7 +68,7 @@
             <th>Tham gia nhóm</th>
           </tr>
           <tr v-for="(group, index) in groupsResult" :key="group.id">
-            <td>{{ index }}</td>
+            <td>{{ index + 1}}</td>
             <td>{{ group.faculty }}</td>
             <td>{{ group.subject }}</td>
             <td>{{ group.topic }}</td>
@@ -129,11 +129,11 @@ getFilterGroupsResponse(() => {
       dataGetFilterGroups.value.data.data
     )
   }
-  if (
-    dataGetFilterGroups.value.data.data.length <
-    getConfig('constants.pagination')
-  ) {
+  if (dataGetFilterGroups.value.data.data.length < getConfig('constants.pagination')) {
     loading.value = false
+  }
+  if (filter.value.a.page === 2) {
+    load();
   }
 })
 
@@ -166,7 +166,7 @@ const load = () => {
   console.log('load')
   setTimeout(() => {
     getFilterGroups().json().execute()
-    filter.value.a.page += 0
+    filter.value.a.page += 1
   }, 100)
 }
 const join = (group) => {
@@ -184,7 +184,7 @@ const join = (group) => {
   padding-bottom: 0;
 }
 .filter-result {
-  padding-top: 40px;
+  padding-top: 35px;
 }
 label {
   color: rgb(0, 0, 0);
@@ -232,7 +232,7 @@ span {
 }
 
 .result {
-  height: calc(100vh - 100px);
+  height: calc(100vh - 110px);
   overflow: auto;
 }
 

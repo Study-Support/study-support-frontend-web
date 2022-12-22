@@ -1,8 +1,8 @@
 <template>
     <NuxtLink :to="{ path: `/groups/${group.id}/register-is-member` }" class="fulls">
       <div class="image">
-        <!-- <img :src="`${group.img}`" alt="" /> -->
-        <img src="/assets/groups/g1.png" alt="" />
+        <img :src="`${group.image_url}`" alt="" />
+        <!-- <img src="/assets/groups/g1.png" alt="" /> -->
         <span v-if="group.self_study === true" class="tag">Tự học</span>
         <span v-if="group.status === 1 && showStatus" class="statusTag"
           >Tuyển thành viên</span

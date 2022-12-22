@@ -1,6 +1,6 @@
 <template>
 	<div class="mentor">
-		<img :src="`${mentor.image}`" alt="">
+		<img :src="`${mentor.avatar_url}`" alt="">
 		<div class="full"></div>
 		<div class="infor">
 			<h5 class="text-center">{{ mentor.full_name }}</h5>
