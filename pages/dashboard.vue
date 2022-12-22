@@ -207,7 +207,10 @@
           :key="group.id"
           class="col-6 col-md-3 mt-4"
         >
-          <GroupCard :group="group" />
+          <GroupCard
+            :group="group"
+            :url="`/groups/${group.id}/register-is-member`"
+            />
         </BCol>
       </BRow>
       <div class="text-end me-1 more">

@@ -8,7 +8,7 @@
       >
         <GroupCard
           :group="group"
-          @click.prevent="detail(group)"
+          :url="detail(group)"
         />
       </BCol>
     </BRow>
@@ -46,7 +46,7 @@ getgroupsIsMemberResponse(() => {
   groupsIsMember.value = dataGetgroupsIsMember.value.data.data
 })
 const detail = (group) => {
-  navigateTo(`/my-account/groups/${group.id}`)
+  return `/my-account/groups/${group.id}`
 }
 </script>
 <style scoped></style>

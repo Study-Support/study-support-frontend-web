@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink :to="{ path: `/groups/${group.id}/register-is-member` }" class="fulls">
+    <NuxtLink :to="{ path: url }" class="fulls">
       <div class="image">
         <img :src="`${group.image_url}`" alt="" />
         <!-- <img src="/assets/groups/g1.png" alt="" /> -->
@@ -29,6 +29,9 @@
     showStatus: {
       type: Boolean,
     },
+    url: {
+      type: String,
+    }
   })
   </script>
   <style scoped>

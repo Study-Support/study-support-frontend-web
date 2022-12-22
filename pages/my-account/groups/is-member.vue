@@ -9,7 +9,7 @@
         <GroupCard
           :group="group"
           :show-status="true"
-          @click.prevent="detail(group)"
+          :url="detail(group)"
         />
       </BCol>
     </BRow>
@@ -47,14 +47,17 @@ getgroupsIsMemberResponse(() => {
 })
 const detail = (group) => {
   if (group.status === 2) {
-    navigateTo(`/my-account/groups/${group.id}/waiting-mentor`)
+    return `/my-account/groups/${group.id}/waiting-mentor`
   }
   if (group.status === 1) {
-    navigateTo(`/my-account/groups/${group.id}/waiting-member`)
+    return `/my-account/groups/${group.id}/waiting-member`
   }
   if (group.status === 3) {
-    navigateTo(`/my-account/groups/${group.id}`)
+    return `/my-account/groups/${group.id}`
   }
+}
+const deta = (group) => {
+  return "adasdf"
 }
 </script>
 <style scoped></style>

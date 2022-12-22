@@ -8,7 +8,7 @@
       >
         <GroupCard
           :group="group"
-          @click="navigateTo(`/groups/${group.id}/register-is-mentor`)"
+          :url="`/groups/${group.id}/register-is-mentor`"
         />
       </BCol>
     </BRow>
