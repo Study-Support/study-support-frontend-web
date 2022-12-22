@@ -318,6 +318,7 @@ h1 {
   border-radius: 100px;
   overflow: hidden;
   position: relative;
+  border: 1px solid rgb(200, 200, 200);
 }
 
 .avatar>div {

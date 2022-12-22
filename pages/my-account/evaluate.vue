@@ -1,18 +1,28 @@
 <template>
   <div class="full">
-    <BContainer class="col result-my-account">
+    <BContainer fluid class="col result-my-account">
         <BRow class="rating">
           <BTabs pills card align="end">
-            <BTab title="Bạn là mentor" active>
+            <BTab title="Bạn là mentor" active class="tab">
+              <div v-if="ratings.mentorRatings.length === 0">
+                <p>Không có đánh giá nào!</p>
+              </div>
               <div v-for="(rating, index) in ratings.mentorRatings" :key="rating.name">
-                <p class="name">{{index + 1}}. Nhóm {{ rating.group }}</p>
-                <p class="content">Đánh giá: {{ rating.comment }}</p>
+                <p class="name">{{index + 1}}. Nhóm: {{ rating.group }}</p>
+                <p class="content">Người hướng dẫn: {{ rating.account_name }}</p>
+                <p class="content">Nhận xét: {{ rating.comment }}</p>
+                <p class="content">Đánh giá: {{ rating.rating }} điểm</p>
               </div>
             </BTab>
             <BTab title="Bạn là member">
+              <div v-if="ratings.userRatings.length === 0">
+                <p>Không có đánh giá nào!</p>
+              </div>
               <div v-for="(rating, index) in ratings.userRatings" :key="rating.name">
-                <p class="name">{{index + 1}}. Nhóm {{ rating.group }}</p>
-                <p class="content">Đánh giá: {{ rating.comment }}</p>
+                <p class="name">{{index + 1}}. Nhóm: {{ rating.group }}</p>
+                <p class="content"> <span>Người hướng dẫn:</span> {{ rating.account_name }}</p>
+                <p class="content"> <span>Nhận xét:</span> {{ rating.comment }}</p>
+                <p class="content"> <span>Đánh giá:</span> {{ rating.rating }} điểm</p>
               </div>
             </BTab>
           </BTabs>
@@ -42,14 +52,16 @@ const {
 })('/rate', { immediate: false })
 getRating().json().execute()
 getRatingResponse(() => {
-  ratings.value = dataRating.value.data
+  ratings.value = dataRating.value.data.data
 })
 </script>
 <style scoped>
 .full {
-  padding: 10px;
+  /* padding: 10px; */
 }
-
+div >>> .tab-content {
+  padding-top: 30px;
+}
 h2{
   color: black;
   font-size: 30px;
@@ -61,9 +73,21 @@ h5 {
 .name {
   font-weight: 600;
   margin: 0;
+  /* font-size: 18px; */
+  text-transform: uppercase;
 }
 .content {
   font-size: 13px;
+  padding-left: 17px;
+  font-style: italic;
+  padding-top: 5px;
+  margin-bottom: 0;
+  color:#3a5167;
+}
+.content span {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 600;
 }
 .result-my-account div>>>button {
   color: rgb(0, 0, 0);

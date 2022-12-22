@@ -3,8 +3,12 @@
     <BContainer fluid>
       <div class="rating">
         <BRow role="group">
-          <label for="">Tài khoản ngân hàng </label>
-          <BCol>
+          <label for="">
+            <span class="title_outside">
+              Tài khoản ngân hàng: 
+            </span>
+          </label>
+          <BCol class="a bank">
             <BFormTextarea
               v-model="infor.smart_banking"
               :state="
@@ -16,6 +20,7 @@
               placeholder="Thông tin ngân hàng và số tài khoản"
               trim
               required
+              class="mt-2"
             />
             <BFormInvalidFeedback>
               <ValidationErrorMessage
@@ -29,25 +34,33 @@
           </span>
         </BRow>
         <div class="accept mt-3">
-          <label for=""
-            >Môn học bạn đã được duyệt làm mentor bởi nhà trường.
-            <span
+          <label for="">
+            <span class="title_outside">
+              Các thành tích đã được duyệt:
+            </span>
+            <span  class="sub-title"
               >Bạn có thể đăng ký làm mentor cho các nhóm của môn học dưới mà
               không cần đăng ký lại và chờ duyệt thông tin thành tích môn học
               (Nhưng vẫn phải xem xét kế hoạch học tập cho nhóm mới duyệt bạn
               làm mentor cho nhóm)</span
             >
           </label>
-          <div v-for="(accept, index) in infor.accepts" :key="accept.id">
-            <p>{{ index + 1 }}. {{ accept.name }}</p>
-            <a :href="{ path: `${accept.cv_link}` }">Link thành tích</a>
+          <div class="a">
+            <div v-for="(accept, index) in infor.accepts" :key="accept.id">
+              <p>{{ index + 1 }}. {{ accept.name }}</p>
+              <a :href="`${accept.cv_link}`">Link thành tích</a>
+            </div>
           </div>
         </div>
         <div class="accept mt-3">
-          <label for=""
-            >Môn học bạn đăng ký làm mentor đang đợi duyệt bởi nhà trường.
-            <BIconPlusCircle @click.prevent="createRequest" />
-            <span>Bạn có thể sửa thông tin</span>
+          <label for="">
+            <span class="title_outside">
+              Các thành tích đang đợi duyệt:
+            </span>
+            <!-- <BIconPlusCircle @click.prevent="createRequest" /> -->
+            <span class="sub-title">Bạn có thể chỉnh sửa thông tin đăng ký hoặc <button @click.prevent="createRequest" class="button-create">
+              Đăng ký thành tích
+            </button></span>
           </label>
           <div class="update" :class="{ show: showUpdate }">
             <div role="group" class="update-infor">
@@ -55,8 +68,8 @@
                 <BIconX />
               </button>
               <h6>Thông tin của bạn làm mentor</h6>
-              <div v-if="isUpdateNotCreate" class="update_form">
-                <p for=""><span>Môn học:</span> {{ updateCv.subject }}</p>
+              <div v-if="isUpdateNotCreate" class="update-form">
+                <p for=""><span>Môn học:</span> {{ updateCv.name }}</p>
                 <p for=""><span>Khoa:</span> {{ updateCv.faculty }}</p>
                 <p for=""><span>Thành tích của môn học: </span></p>
                 <form @submit.prevent="updateCVLink">
@@ -158,15 +171,17 @@
               </div>
             </div>
           </div>
-          <div v-for="(request, index) in infor.requests" :key="request.id">
-            <p>{{ index + 1 }}.{{ request.name }}</p>
-            <a :href="{ path: `${request.cv_link}` }">Link thành tích</a>
-            <span @click.prevent="update(request)">
-              <BIconPencilSquare />
-            </span>
-            <span @click.prevent="del(request)">
-              <BIconTrash3 />
-            </span>
+          <div class="a">
+            <div v-for="(request, index) in infor.requests" :key="request.id">
+              <p>{{ index + 1 }}.{{ request.name }}</p>
+              <a :href="`${request.cv_link}`">Link thành tích</a>
+              <span @click.prevent="update(request)">
+                <BIconPencilSquare />
+              </span>
+              <span @click.prevent="del(request)">
+                <BIconTrash3 />
+              </span>
+            </div>
           </div>
         </div>
       </div>
@@ -179,7 +194,7 @@ import {
   BIconX,
   BIconPencilSquare,
   BIconPlusCircle,
-  BIconTrash3,
+  BIconTrash3
 } from 'bootstrap-icons-vue'
 const { errorAlert, successAlert } = useAlert()
 
@@ -415,8 +430,14 @@ h6 {
   font-size: 22px;
   text-align: center;
   font-weight: 600;
+  padding-top: 10px;
 }
-
+.a {
+  padding-left: 30px;
+}
+.a.bank {
+  padding-left: 10px;
+}
 .name {
   font-weight: 600;
   margin: 0;
@@ -426,19 +447,33 @@ h6 {
   font-size: 13px;
 }
 
-label span {
+.sub-title {
   display: block;
   font-size: 13px;
-  padding-bottom: 10px;
   color: rgb(87, 87, 87);
   font-weight: 100;
+  font-style: italic;
+  text-transform: none;
+  padding-bottom: 20px;
 }
 
 label {
   font-weight: 600;
-  font-size: 17px;
+  font-size: 15px;
+  padding-top: 30px;
+  text-transform: uppercase;
+  display: inline-block;
+} 
+.button-create {
+  border: none;
+  background-color: transparent;
+  text-decoration: underline;
+  color: rgb(5, 88, 8); 
+  font-size: 13px;
+  font-weight: 100;
+  font-style: italic;
+  padding-left: 0;
 }
-
 .accept > div {
   margin-bottom: 10px;
 }
@@ -446,10 +481,13 @@ label {
 .accept > div p,
 .accept a {
   margin: 0;
-  padding-left: 20px;
+  padding-left: 10px;
   font-size: 12px;
+  padding-right: 8px;
 }
-
+.accept > div p {
+  display: inline;
+}
 .accept > div p:first-child {
   padding-left: 0;
   font-size: 15px;
@@ -462,17 +500,18 @@ label {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(224, 224, 224, 0.461);
+  background-color: rgba(239, 239, 239, 0.735);
 }
 
 .update-infor {
   background-color: rgb(182 209 218);
-  width: 600px;
-  height: 300px;
-  padding: 10px;
+  width: 700px;
+  height: 350px;
+  padding: 20px;
   margin: auto;
   align-content: center;
   position: relative;
+
 }
 
 .update-infor .close {
@@ -489,9 +528,15 @@ label {
   width: 96%;
   margin-left: 7px;
 }
-
+.update-form input {
+  width: 99%;
+}
+.update-form p {
+  display: block !important;
+}
 .update.show {
   display: flex;
+  margin: 0 !important;
 }
 
 .update p {
