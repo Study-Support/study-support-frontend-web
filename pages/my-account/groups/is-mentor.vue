@@ -46,9 +46,7 @@ getgroupsIsMemberResponse(() => {
   groupsIsMember.value = dataGetgroupsIsMember.value.data.data
 })
 const detail = (group) => {
-  if (group.status === 3) {
-    navigateTo(`/my-account/groups/${group.id}`)
-  }
+  navigateTo(`/my-account/groups/${group.id}`)
 }
 </script>
 <style scoped></style>
