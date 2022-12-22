@@ -68,7 +68,7 @@
                 <BIconX />
               </button>
               <h6>Thông tin của bạn làm mentor</h6>
-              <div v-if="isUpdateNotCreate" class="update-form">
+              <div v-if="isUpdateNotCreate" class="update-form pt-3">
                 <p for=""><span>Môn học:</span> {{ updateCv.name }}</p>
                 <p for=""><span>Khoa:</span> {{ updateCv.faculty }}</p>
                 <p for=""><span>Thành tích của môn học: </span></p>
@@ -549,10 +549,11 @@ label {
   font-weight: 600;
 }
 .create_form label {
-  
   font-weight: 500;
   margin-top: 15px;
   font-size: 14px;
+  padding-top: 0;
+  text-transform: none;
 }
 label.title {
   font-weight: 600;

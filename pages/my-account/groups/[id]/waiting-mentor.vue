@@ -5,7 +5,7 @@
           <BCol class="col-auto"> </BCol>
           <ul class="col col-auto d-flex menu mb-1 mt-1">
             <li class="text-decoration-none d-block">
-              <NuxtLink to="/dashboard"> TRANG CHỦ </NuxtLink>
+              <a href="/dashboard"> TRANG CHỦ </a>
             </li>
             <li class="text-decoration-none d-block">
               <NuxtLink :to="{
