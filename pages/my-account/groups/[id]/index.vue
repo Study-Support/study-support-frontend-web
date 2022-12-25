@@ -55,7 +55,6 @@
           Khoa {{ group.mentorAccepted.faculty }}
         </p>
         <h6><span>Thành viên hiện có:</span> {{ group.quantity }} thành viên</h6>
-        <!-- <p><span>1. Thành viên hiện có:</span> {{ group.quantity }} thành viên</p> -->
         <div v-for="(member, index) in group.membersAccepted" :key="member.id" class="mt-2">
 
           <p class="mb-0 member-name">{{ index + 1 }}. {{ member.full_name }}
@@ -83,11 +82,10 @@
     </BRow>
   </BContainer>
 
-  <!-- qa -->
   <div v-if="route.hash === '#qa'">
     <div class="full p-4">
       <div>
-        <BRow v-for="data in allChat" :key="data.time" class="mb-4 pb-2">
+        <BRow v-for="data in allChat" :key="data.id" class="mb-4 pb-2">
           <BCol class="col-auto mt-2">
             <div class="user-image">
               <img src="/assets/user.png" alt="" />
@@ -96,10 +94,10 @@
           <BCol class="qa">
             <div>
               <p class="name">
-                {{ data.name }} <span>{{ data.time }}</span>
+                {{ data.name }} <span>{{ data.posted_on }}</span>
               </p>
               <p class="mess">
-                {{ data.message }}
+                {{ data.comment }}
               </p>
               <div class="reply">
                 <BRow v-for="reply in data.replies" :key="reply.id">
@@ -108,10 +106,10 @@
                   </BCol>
                   <BCol>
                     <p class="name">
-                      {{ reply.name }} <span>{{ reply.time }}</span>
+                      {{ reply.name }} <span>{{ reply.posted_on }}</span>
                     </p>
                     <p class="mess">
-                      {{ reply.message }}
+                      {{ reply.comment }}
                     </p>
                   </BCol>
                 </BRow>
@@ -138,7 +136,6 @@
       </div>
     </div>
   </div>
-  <!-- rating -->
   <BContainer v-if="route.hash === '#rate'" class="pt-5 pb-5">
     <div class="mentor-rate">
       <h5 for="" class="pb-2" v-if="show_rate_mentor">Đánh giá người hướng dẫn:</h5>
@@ -231,7 +228,6 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(`groups/${route.params.id}`, { immediate: false })
-// gửi đánh giá
 const {
   data: dataPostRate,
   post: postRate,
@@ -270,8 +266,6 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })('/user', { immediate: false })
-// Lấy thông tin cá nhân
-// getMe().json().execute()
 getMeResponse(() => {
   username.value = dataGetMe.value.data.full_name
   if(dataGetMe.value.data.account_id !== group.value.mentorAccepted.id) {
@@ -294,8 +288,9 @@ const sendNewMess = () => {
     set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${time}`), {
       id: time,
       name: username.value,
-      message: newMess.value,
-      time: new Date().toLocaleString(),
+      comment: newMess.value,
+      posted_on: new Date().toLocaleString(),
+      iduser: '3',
     })
     newMess.value = ''
   }
@@ -312,8 +307,11 @@ const sendReplyMess = (id) => {
       {
         id: time,
         name: username.value,
+        parent: 'adf',
         message: replyMess.value,
-        time: new Date().toLocaleString(),
+        iduser: 'a',
+        posted_on: new Date().toLocaleString(),
+        url: 'a',
       }
     )
     replyMess.value = ''
@@ -322,17 +320,15 @@ const sendReplyMess = (id) => {
 }
 const bb = () => {
   allChat.value = []
-  onValue(
-    firebaseRef(databaseFirebase, `groups/${route.params.id}`),
-    (data) => {
-      allChat.value = []
-      data.forEach((d) => {
-        allChat.value.push(d.val())
-      })
-      // data.value.sort((a,b) => {a.time - b.time});
-      // console.log(data.value)
-    }
-  )
+  // onValue(
+  //   firebaseRef(databaseFirebase, `groups/${route.params.id}`),
+  //   (data) => {
+  //     allChat.value = []
+  //     data.forEach((d) => {
+  //       allChat.value.push(d.val())
+  //     })
+  //   }
+  // )
 }
 const repClick = (data) => {
   replyMess.value = ''
@@ -346,7 +342,7 @@ const sendRate = () => {
   postRate(rate.value).json().execute();
 }
 onMounted(() => {
-  bb()
+  // bb()
 })
 </script>
 
@@ -505,7 +501,6 @@ h5:first-child {
   background-color: rgb(96, 139, 141);
   background-repeat: none;
   background-size: 100%;
-  /* min-height: 300px; */
   color: white;
   padding-top: 20px;
 }
@@ -523,24 +518,6 @@ label span {
   padding-bottom: 10px;
   color: rgb(87, 87, 87);
 }
-
-
-/* .quantity span {
-  font-weight: 600;
-}
-
-.quantity button {
-  border: 1px solid rgb(146, 146, 146);
-  border-radius: 4px;
-  margin-right: 10px;
-} */
-
-/* .beforeShow {
-  display: block;
-  font-size: 13px;
-  padding-bottom: 10px;
-  color: rgb(0, 0, 0);
-} */
 
 .full {
   background-color: #efefef;
