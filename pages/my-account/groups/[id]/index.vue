@@ -293,6 +293,9 @@ const sendNewMess = () => {
       iduser: '3',
     })
     newMess.value = ''
+    // const time = '1671963465011'
+    // set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${time}/comment`), newMess.value)
+    // newMess.value = ''
   }
 }
 const sendReplyMess = (id) => {
@@ -308,7 +311,7 @@ const sendReplyMess = (id) => {
         id: time,
         name: username.value,
         parent: 'adf',
-        message: replyMess.value,
+        comment: replyMess.value,
         iduser: 'a',
         posted_on: new Date().toLocaleString(),
         url: 'a',
@@ -320,15 +323,15 @@ const sendReplyMess = (id) => {
 }
 const bb = () => {
   allChat.value = []
-  // onValue(
-  //   firebaseRef(databaseFirebase, `groups/${route.params.id}`),
-  //   (data) => {
-  //     allChat.value = []
-  //     data.forEach((d) => {
-  //       allChat.value.push(d.val())
-  //     })
-  //   }
-  // )
+  onValue(
+    firebaseRef(databaseFirebase, `groups/${route.params.id}`),
+    (data) => {
+      allChat.value = []
+      data.forEach((d) => {
+        allChat.value.push(d.val())
+      })
+    }
+  )
 }
 const repClick = (data) => {
   replyMess.value = ''
@@ -342,7 +345,7 @@ const sendRate = () => {
   postRate(rate.value).json().execute();
 }
 onMounted(() => {
-  // bb()
+  bb()
 })
 </script>
 
