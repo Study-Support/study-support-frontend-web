@@ -56,8 +56,5 @@ const detail = (group) => {
     return `/my-account/groups/${group.id}`
   }
 }
-const deta = (group) => {
-  return "adasdf"
-}
 </script>
 <style scoped></style>

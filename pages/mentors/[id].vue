@@ -9,7 +9,7 @@
               <div class="number">
                 <p class="rating">
                   <BIconPeopleFill />
-                  {{ mentorInfor.group_quantity }} nhóm
+                  {{ mentorInfor.number_of_subjects }} nhóm
                 </p>
                 <p class="rating">
                   <BIconHeartFill />
@@ -40,25 +40,21 @@
             <div class="subject-infor">
               <h6>Hướng dẫn các môn học:</h6>
               <div>
-                <p
-                  v-for="(subject, index) in mentorInfor.subjects"
-                  :key="subject.id"
-                >
+                <p v-for="(subject, index) in mentorInfor.subjects" :key="subject.id">
                   {{ index + 1 }}.
                   {{ subject.name }}
                 </p>
               </div>
             </div>
-            <div class="subject-infor">
+            <div class="rating-infor">
               <h6>Đánh giá của người học:</h6>
-              <div>
-                <p
-                  v-for="(subject, index) in mentorInfor.subjects"
-                  :key="subject.id"
-                >
-                  {{ index + 1 }}.
-                  {{ subject.name }}
-                </p>
+              <div class="pt-2 pb-5">
+                <div v-for="(rating, index) in mentorInfor.ratings" :key="rating.id">
+                  <p class="name">{{ index + 1 }}. Nhóm: {{ rating.group }}</p>
+                  <p class="content">Người đánh giá: {{ rating.account_from }}</p>
+                  <p class="content">Nhận xét: {{ rating.comment }}</p>
+                  <p class="content">Đánh giá: {{ rating.rating }} điểm</p>
+                </div>
               </div>
             </div>
           </div>
@@ -73,21 +69,11 @@
           <form @submit.prevent="invite()">
             <div role="group">
               <BFormInput
-                v-model="inviteInfor.inviteLink"
-                :state="
-                  validationErrorMessages.inviteLink === undefined
-                    ? null
-                    : false
-                "
-                aria-describedby="input-live-help input-live-feedback"
-                placeholder="Link nhóm mời"
-                trim
-                required
-              />
+              v-model="inviteInfor.invite_link"
+              :state="validationErrorMessages.invite_link === undefined? null: false"
+              aria-describedby="input-live-help input-live-feedback" placeholder="Link nhóm mời" trim required />
               <BFormInvalidFeedback>
-                <ValidationErrorMessage
-                  :messages="validationErrorMessages.inviteLink"
-                />
+                <ValidationErrorMessage :messages="validationErrorMessages.invite_link" />
               </BFormInvalidFeedback>
             </div>
             <BRow class="invite-button">
@@ -111,7 +97,7 @@ const route = useRoute()
 const showInvite = ref(false)
 const { successAlert } = useAlert()
 const inviteInfor = ref({
-  inviteLink: '',
+  invite_link: '',
   mentor_id: '',
 })
 const mentorInfor = ref({
@@ -120,8 +106,9 @@ const mentorInfor = ref({
   image: '',
   faculty: '',
   subjects: [],
+  ratings: [],
   rating: '',
-  group_quantity: '',
+  number_of_subjects: '',
 })
 const validationErrorMessages = ref([])
 const {
@@ -134,13 +121,13 @@ const {
 })(`mentors/${route.params.id}`, { immediate: false })
 getMentor().json().execute()
 getMentorResponse(() => {
-  mentorInfor.value = dataMentor.value.data
+  mentorInfor.value = dataMentor.value.data.data
   inviteInfor.value.mentor_id = mentorInfor.value.id
 })
 const { post: postInvite, onFetchResponse: postInviteResponse } = useFetchApi({
   requireAuth: true,
   disableHandleErrorUnauthorized: true,
-})('/post-invite', { immediate: false })
+})('/invite-mentor', { immediate: false })
 postInviteResponse(() => {
   showInvite.value = false
   successAlert('Gửi lời mời thành công!')
@@ -148,7 +135,7 @@ postInviteResponse(() => {
 
 const invite = () => {
   postInvite(inviteInfor.value).json().execute()
-  inviteInfor.value.inviteLink = ''
+  inviteInfor.value.invite_link = ''
 }
 </script>
 <style scoped>
@@ -157,6 +144,28 @@ const invite = () => {
   padding: 13.75px;
   box-shadow: 1px 1px 5px 0 rgb(0 0 0 / 20%);
   position: relative;
+}
+
+.rating-infor .name {
+  font-weight: 600;
+  margin: 0;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+.rating-infor .content {
+  font-size: 13px;
+  padding-left: 17px;
+  font-style: italic;
+  padding-top: 5px;
+  margin-bottom: 0;
+  color: #3a5167;
+}
+
+.rating-infor .content span {
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .img {

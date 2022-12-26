@@ -132,6 +132,7 @@ getFilterGroupsResponse(() => {
   if (dataGetFilterGroups.value.data.data.length < getConfig('constants.pagination')) {
     loading.value = false
   }
+  console.log(filter.value.a.page)
   if (filter.value.a.page === 2) {
     load();
   }
@@ -156,17 +157,16 @@ const search = () => {
     path: '/groups',
     query: filter.value.a,
   })
-  filter.value.a.page = 0
   groupsResult.value = []
   isDisabledButton.value = true
-  loading.value = true
+  load();
 }
 // Lấy dữ liệu groups kèm đk theo paginate
 const load = () => {
   console.log('load')
   setTimeout(() => {
     getFilterGroups().json().execute()
-    filter.value.a.page += 1
+    filter.value.a.page += 1;
   }, 100)
 }
 const join = (group) => {

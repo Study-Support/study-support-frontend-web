@@ -9,7 +9,7 @@
               </div>
               <div v-for="(rating, index) in ratings.mentorRatings" :key="rating.name">
                 <p class="name">{{index + 1}}. Nhóm: {{ rating.group }}</p>
-                <p class="content">Người hướng dẫn: {{ rating.account_name }}</p>
+                <p class="content">Người hướng dẫn: {{ rating.account_from }}</p>
                 <p class="content">Nhận xét: {{ rating.comment }}</p>
                 <p class="content">Đánh giá: {{ rating.rating }} điểm</p>
               </div>
@@ -20,7 +20,7 @@
               </div>
               <div v-for="(rating, index) in ratings.userRatings" :key="rating.name">
                 <p class="name">{{index + 1}}. Nhóm: {{ rating.group }}</p>
-                <p class="content"> <span>Người hướng dẫn:</span> {{ rating.account_name }}</p>
+                <p class="content"> <span>Người hướng dẫn:</span> {{ rating.account_from }}</p>
                 <p class="content"> <span>Nhận xét:</span> {{ rating.comment }}</p>
                 <p class="content"> <span>Đánh giá:</span> {{ rating.rating }} điểm</p>
               </div>

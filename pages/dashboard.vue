@@ -517,7 +517,6 @@ window.document.body.onscroll = function () {
   if (window.scrollY > 150) {
     sticky.value = true
   } else {
-    sidebarShow.value = false
     sticky.value = false
   }
 }
