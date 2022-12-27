@@ -37,9 +37,9 @@
                 :key="noti.id"
                 class="noti-item mb-4"
               >
-                <p class="time">{{ noti.time }}:</p>
+                <p class="time">{{ noti.created_at.toString().slice(0,10) }}:</p>
                 <p class="title">{{ noti.title }}</p>
-                <p class="des">{{ noti.description }}</p>
+                <p class="des">{{ noti.content }}</p>
               </div>
               <div class="loader">
                 <InfiniteLoading
@@ -161,11 +161,20 @@
                       </NuxtLink>
                     </li>
                     <li class="text-decoration-none d-block">
-                      <NuxtLink to="/dashboard"> TÌM HƯỚNG DẪN </NuxtLink>
-                    </li>
-                    <li class="text-decoration-none d-block">
-                      <NuxtLink to="/dashboard"> NGƯỜI HƯỚNG DẪN </NuxtLink>
-                    </li>
+                  <NuxtLink
+                    :to="{
+                      path: 'groups',
+                      query: {
+                        type: getConfig('constants.typeOfGroup.findMentor'),
+                      },
+                    }"
+                  >
+                    TÌM HƯỚNG DẪN
+                  </NuxtLink>
+                </li>
+                <li class="text-decoration-none d-block">
+                  <NuxtLink to="/mentors"> NGƯỜI HƯỚNG DẪN </NuxtLink>
+                </li>
                   </ul>
                 </BRow>
               </BCol>

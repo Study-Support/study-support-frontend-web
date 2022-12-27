@@ -45,7 +45,7 @@ const {
   {immediate: false},
 );
 onFetchResponse(() => {
-  $toast('Đăng xuất thành công','success', 1500);
+  $toast('Đăng xuất thành công','success', 1000);
   deleteToken();
   return navigateTo({name: 'dashboard'});
 });

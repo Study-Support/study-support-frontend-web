@@ -294,16 +294,17 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(224, 224, 224, 0.461);
+  background-color: rgba(0, 0, 0, 0.4);
   z-index: 1000;
 }
 
 .update-infor {
-  background-color: rgb(182 209 218);
+  background-color: rgb(255, 255, 255);
   width: 400px;
   padding: 10px;
   padding-top: 30px;
   margin: auto;
+  border-radius: 0.3125em;
   align-content: center;
   position: relative;
   border-radius: 5px;

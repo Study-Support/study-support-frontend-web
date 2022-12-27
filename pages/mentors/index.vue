@@ -17,7 +17,7 @@
               <BCol>
                 <div class="input-group search">
                   <input
-                    v-model="filter.a.search"
+                    v-model="filter.a.full_name"
                     class="form-control border-end-0 border"
                     type="search"
                     placeholder="Tìm kiếm theo tên"
@@ -126,7 +126,7 @@ const { getConfig } = useConfig()
 
 const filter = ref({
   a: {
-    search: route.query.search === undefined ? '' : route.query.search,
+    full_name: route.query.full_name === undefined ? '' : route.query.full_name,
     faculty_id: route.query.faculty === undefined ? '' : route.query.faculty,
     subject_id:
       route.query.subject_id === undefined ? '' : route.query.subject_id,
@@ -197,6 +197,7 @@ const submit = () => {
   })
   MentorsResult.value = []
   isDisabledButton.value = true
+  getFilterMentors().json().execute()
 }
 
 getFaculty().json().execute()
@@ -204,7 +205,7 @@ getFacultyResponse(() => {
   faculties.value = dataFaculty.value.data.data
 })
 getSubjectResponse(() => {
-  subjects.value = dataSubject.value.data.data
+  subjects.value = dataSubject.value.data
 })
 watch(faculty.value, () => {
   getSubject().json().execute()

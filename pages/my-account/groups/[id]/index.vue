@@ -29,7 +29,7 @@
 
       <BRow>
         <BCol :class="{ sticky: sticky }" class="sticky-fix">
-          <BRow class="mt-2 mb-2 d-flex justify-content-between">
+          <BRow class="mt-1 mb-1 d-flex justify-content-between sticky-fix-first">
             <BCol class="col-auto ps-0">
               <a href="/dashboard">
 
@@ -118,6 +118,20 @@
   </BContainer>
 
   <div v-if="route.hash === '#qa'" id="messagesContainer">
+    <!-- sửa tin nhắn -->
+    <div class="update" :class="{ show: showEditMessFrom.value }">
+        <div class="update-infor">
+          <button class="close" @click="showEditMessFrom.value = false">
+            <BIconX />
+          </button>
+          <form @submit.prevent="editMessSend()">
+            <BFormInput id="input-live" v-model="messEdit.comment" placeholder="Nhập tin nhắn" trim class="mt-2 col" />
+            <BRow class="invite-button">
+              <button type="submit">Chỉnh sửa</button>
+            </BRow>
+          </form>
+        </div>
+      </div>
     <div class="full p-4">
       <div>
         <BRow v-for="data in allChat" :key="data.id" class="mb-4 pb-2">
@@ -127,12 +141,13 @@
             </div>
           </BCol>
           <BCol class="qa">
-            <div>
+            <div class="comment_parent">
+              <Dropdown :data="data" v-if="data.iduser === user.id" :groupId="`${route.params.id}`" :messEdit="messEdit" :showEditMessFrom="showEditMessFrom"/>
               <p class="name">
                 {{ data.name }} <span>{{ data.posted_on }}</span>
               </p>
               <p class="mess">
-                {{ data.comment }} <span @click="editComment(data)">sửa</span>
+                {{ data.comment }}
               </p>
               <div class="reply">
                 <BRow v-for="reply in data.replies" :key="reply.id">
@@ -191,6 +206,7 @@
       <div v-else>
         <label for="" class="pt-4">1. Chọn sinh viên muốn đánh giá:</label>
         <select v-model="rate.user_id" class="form-select rate-member" required>
+          <option value="" disabled selected>Chọn sinh viên</option>
           <option v-for="student in group.membersAccepted" :key="student.id" :value="student.id">
             {{ student.full_name }}
           </option>
@@ -229,7 +245,8 @@
         </div>
       </div>
       <div class="show-rated" v-else>
-        <div v-for="(rating) in group.ratings" :key="rating.id">
+        <h6 class="pb-3 pt-3">Những đánh giá đã thực hiện:</h6>
+        <div v-for="(rating) in group.ratings" :key="rating.id" class="pb-3">
           <div v-if="rating.account_id === user.id">
             <p class="name"><BIconDot /> Sinh viên: {{ rating.account_to }}</p>
             <p class="content">Nhận xét: {{ rating.comment }}</p>
@@ -247,16 +264,20 @@ import {
   BIconArrowReturnRight,
   BIconSend,
   BIconTrash,
-  BIconDot
+  BIconDot,
+  BIconX
 } from 'bootstrap-icons-vue'
 definePageMeta({
   layout: false,
   middleware: 'authenticated',
 })
-
+const {$toast} = useNuxtApp();
 const route = useRoute()
 const { errorAlert, successAlert } = useAlert()
 let sticky = ref(false)
+const showEditMessFrom = ref({
+  value: false
+})
 const show_rate_mentor = ref(false)
 const rate = ref({
   group_id: '',
@@ -292,6 +313,10 @@ const newMess = ref('')
 const replyMess = ref('')
 const showReplyMess = ref(1)
 const allChat = ref([])
+const messEdit = ref({
+  comment: '',
+  id: '',
+})
 const {
   database: databaseFirebase,
   ref: firebaseRef,
@@ -334,7 +359,7 @@ const {
 getMeResponse(() => {
   user.value.username = dataGetMe.value.data.full_name;
   user.value.id = dataGetMe.value.data.id;
-  if (dataGetMe.value.data.account_id !== group.value.mentorAccepted.id) {
+  if (dataGetMe.value.data.id !== group.value.mentorAccepted.id) {
     show_rate_mentor.value = true;
     rate.value.user_id = group.value.mentorAccepted.id;
   }
@@ -366,10 +391,6 @@ const sendNewMess = () => {
     })
     newMess.value = ''
     crollEnd();
-    // ${new Date().getHours}:${new Date().getMinutes} ${new Date().getDate()}/${new Date().getMonth}/${new Date().getFullYear} `
-    // const time = '1671963465011'
-    // set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${time}/comment`), newMess.value)
-    // newMess.value = ''
   }
 }
 const sendReplyMess = (id) => {
@@ -439,6 +460,19 @@ window.document.body.onscroll = function () {
 onMounted(() => {
   bb()
 })
+const editComment = (data) => {
+  showEditMessFrom.value.value = true;
+  messEdit.value.comment = data.comment;
+  messEdit.value.id = data.id;
+  console.log(messEdit.value)
+}
+const editMessSend = () => {
+  // ${new Date().getHours}:${new Date().getMinutes} ${new Date().getDate()}/${new Date().getMonth}/${new Date().getFullYear} `
+    
+    set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${messEdit.value.id}/comment`), messEdit.value.comment)
+    showEditMessFrom.value.value = false;
+    $toast('Chỉnh sửa thành công', 'success', 1500)
+}
 </script>
 
 <style scoped>
@@ -455,6 +489,9 @@ label {
   /* height: 0; */
   display: none;
 
+}
+.sticky-fix-first {
+  height: 46px;
 }
 .show-rated svg {
   font-size: 20px;
@@ -762,7 +799,9 @@ button {
 p {
   margin-bottom: 0 !important;
 }
-
+.comment_parent {
+  position: relative;
+}
 .newMess {
   position: fixed;
   bottom: 0;
@@ -822,4 +861,72 @@ select.rate-member {
   width: 50%;
   margin-top: 10px;
 }
+.update {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+.update-infor {
+  background-color: rgb(255, 255, 255);
+  width: 400px;
+  padding: 10px;
+  padding-top: 30px;
+  margin: auto;
+  border-radius: 0.3125em;
+  align-content: center;
+  position: relative;
+  border-radius: 5px;
+}
+
+.update-infor .close {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: transparent;
+  border: none;
+}
+
+.update-infor .close svg {
+  color: black;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.update-infor input {
+  width: 96%;
+  margin-left: 7px;
+}
+
+.update.show {
+  display: flex;
+}
+
+.update p {
+  padding-left: 2px !important;
+  margin: 5px !important;
+}
+
+.update p span {
+  font-size: 15px !important;
+  font-weight: 600;
+}
+.invite-button {
+  margin: auto !important;
+}
+
+.invite-button button {
+  display: inline-block;
+  width: 120px;
+  margin-left: auto !important;
+  border: none;
+  background-color: transparent;
+  margin-top: 20px;
+  text-decoration: underline;
+}
+
 </style>

@@ -5,27 +5,18 @@
         <BRow role="group">
           <label for="">
             <span class="title_outside">
-              Tài khoản ngân hàng: 
+              Tài khoản ngân hàng:
             </span>
           </label>
           <BCol class="a bank">
-            <BFormTextarea
-              v-model="infor.smart_banking"
-              :state="
-                validationErrorMessages.smart_banking === undefined
-                  ? null
-                  : false
-              "
-              aria-describedby="input-live-help input-live-feedback"
-              placeholder="Thông tin ngân hàng và số tài khoản"
-              trim
-              required
-              class="mt-2"
-            />
+            <BFormTextarea v-model="infor.smart_banking" :state="
+  validationErrorMessages.smart_banking === undefined
+    ? null
+    : false
+" aria-describedby="input-live-help input-live-feedback" placeholder="Thông tin ngân hàng và số tài khoản" trim
+              required class="mt-2" />
             <BFormInvalidFeedback>
-              <ValidationErrorMessage
-                :messages="validationErrorMessages.smart_banking"
-              />
+              <ValidationErrorMessage :messages="validationErrorMessages.smart_banking" />
             </BFormInvalidFeedback>
           </BCol>
 
@@ -38,12 +29,10 @@
             <span class="title_outside">
               Các thành tích đã được duyệt:
             </span>
-            <span  class="sub-title"
-              >Bạn có thể đăng ký làm mentor cho các nhóm của môn học dưới mà
+            <span class="sub-title">Bạn có thể đăng ký làm mentor cho các nhóm của môn học dưới mà
               không cần đăng ký lại và chờ duyệt thông tin thành tích môn học
               (Nhưng vẫn phải xem xét kế hoạch học tập cho nhóm mới duyệt bạn
-              làm mentor cho nhóm)</span
-            >
+              làm mentor cho nhóm)</span>
           </label>
           <div class="a">
             <div v-for="(accept, index) in infor.accepts" :key="accept.id">
@@ -58,9 +47,10 @@
               Các thành tích đang đợi duyệt:
             </span>
             <!-- <BIconPlusCircle @click.prevent="createRequest" /> -->
-            <span class="sub-title">Bạn có thể chỉnh sửa thông tin đăng ký hoặc <button @click.prevent="createRequest" class="button-create">
-              Đăng ký thành tích
-            </button></span>
+            <span class="sub-title">Bạn có thể chỉnh sửa thông tin đăng ký hoặc <button @click.prevent="createRequest"
+                class="button-create">
+                Đăng ký thành tích
+              </button></span>
           </label>
           <div class="update" :class="{ show: showUpdate }">
             <div role="group" class="update-infor">
@@ -70,102 +60,58 @@
               <h6>Thông tin của bạn làm mentor</h6>
               <div v-if="isUpdateNotCreate" class="update-form pt-3">
                 <p for=""><span>Môn học:</span> {{ updateCv.name }}</p>
-                <p for=""><span>Khoa:</span> {{ updateCv.faculty }}</p>
                 <p for=""><span>Thành tích của môn học: </span></p>
                 <form @submit.prevent="updateCVLink">
-                  <BFormInput
-                    v-model="updateCv.cv_link"
-                    :state="
-                      validationErrorMessages.cv_link === undefined
-                        ? null
-                        : false
-                    "
-                    aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Link thành tích"
-                    required
-                    class=""
-                  />
+                  <BFormInput v-model="updateCv.cv_link" :state="
+  validationErrorMessages.cv_link === undefined
+    ? null
+    : false
+" aria-describedby="input-live-help input-live-feedback" placeholder="Link thành tích" required class="" />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage
-                      :messages="validationErrorMessages.cv_link"
-                    />
+                    <ValidationErrorMessage :messages="validationErrorMessages.cv_link" />
                   </BFormInvalidFeedback>
                   <BRow class="text-end">
-                    <SubmitButton
-                      class="col col-4 mt-3 ms-auto submit-button"
-                      :is-disabled="isDisabledButton"
-                      :content="'Chỉnh sửa'"
-                      :color="'rgb(70 83 105)'"
-                    />
+                    <SubmitButton class="col col-4 mt-3 ms-auto submit-button" :is-disabled="isDisabledButton"
+                      :content="'Chỉnh sửa'" :color="'rgb(70 83 105)'" />
                   </BRow>
                 </form>
               </div>
               <div v-else class="create_form">
                 <form @submit.prevent="createCv">
-                  <label class="title"
-                    >1. Chọn môn học bạn muốn đăng ký học</label
-                  >
+                  <label class="title">1. Chọn môn học bạn muốn đăng ký học</label>
                   <BRow>
                     <BCol>
                       <label for="">Chọn khoa</label>
-                      <select
-                        v-model="faculty.faculty_id"
-                        class="form-select col"
-                        required
-                      >
+                      <select v-model="faculty.faculty_id" class="form-select col" required>
                         <option value="" disabled selected>Khoa của bạn</option>
-                        <option
-                          v-for="faculty in faculties"
-                          :key="faculty.id"
-                          :value="faculty.id"
-                        >
+                        <option v-for="faculty in faculties" :key="faculty.id" :value="faculty.id">
                           {{ faculty.name }}
                         </option>
                       </select>
                     </BCol>
                     <BCol>
                       <label for="">Chọn môn học</label>
-                      <select
-                        v-model="infor.subject_id"
-                        class="form-select col"
-                        required
-                      >
+                      <select v-model="infor.subject_id" class="form-select col" required>
                         <option value="" disabled selected>Chọn môn học</option>
-                        <option
-                          v-for="subject in subjects"
-                          :key="subject.id"
-                          :value="subject.id"
-                        >
+                        <option v-for="subject in subjects" :key="subject.id" :value="subject.id">
                           {{ subject.name }}
                         </option>
                       </select>
                     </BCol>
                   </BRow>
                   <label for="">Link thành tích</label>
-                  <BFormInput
-                    v-model="infor.cv_link"
-                    :state="
-                      validationErrorMessages.cv_link === undefined
-                        ? null
-                        : false
-                    "
-                    aria-describedby="input-live-help input-live-feedback"
-                    placeholder="Link thành tích"
-                    required
-                    class="cv_link_create"
-                  />
+                  <BFormInput v-model="infor.cv_link" :state="
+  validationErrorMessages.cv_link === undefined
+    ? null
+    : false
+" aria-describedby="input-live-help input-live-feedback" placeholder="Link thành tích" required
+                    class="cv_link_create" />
                   <BFormInvalidFeedback>
-                    <ValidationErrorMessage
-                      :messages="validationErrorMessages.cv_link"
-                    />
+                    <ValidationErrorMessage :messages="validationErrorMessages.cv_link" />
                   </BFormInvalidFeedback>
                   <BRow class="text-end">
-                    <SubmitButton
-                      class="col col-4 mt-3 ms-auto submit-button"
-                      :is-disabled="isDisabledButton"
-                      :content="'Tạo đăng ký'"
-                      :color="'rgb(70 83 105)'"
-                    />
+                    <SubmitButton class="col col-4 mt-3 ms-auto submit-button" :is-disabled="isDisabledButton"
+                      :content="'Tạo đăng ký'" :color="'rgb(70 83 105)'" />
                   </BRow>
                 </form>
               </div>
@@ -223,7 +169,7 @@ const updateCv = ref({
   faculty: 'Công nghệ thông tin',
   cv_link: '',
 })
-
+let cv_link_id = ref([0])
 const faculty = ref({
   faculty_id: '',
 })
@@ -251,15 +197,9 @@ const {
   disableHandleErrorUnauthorized: false,
 })('/mentor/subjects', { immediate: false })
 // del cv_link
-const {
-  data: dataDelCVLink,
-  delete: delCVLink,
-  onFetchResponse: delCVLinkResponse,
-  onFetchError: delCVLinkError,
-} = useFetchApi({
-  requireAuth: true,
-  disableHandleErrorUnauthorized: false,
-})('/mentor/subjects', { immediate: false })
+// tạo url
+
+
 // Create cv
 const {
   data: dataPostCV,
@@ -326,13 +266,6 @@ putCVLinkError(() => {
   isDisabledButton.value = false
   errorAlert(dataPutCVLink.value.meta.error_message)
 })
-delCVLinkResponse(() => {
-  successAlert('Xóa đăng ký thành công')
-  getMentorInfor().json().execute()
-})
-delCVLinkError(() => {
-  errorAlert(dataDelCVLink.value.meta.error_message)
-})
 postCVResponse(() => {
   isDisabledButton.value = false
   showUpdate.value = false
@@ -386,11 +319,27 @@ const del = (a) => {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        delCVLink({
-          cv_link_id: a.id,
+        cv_link_id.value[0] = a.subject_id;
+        const { url: urldel } = useUrl({
+          path: `/mentor/${cv_link_id.value[0]}`,
         })
-          .json()
-          .execute()
+        const {
+          data: dataDelCVLink,
+          delete: delCVLink,
+          onFetchResponse: delCVLinkResponse,
+          onFetchError: delCVLinkError,
+        } = useFetchApi({
+          requireAuth: true,
+          disableHandleErrorUnauthorized: false,
+        })(urldel, { immediate: false })
+        delCVLinkResponse(() => {
+          successAlert('Xóa đăng ký thành công')
+          getMentorInfor().json().execute()
+        })
+        delCVLinkError(() => {
+          errorAlert(dataDelCVLink.value.meta.error_message)
+        })
+        delCVLink().json().execute()
       }
     })
 }
@@ -432,12 +381,15 @@ h6 {
   font-weight: 600;
   padding-top: 10px;
 }
+
 .a {
   padding-left: 30px;
 }
+
 .a.bank {
   padding-left: 10px;
 }
+
 .name {
   font-weight: 600;
   margin: 0;
@@ -463,32 +415,36 @@ label {
   padding-top: 30px;
   text-transform: uppercase;
   display: inline-block;
-} 
+}
+
 .button-create {
   border: none;
   background-color: transparent;
   text-decoration: underline;
-  color: rgb(5, 88, 8); 
+  color: rgb(5, 88, 8);
   font-size: 13px;
   font-weight: 100;
   font-style: italic;
   padding-left: 0;
 }
-.accept > div {
+
+.accept>div {
   margin-bottom: 10px;
 }
 
-.accept > div p,
+.accept>div p,
 .accept a {
   margin: 0;
   padding-left: 10px;
   font-size: 12px;
   padding-right: 8px;
 }
-.accept > div p {
+
+.accept>div p {
   display: inline;
 }
-.accept > div p:first-child {
+
+.accept>div p:first-child {
   padding-left: 0;
   font-size: 15px;
 }
@@ -500,14 +456,16 @@ label {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(239, 239, 239, 0.735);
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100;
 }
 
 .update-infor {
-  background-color: rgb(182 209 218);
+  background-color: rgb(255, 255, 255);
   width: 700px;
   height: 350px;
   padding: 20px;
+  border-radius: 0.3125em;
   margin: auto;
   align-content: center;
   position: relative;
@@ -528,12 +486,15 @@ label {
   width: 96%;
   margin-left: 7px;
 }
+
 .update-form input {
   width: 99%;
 }
+
 .update-form p {
   display: block !important;
 }
+
 .update.show {
   display: flex;
   margin: 0 !important;
@@ -548,6 +509,7 @@ label {
   font-size: 15px !important;
   font-weight: 600;
 }
+
 .create_form label {
   font-weight: 500;
   margin-top: 15px;
@@ -555,6 +517,7 @@ label {
   padding-top: 0;
   text-transform: none;
 }
+
 label.title {
   font-weight: 600;
   font-size: 16px;
@@ -562,6 +525,7 @@ label.title {
   color: black;
   font-style: italic;
 }
+
 .cv_link_create {
   margin-left: 0 !important;
   width: 100% !important;
