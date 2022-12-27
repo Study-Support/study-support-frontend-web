@@ -133,9 +133,9 @@
             </BCol>
           </BRow>
           <BRow class="d-flex justify-content-end mb-3">
-            <SubmitButton :is-disabled="isDisabledButton" :content="'Update'" :color="'rgb(64 97 128)'"
+            <SubmitButton :is-disabled="isDisabledButton" :content="'Chỉnh sửa'" :color="'rgb(64 97 128)'"
               class="col-6 col-lg-2 pe-0" />
-            <SubmitButton :is-disabled="isDisabledButton" :content="'Change password'" :color="'rgb(64 97 128)'"
+            <SubmitButton :is-disabled="isDisabledButton" :content="'Đổi mật khẩu'" :color="'rgb(64 97 128)'"
               class="col-6 col-lg-3" @click.prevent="showChangePass = true" />
           </BRow>
         </form>
