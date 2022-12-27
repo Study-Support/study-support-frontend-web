@@ -120,18 +120,18 @@
   <div v-if="route.hash === '#qa'" id="messagesContainer">
     <!-- sửa tin nhắn -->
     <div class="update" :class="{ show: showEditMessFrom.value }">
-        <div class="update-infor">
-          <button class="close" @click="showEditMessFrom.value = false">
-            <BIconX />
-          </button>
-          <form @submit.prevent="editMessSend()">
-            <BFormInput id="input-live" v-model="messEdit.comment" placeholder="Nhập tin nhắn" trim class="mt-2 col" />
-            <BRow class="invite-button">
-              <button type="submit">Chỉnh sửa</button>
-            </BRow>
-          </form>
-        </div>
+      <div class="update-infor">
+        <button class="close" @click="showEditMessFrom.value = false">
+          <BIconX />
+        </button>
+        <form @submit.prevent="editMessSend()">
+          <BFormInput id="input-live" v-model="messEdit.comment" placeholder="Nhập tin nhắn" trim class="mt-2 col" />
+          <BRow class="invite-button">
+            <button type="submit">Chỉnh sửa</button>
+          </BRow>
+        </form>
       </div>
+    </div>
     <div class="full p-4">
       <div>
         <BRow v-for="data in allChat" :key="data.id" class="mb-4 pb-2">
@@ -142,7 +142,8 @@
           </BCol>
           <BCol class="qa">
             <div class="comment_parent">
-              <Dropdown :data="data" v-if="data.iduser === user.id" :groupId="`${route.params.id}`" :messEdit="messEdit" :showEditMessFrom="showEditMessFrom"/>
+              <Dropdown :data="data" v-if="data.iduser === user.id" :groupId="`${route.params.id}`" :messEdit="messEdit"
+                :showEditMessFrom="showEditMessFrom" :isReply="0" />
               <p class="name">
                 {{ data.name }} <span>{{ data.posted_on }}</span>
               </p>
@@ -150,7 +151,9 @@
                 {{ data.comment }}
               </p>
               <div class="reply">
-                <BRow v-for="reply in data.replies" :key="reply.id">
+                <BRow v-for="reply in data.replies" :key="reply.id" class="comment_parent">
+                  <Dropdown :data="reply" v-if="reply.iduser === user.id" :groupId="`${route.params.id}`"
+                    :messEdit="messEdit" :showEditMessFrom="showEditMessFrom" :isReply="1" />
                   <BCol class="col-auto">
                     <BIconArrowReturnRight />
                   </BCol>
@@ -239,7 +242,9 @@
       <div class="show-rated" v-if="show_rate_mentor">
         <div v-for="(rating) in group.ratings" :key="rating.id">
           <div v-if="rating.account_id === user.id">
-            <p class="name"><BIconDot /> Nhận xét: {{ rating.comment }}</p>
+            <p class="name">
+              <BIconDot /> Nhận xét: {{ rating.comment }}
+            </p>
             <p class="content">Đánh giá: {{ rating.rating }} điểm</p>
           </div>
         </div>
@@ -248,13 +253,15 @@
         <h6 class="pb-3 pt-3">Những đánh giá đã thực hiện:</h6>
         <div v-for="(rating) in group.ratings" :key="rating.id" class="pb-3">
           <div v-if="rating.account_id === user.id">
-            <p class="name"><BIconDot /> Sinh viên: {{ rating.account_to }}</p>
+            <p class="name">
+              <BIconDot /> Sinh viên: {{ rating.account_to }}
+            </p>
             <p class="content">Nhận xét: {{ rating.comment }}</p>
             <p class="content">Đánh giá: {{ rating.rating }} điểm</p>
           </div>
         </div>
       </div>
-    </div>  
+    </div>
   </BContainer>
 </template>
 
@@ -271,7 +278,7 @@ definePageMeta({
   layout: false,
   middleware: 'authenticated',
 })
-const {$toast} = useNuxtApp();
+const { $toast } = useNuxtApp();
 const route = useRoute()
 const { errorAlert, successAlert } = useAlert()
 let sticky = ref(false)
@@ -316,6 +323,8 @@ const allChat = ref([])
 const messEdit = ref({
   comment: '',
   id: '',
+  isReply: '',
+  id_child: '',
 })
 const {
   database: databaseFirebase,
@@ -464,14 +473,15 @@ const editComment = (data) => {
   showEditMessFrom.value.value = true;
   messEdit.value.comment = data.comment;
   messEdit.value.id = data.id;
-  console.log(messEdit.value)
 }
 const editMessSend = () => {
-  // ${new Date().getHours}:${new Date().getMinutes} ${new Date().getDate()}/${new Date().getMonth}/${new Date().getFullYear} `
-    
+  if (messEdit.value.isReply === 1) {
+    set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${messEdit.value.id}/replies/${messEdit.value.id_child}/comment`), messEdit.value.comment)
+  } else {
     set(firebaseRef(databaseFirebase, `groups/${route.params.id}/${messEdit.value.id}/comment`), messEdit.value.comment)
-    showEditMessFrom.value.value = false;
-    $toast('Chỉnh sửa thành công', 'success', 1500)
+  }
+  showEditMessFrom.value.value = false;
+  $toast('Chỉnh sửa thành công', 'success', 1500)
 }
 </script>
 
@@ -490,13 +500,16 @@ label {
   display: none;
 
 }
+
 .sticky-fix-first {
   height: 46px;
 }
+
 .show-rated svg {
   font-size: 20px;
 }
-.show-rated .content{
+
+.show-rated .content {
   font-size: 13px;
   padding-left: 22px;
   font-style: italic;
@@ -504,11 +517,13 @@ label {
   margin-bottom: 0;
   color: #3a5167;
 }
+
 .show-rated .name {
   margin: 0;
   font-size: 14px;
   text-transform: uppercase;
 }
+
 .sticky {
   position: fixed !important;
   top: 0;
@@ -734,6 +749,10 @@ label span {
   padding-top: 0px;
 }
 
+.reply .comment_parent {
+  margin-right: 0;
+}
+
 .reply>div>div:first-child {
   padding-top: 5px;
 }
@@ -785,7 +804,7 @@ button {
 
 .qa .name span,
 .qa .arrow-reply {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 200;
   color: rgb(93, 93, 93);
   padding-left: 10px;
@@ -799,9 +818,11 @@ button {
 p {
   margin-bottom: 0 !important;
 }
+
 .comment_parent {
   position: relative;
 }
+
 .newMess {
   position: fixed;
   bottom: 0;
@@ -861,6 +882,7 @@ select.rate-member {
   width: 50%;
   margin-top: 10px;
 }
+
 .update {
   display: none;
   position: fixed;
@@ -871,6 +893,7 @@ select.rate-member {
   background-color: rgba(0, 0, 0, 0.4);
   z-index: 1000;
 }
+
 .update-infor {
   background-color: rgb(255, 255, 255);
   width: 400px;
@@ -915,6 +938,7 @@ select.rate-member {
   font-size: 15px !important;
   font-weight: 600;
 }
+
 .invite-button {
   margin: auto !important;
 }
@@ -928,5 +952,4 @@ select.rate-member {
   margin-top: 20px;
   text-decoration: underline;
 }
-
 </style>

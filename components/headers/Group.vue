@@ -61,15 +61,15 @@
     queryParams: userId.value,
   })
   // Lấy thông tin user
-  const {
-    data: dataGetMe,
-    get: getMe,
-    onFetchResponse: getMeResponse,
-    onFetchError: getMeError,
-  } = useFetchApi({
-    requireAuth: true,
-    disableHandleErrorUnauthorized: false,
-  })('/user', { immediate: false })
+  // const {
+  //   data: dataGetMe,
+  //   get: getMe,
+  //   onFetchResponse: getMeResponse,
+  //   onFetchError: getMeError,
+  // } = useFetchApi({
+  //   requireAuth: true,
+  //   disableHandleErrorUnauthorized: false,
+  // })('/user', { immediate: false })
   // Lấy groups của user đang đăng nhập
   const {
     data: dataGetMyGroups,
@@ -83,15 +83,15 @@
   getGroupsResponse(() => {
     myGroups.value = dataGetMyGroups.value.data.data
   })
-  getMe().json().execute()
-  getMeResponse(() => {
-    user.value = dataGetMe.value.data.data
-    userId.value.user_id = user.value.id
-    getGroups().json().execute()
-  })
-  getMeError(() => {
-    // deleteToken();
-  })
+  // getMe().json().execute()
+  // getMeResponse(() => {
+  //   user.value = dataGetMe.value.data.data
+  //   userId.value.user_id = user.value.id
+  //   getGroups().json().execute()
+  // })
+  // getMeError(() => {
+  //   // deleteToken();
+  // })
   </script>
   
   <style scoped>

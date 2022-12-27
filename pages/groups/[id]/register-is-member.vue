@@ -219,17 +219,37 @@ const {
   requireAuth: true,
   disableHandleErrorUnauthorized: false,
 })(`/groups/${route.params.id}/join`, { immediate: false })
-
+// Lấy thông tin user
+const {
+    data: dataGetMe,
+    get: getMe,
+    onFetchResponse: getMeResponse,
+    onFetchError: getMeError,
+  } = useFetchApi({
+    requireAuth: true,
+    disableHandleErrorUnauthorized: false,
+  })('/user', { immediate: false })
+  getMeResponse(() => {
+    let iduser = dataGetMe.value.data.id;
+    group.value.membersAccepted.map((element) => {
+      if(element.id === iduser) {
+        navigateTo(`/my-account/groups/${route.params.id}/waiting-member`)
+      }
+    });
+  })
+  getMeError(() => {
+    // deleteToken();
+  })
 getGroup().json().execute()
 getGroupRes(() => {
   group.value = dataGetGroup.value.data.group
   group.value.survey_questions.map((item) => {
     item.answer = ''
   })
+  getMe().json().execute()
   myAnswers.value = dataGetGroup.value.data.myAnswers
   // kiểm tra thực sự nhóm đang tìm Member k hay nhập bừa id
   if (group.value.status === 1) {
-    console.log(myAnswers.value)
     if (myAnswers.value.length !== 0) {
       statusShow.value = 2
     } else {
