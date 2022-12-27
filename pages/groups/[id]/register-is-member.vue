@@ -233,7 +233,7 @@ const {
     let iduser = dataGetMe.value.data.id;
     group.value.membersAccepted.map((element) => {
       if(element.id === iduser) {
-        navigateTo(`/my-account/groups/${route.params.id}/waiting-member`)
+        window.location.href = `/my-account/groups/${route.params.id}/waiting-member`;
       }
     });
   })
