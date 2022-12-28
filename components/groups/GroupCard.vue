@@ -13,6 +13,9 @@
         <span v-if="group.status === 3 && showStatus" class="statusTag"
           >Đang học</span
         >
+        <span v-if="group.status === 4 && showStatus" class="statusTag"
+          >Đã đóng</span
+        >
       </div>
       <div class="content m-3">
         <p class="">Khoa {{ group.faculty }}</p>

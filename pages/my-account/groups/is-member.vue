@@ -55,6 +55,9 @@ const detail = (group) => {
   if (group.status === 3) {
     return `/my-account/groups/${group.id}`
   }
+  if (group.status === 4) {
+    return `/my-account/groups/${group.id}`
+  }
 }
 </script>
 <style scoped></style>
