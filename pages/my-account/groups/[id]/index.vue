@@ -184,6 +184,7 @@
             </div>
           </BCol>
         </BRow>
+        <h1 id="bottom"></h1>
         <BRow class="newMess">
           <form @submit.prevent="sendNewMess">
             <BFormInput id="input-live" v-model="newMess" placeholder="Nhập tin nhắn mới" trim class="mt-2 col" />
@@ -195,6 +196,7 @@
       </div>
     </div>
   </div>
+  
   <BContainer v-if="route.hash === '#rate'" class="pt-5 pb-5">
     <div class="mentor-rate">
       <h5 for="" class="pb-2" v-if="show_rate_mentor">Đánh giá người hướng dẫn:</h5>
@@ -377,6 +379,7 @@ postRateRes(() => {
   successAlert('Đánh giá thành công!');
   rate.value.comment = '';
   rate.value.rate = 0;
+  getGroup().json().execute();
 })
 postRateErr(() => {
   errorAlert(dataPostRate.value.meta.error_message)
@@ -443,9 +446,8 @@ const bb = () => {
   )
 }
 const crollEnd = () => {
-  const element = document.getElementById('messagesContainer')
-  console.log(element.clientHeight);
-  window.scrollTo(element.clientHeight)
+  const element = document.getElementById('bottom')
+  element.scrollIntoView({ behavior: "smooth" })
 }
 const repClick = (data) => {
   replyMess.value = ''
@@ -493,7 +495,9 @@ select {
 label {
   font-style: italic;
 }
-
+#bottom {
+  height: 100px;
+}
 .sticky-fix {
   background-color: transparent;
   /* height: 0; */
