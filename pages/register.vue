@@ -191,6 +191,7 @@ const registerData = reactive({
   birthday: '',
   faculty_id: '',
   phone_number: '',
+  avatar_url: 'a'
 });
 const validationErrorMessages = ref({});
 const {
